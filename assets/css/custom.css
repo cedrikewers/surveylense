@@ -1,0 +1,32 @@
+.homepageBanner {
+    position: relative;
+    background-color: #343a40;
+    background-size: cover;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+}
+.features-icons {
+    padding-top: 7rem;
+    padding-bottom: 4rem;
+}
+  .features-icons .features-icons-item .features-icons-icon {
+    height: 7rem;
+}
+.information {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+}
+.information-item-picture {
+    min-height: 20rem;
+}
+footer.footer {
+    padding-top: 2rem;
+    padding-bottom: rem;
+}
+  
+  
+  
+    
+
+  
+  
