@@ -45,21 +45,21 @@
 <section class="information bg-light text-center">
     <div class="container p-0">
         <div class="row h-100 no-gutters">
-            <div class="col-lg-4 order-lg-2 information-item-picture" style="background:url('assets/pictures/bg-homepage.jpg') no-repeat center center; background-size:cover;"></div>
+            <div class="col-lg-4 order-lg-2 information-item-picture" style="background:url('assets/pictures/placeholder.jpg') no-repeat center center; background-size:cover;"></div>
             <div class="col-lg-8 order-lg-1 p-4">
                 <h2>Analyse Everything</h2>
                 <p class="lead mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi deserunt aliquid qui, eaque, voluptates tempore ad pariatur vero, nemo repellat consequuntur. Sit rerum minus, repellat similique molestias fuga labore corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium commodi nobis eveniet ullam, odio quidem? Ipsam tempore soluta, dicta velit ullam qui, accusantium ad ea voluptatibus accusamus eligendi minus nisi.</p>
             </div>
         </div>
         <div class="row h-100 no-gutters mt-5">
-            <div class="col-lg-4 information-item-picture" style="background:url('assets/pictures/bg-homepage.jpg') no-repeat center center; background-size:cover;"></div>
+            <div class="col-lg-4 information-item-picture" style="background:url('assets/pictures/placeholder.jpg') no-repeat center center; background-size:cover;"></div>
             <div class="col-lg-8 order-lg-1 p-4">
                 <h2>Fully Responsive Design</h2>
                 <p class="lead mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi deserunt aliquid qui, eaque, voluptates tempore ad pariatur vero, nemo repellat consequuntur. Sit rerum minus, repellat similique molestias fuga labore corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium commodi nobis eveniet ullam, odio quidem? Ipsam tempore soluta, dicta velit ullam qui, accusantium ad ea voluptatibus accusamus eligendi minus nisi.</p>
             </div>
         </div>
         <div class="row h-100 no-gutters mt-5">
-            <div class="col-lg-4 order-lg-2 information-item-picture" style="background:url('assets/pictures/bg-homepage.jpg') no-repeat center center; background-size:cover;"></div>
+            <div class="col-lg-4 order-lg-2 information-item-picture" style="background:url('assets/pictures/placeholder.jpg') no-repeat center center; background-size:cover;"></div>
             <div class="col-lg-8 order-lg-1 p-4">
                 <h2>Fully Responsive Design</h2>
                 <p class="lead mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi deserunt aliquid qui, eaque, voluptates tempore ad pariatur vero, nemo repellat consequuntur. Sit rerum minus, repellat similique molestias fuga labore corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium commodi nobis eveniet ullam, odio quidem? Ipsam tempore soluta, dicta velit ullam qui, accusantium ad ea voluptatibus accusamus eligendi minus nisi.</p>
