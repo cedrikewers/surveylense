@@ -1,3 +1,10 @@
+<?php
+    $session = $this->session->userdata('id_user');
+    if(!empty($session)){
+        redirect('/userarea');
+    }
+    else{
+?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -34,16 +41,17 @@
             <div class="row">
                 <div class="col-lg-12 my-auto h-100 text-center">
                     <ul class="list-inline mb-2">
-                        <li class="list-inline-item"><a href="#">About</a></li>
+                        <li class="list-inline-item"><a href="/imprint">About</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="#">Contact</a></li>
+                        <li class="list-inline-item"><a href="/imprint">Contact</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="#">Terms of Use</a></li>
+                        <li class="list-inline-item"><a href="/imprint">Terms of Use</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+                        <li class="list-inline-item"><a href="/imprint">Privacy Policy</a></li>
                     </ul>
             </div>
         </div>
     </footer>
     </body>
 </html>
+<?php } ?>

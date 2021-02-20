@@ -10,9 +10,9 @@
                             <div class="text-center">
                                 <h4 class="text-dark mb-4">Create an Account!</h4>
                             </div>
-                            <div class="text-center login-failure">
+                            <div class="text-center">
                                 <?php if(isset($_SESSION)) {
-                                        echo '<div class="forgot">';
+                                        echo '<div class="text-danger">';
                                         echo $this->session->flashdata('flash_data');
                                         echo '</div>';
                                     }

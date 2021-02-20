@@ -54,12 +54,12 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 
-$route['create'] = 'create';
 $route[''] = 'homepage';
+$route['imprint'] = 'homepage/index/imprintView';
 $route['login'] = 'login';
 $route['register'] = 'login/register';
 $route['userarea'] = 'userarea';
 $route['userarea/(:any)'] = 'userarea/$1';
 $route['s/(:any)'] = 'servay/$1';
-$route['(:any)'] = 'homepage/$1';
+$route['(:any)'] = 'homepage';
 
