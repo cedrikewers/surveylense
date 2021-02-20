@@ -12,7 +12,7 @@ class Homepage extends CI_Controller {
         }
         else{
             $this->load->library('template');
-            $this->template->set('title', ucfirst($page));
+            $this->template->set('title', ucfirst(substr($page, 0, -4)));
             $this->template->load('templates/homepageTemplate','homepage/'.$page);
         }
 	}

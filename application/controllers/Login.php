@@ -19,12 +19,12 @@ class Login extends CI_Controller {
 
                 $data = array(
                 'id_user' => $result->id,
-                'username' => $result->User
+                'username' => $result->username
 
                 );
 
                 $this->session->set_userdata($data);
-                redirect('/'); // eure Datenseite !!!!!!!!!!!!!!!
+                redirect('/userarea'); // eure Datenseite !!!!!!!!!!!!!!!
 
             }
             else{
@@ -43,46 +43,53 @@ class Login extends CI_Controller {
     {
         $page = "register";
         if($_POST){
-            if($_POST['password'] == $_POST['password_repeat']){
-                $result = $this->Login_model->check_username($_POST);
-                if(empty($result)){
-                    $this->Login_model->create_user($_POST);
-                    $loginResult = $this->Login_model->check_user($_POST);
-                    if(!empty($loginResult)){
-
-                        $data = array(
-                        'id_user' => $result->id,
-                        'username' => $result->User
-
-                        );
-
-                        $this->session->set_userdata($data);
-                        redirect('/'); // eure Datenseite !!!!!!!!!!!!!!!
-
+            if($_POST['password'] != null && $_POST['password_repeat'] != null && $_POST['username'] != null && $_POST['email'] != null){
+                if($_POST['password'] == $_POST['password_repeat']){
+                    $result = $this->Login_model->check_username($_POST);
+                    if(empty($result)){
+                        $this->Login_model->create_user($_POST);
+                        $loginResult = $this->Login_model->check_user($_POST);
+                        if(!empty($loginResult)){
+    
+                            $data = array(
+                            'id_user' => $result->id,
+                            'username' => $result->User
+    
+                            );
+    
+                            $this->session->set_userdata($data);
+                            redirect('/userarea'); // eure Datenseite !!!!!!!!!!!!!!!
+    
+                        }
+                    }
+                    else{
+                        $this->session->set_flashdata('flash_data', 'Username is not available');
+                        redirect('/register');
                     }
                 }
                 else{
-                    $this->session->set_flashdata('flash_data', 'Username is not available');
+                    $this->session->set_flashdata('flash_data', 'Passwords do not match');
                     redirect('/register');
+                }
+                $result = $this->Login_model->check_user($_POST);
+                if(!empty($result)){
+    
+                    $data = array(
+                    'id_user' => $result->id,
+                    'username' => $result->User
+    
+                    );
+    
+                    $this->session->set_userdata($data);
+                    redirect('/'); // eure Datenseite !!!!!!!!!!!!!!!
+    
                 }
             }
             else{
-                $this->session->set_flashdata('flash_data', 'Passwords do not match');
-                redirect('/register');
+                $this->session->set_flashdata('flash_data', 'All fields are required');
+                    redirect('/register');
             }
-            $result = $this->Login_model->check_user($_POST);
-            if(!empty($result)){
-
-                $data = array(
-                'id_user' => $result->id,
-                'username' => $result->User
-
-                );
-
-                $this->session->set_userdata($data);
-                redirect('/'); // eure Datenseite !!!!!!!!!!!!!!!
-
-            }
+            
             
         }
         
