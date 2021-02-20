@@ -60,6 +60,5 @@ $route['login'] = 'login';
 $route['register'] = 'login/register';
 $route['userarea'] = 'userarea';
 $route['userarea/(:any)'] = 'userarea/$1';
-$route['s/(:any)'] = 'servay/$1';
-$route['(:any)'] = 'homepage';
+$route['s/(:any)'] = 'survey/$1';
 
