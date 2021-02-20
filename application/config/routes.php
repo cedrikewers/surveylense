@@ -54,6 +54,7 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 
+
 $route[''] = 'homepage';
 $route['imprint'] = 'homepage/index/imprintView';
 $route['login'] = 'login';
