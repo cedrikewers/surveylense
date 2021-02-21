@@ -11,13 +11,13 @@
             var questionNo = $(this).parent().attr("id").replace("answers", "") -1;
             answerCount[questionNo]++;
             var content = $("#answers"+(questionNo+1)).find("span").html();
-            $("#answers"+(questionNo+1)).find("span").html(content +' <input id="question'+(questionNo+1)+'answer'+answerCount[questionNo]+'" class="form-control" type="text" style="max-width: 67.3%;margin: 5px;margin-left: 3%;" placeholder="Answer option '+answerCount[questionNo]+'...">');
+            $("#answers"+(questionNo+1)).find("span").html(content +' <input name="a'+(questionNo+1)+'.'+answerCount[questionNo]+'" class="form-control" type="text" style="max-width: 67.3%;margin: 5px;margin-left: 3%;" placeholder="Answer option '+answerCount[questionNo]+'..." >');
         });
 
         $("#addQuestion").click(function(){
             answerCount.push(1);
             var content = $("#questions").html();
-            $("#questions").html(content+'<br><label style="margin: 5px;margin-bottom: 2px;">Question '+answerCount.length+'</label><input class="form-control" type="text" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="Enter your question here..."><span id="answers'+answerCount.length+'"><span><input id="question'+answerCount.length+'answer1" class="form-control" type="text" style="max-width: 67.3%;margin: 5px;margin-left: 3%;" placeholder="Answer option 1..."></span><button class="btn btn-primary addAnswer" type="button" style="margin: 5px;margin-left: 3%;"><strong>Add answer option</strong></button></span>');
+            $("#questions").html(content+'<br><label style="margin: 5px;margin-bottom: 2px;">Question '+answerCount.length+'</label><input class="form-control" type="text" name="q'+answerCount.length+'" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="Enter your question here..."><span id="answers'+answerCount.length+'"><span><input name="a'+answerCount.length+'.1" class="form-control" type="text" style="max-width: 67.3%;margin: 5px;margin-left: 3%;" placeholder="Answer option 1..."></span><button class="btn btn-primary addAnswer" type="button" style="margin: 5px;margin-left: 3%;"><strong>Add answer option</strong></button></span>');
         });
 
     });
