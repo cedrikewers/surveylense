@@ -4,11 +4,32 @@ class Create_Model extends CI_Model {
         $this->load->database();
     }
 
-    public function surveyTemp($randomId, $name){
+    public function surveyTemp($randomId, $name, $user, $data){
         $this->db->set('randomId',$randomId);
         $this->db->set('name', $name);
+        $this->db->set('userId', $user);
+        $this->db->set('data', $data);
         $this->db->insert('surveyTemp');
+        return $this->db->insert_id();
     }   
+
+    /*
+    public function surveyTempData($surveyTempId, $number, $type, $text){
+        $this->db->set('surveyTempId',$surveyTempId);
+        $this->db->set('number', $number);
+        $this->db->set('type', $type);
+        $this->db->set('text', $text);
+        $this->db->insert('surveyTempData');
+        return $this->db->insert_id();
+    }
+
+    public function surveyTempDataAnswers($surveyTempDataId,$number, $type, $content){
+        $this->db->set('surveyTempDataId',$surveyTempDataId);
+        $this->db->set('number', $number);
+        $this->db->set('type', $type);
+        $this->db->set('content', $content);
+        $this->db->insert('surveyTempDataAnswers');
+    }
 
     public function check_randomId($randomId){
         return $this->db->query('
@@ -17,5 +38,6 @@ class Create_Model extends CI_Model {
                 )'
                 );
     }
+    */
 
 }
