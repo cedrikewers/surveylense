@@ -55,11 +55,10 @@ $route['translate_uri_dashes'] = FALSE;
 
 
 
-$route[''] = 'homepage';
 $route['imprint'] = 'homepage/index/imprintView';
+$route['create'] = 'userarea/create';
 $route['login'] = 'login';
 $route['register'] = 'login/register';
-$route['userarea'] = 'userarea';
 $route['userarea/(:any)'] = 'userarea/$1';
 $route['s/(:any)'] = 'survey/$1';
 

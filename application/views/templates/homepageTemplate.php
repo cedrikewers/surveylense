@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css');?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/fontawesome.min.css');?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/custom.css');?>">
+        <script src="https://kit.fontawesome.com/0a1c5913ac.js" crossorigin="anonymous"></script>
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
