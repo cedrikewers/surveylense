@@ -30,7 +30,7 @@
         <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
             <div class="container">
                 <a class="navbar-brand" href="/">Surveylense</a>
-                <div class="nav-item"><a class="nav-link" href="#">Link</a></div>
+                <div class="nav-item"><a class="nav-link" href="<?php echo site_url('create');?>">Create a survey</a></div>
                 <div class="nav-item"><a class="nav-link" href="#">Link2</a></div>
                 <div class="nav-item dropdown">
                     <a class="nav-link btn btn-primary dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
