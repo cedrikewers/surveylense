@@ -74,7 +74,7 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-    'dsn'    => 'sqlite:assets\db\db.db', #Funktioniert vllt. nciht
+    'dsn'    => 'sqlite:assets/db/db.db', 
     'hostname' => 'localhost',
     'username' => 'root',
     'password' => 'usbw',
