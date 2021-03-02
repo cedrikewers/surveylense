@@ -17,13 +17,13 @@ class Survey extends CI_Controller {
 	{
 		$survey = $this->Survey_model->checkRandomId($randomId);
 		if(isset($survey)){
-			$this->load->library('template');
+			$this->load->library('Template');
 			$this->template->set('title', $survey['name']);
 			$survey['randomId'] = $randomId;
 			$this->template->load('templates/homepageTemplate','survey/surveyView', $survey);
 		}
 		else{
-			$this->load->library('template');
+			$this->load->library('Template');
 			$this->template->set('title', 'This survey does not exist');
 			$this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');	
 		}
