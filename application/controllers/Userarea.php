@@ -24,19 +24,6 @@ class Userarea extends CI_Controller {
         
 	}
 
-    public function manage()
-	{
-            $this->load->library('template');
-            $this->template->set('title', 'Create a new Survey');
-            $this->template->load('templates/userareaTemplate','userarea/manageView.php');
-	}
-
-    public function result()
-	{
-            $this->load->library('template');
-            $this->template->set('title', 'Create a new Survey');
-            $this->template->load('templates/userareaTemplate','userarea/resultView.php');
-	}
     public function create(){
         $this->load->library('template');
         $this->template->set('title', 'Create Survey');
