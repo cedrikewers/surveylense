@@ -20,7 +20,7 @@
 
     <body>
         <!-- Navbar -->
-        <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
+        <nav class="navbar navbar-light navbar-expand bg-white shadow navigation-clean">
             <div class="container">
                 <a class="navbar-brand" href="/">Surveylense</a>
                 <?php
@@ -39,7 +39,7 @@
         <?php echo $content; ?>
 
         <!-- Footer -->
-        <footer class="footer bg-light">
+        <footer class="footer bg-white shadow">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 my-auto h-100 text-center">
