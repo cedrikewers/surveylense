@@ -26,7 +26,7 @@
 
     <body>
         <!-- Navbar -->
-        <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
+        <nav class="navbar navbar-light navbar-expand bg-white navigation-clean shadow">
             <div class="container">
                 <a class="navbar-brand" href="/">Surveylense</a>
             </div>
@@ -36,7 +36,7 @@
         <?php echo $content; ?>
 
         <!-- Footer -->
-        <footer class="footer bg-light fixed-bottom">
+        <footer class="footer bg-white fixed-bottom shadow">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 my-auto h-100 text-center">
