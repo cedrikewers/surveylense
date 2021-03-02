@@ -17,15 +17,16 @@
     </section>
     <div style="background: #dddddd;min-height: 649px;">
         <div style="padding: 36px;padding-right: 36px;padding-left: 75px;">
-        <form>
+        <form action="<?php echo(site_url('survey/storeAnswers'))?>" method="post">
             <div class="form-group" style="color: var(--dark);">
                 <?php
+                            echo '<input name="randomId" value="'.$randomId.'" style="display:none">';
                     foreach($surveyContent as $key => $value){
                         if(strpos($key, "q") === 0){
                             echo '<label style="font-family: Nunito, sans-serif;font-size: 30px;color: #313437;">'.$value.'</label>';
                         }
                         else{
-                            echo '<div class="form-check" style="margin-left: 32px;"><input class="form-check-input" name="'.$value.'" type="radio" id="formCheck-1"><label class="form-check-label" for="formCheck-1" style="color: var(--gray-dark);">'.$value.'</label></div>';
+                            echo '<div class="form-check" style="margin-left: 32px;"><input id="'.$key.'" class="form-check-input" name="'.strstr($key, "_", true).'" type="radio" value="'.$key.'"><label class="form-check-label" for="'.$key.'" style="color: var(--gray-dark);">'.$value.'</label></div>';
                         }
                     }
                 ?>

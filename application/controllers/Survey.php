@@ -19,6 +19,7 @@ class Survey extends CI_Controller {
 		if(isset($survey)){
 			$this->load->library('template');
 			$this->template->set('title', $survey['name']);
+			$survey['randomId'] = $randomId;
 			$this->template->load('templates/homepageTemplate','survey/surveyView', $survey);
 		}
 		else{
@@ -28,5 +29,13 @@ class Survey extends CI_Controller {
 		}
 		
 		
+	}
+
+	public function storeAnswers()
+	{
+		$data = $_POST;
+		unset($data['randomId']);
+		$this->Survey_model->storeAnswers($_POST['randomId'], time(), serialize($data));
+		redirect();
 	}
 }
