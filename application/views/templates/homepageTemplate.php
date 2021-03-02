@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css');?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/fontawesome.min.css');?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/custom.css');?>">
+        <script src="https://kit.fontawesome.com/0a1c5913ac.js" crossorigin="anonymous"></script>
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -19,7 +20,7 @@
 
     <body>
         <!-- Navbar -->
-        <nav class="navbar navbar-light navbar-expand bg-white navigation-clean shadow">
+        <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
             <div class="container">
                 <a class="navbar-brand" href="/">Surveylense</a>
                 <?php
@@ -38,7 +39,7 @@
         <?php echo $content; ?>
 
         <!-- Footer -->
-        <footer class="footer bg-white">
+        <footer class="footer bg-light">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 my-auto h-100 text-center">
