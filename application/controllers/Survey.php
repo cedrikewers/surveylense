@@ -5,7 +5,7 @@ class Survey extends CI_Controller {
 
 	function __construct(){
         parent::__construct(); 
-        $this->load->model('Survey_Model');
+        $this->load->model('Survey_model');
         }
 
 	public function index()
@@ -15,7 +15,7 @@ class Survey extends CI_Controller {
 
 	public function loadSurvey($randomId = null)
 	{
-		$survey = $this->Survey_Model->checkRandomId($randomId);
+		$survey = $this->Survey_model->checkRandomId($randomId);
 		if(isset($survey)){
 			$this->load->library('template');
 			$this->template->set('title', $survey['name']);
