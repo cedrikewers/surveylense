@@ -38,7 +38,7 @@
                 <p class="text-center"><br>To create new survey, simply hit the "+" button and add a question<br><br></p>
             </div>
         </div>
-        <form action="<?php echo(site_url('userarea/storeSurvey'))?>" method="post" id="createSurvey" style="margin: 0 24px;">
+        <form action="<?php echo(site_url('userarea/storeSurveyNew'))?>" method="post" id="createSurvey" style="margin: 0 24px;">
             <label>Survey name</label>
             <input class="form-control" name="name" type="text" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="Enter the survey's name here...">
             <span id="questions">

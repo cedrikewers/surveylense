@@ -16,7 +16,6 @@ class Results extends CI_Controller {
 
     public function downloadXLSX($randomId){
         $this->load->library('SimpleXLSXGen'); #https://github.com/shuchkin/simplexlsxgen
-        $this->load->library('generateResults');
         $data = $this->Result_model->getData($randomId);
         $template = $this->Result_model->getTemp($randomId);
         $templateData = unserialize($template['data']);
