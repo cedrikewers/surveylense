@@ -7,7 +7,7 @@
 
 
 ?>
-<link rel="stylesheet" href="http://127.0.0.1:8081/assets/css/Highlight-Blue.css">
+<link rel="stylesheet" href="<?php echo base_url('assets/css/Highlight-Blue.css')?>">
 <section class="highlight-blue">
         <div class="container">
             <div class="intro">
