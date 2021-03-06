@@ -33,10 +33,27 @@ class Survey_Model extends CI_Model {
         return $query->result_array();
     }
 
-    public function storeAnswers($surveyTempRandomId, $timestamp, $data){
-        $this->db->set('surveyTempRandomId', $surveyTempRandomId);
-        $this->db->set('timestamp', $timestamp);
-        $this->db->set('data', $data);
+    public function storeSurvey($randomId)
+    {
+        $this->db->set('surveyTempRandomId', $randomId);
+        $this->db->set('timestamp', time());
         $this->db->insert('survey');
+        return $this->db->insert_id();
+    }
+
+    public function storeAnswers($randomId, $surveyId, $number, $data)
+    {
+        $this->db->select('surveyTempData.id');
+        $this->db->join('surveyTemp', 'surveyTempData.surveyTempId = surveyTemp.id');
+        $this->db->where('surveyTemp.randomId', $randomId);
+        $this->db->where('surveyTempData.number', $number);
+        $query = $this->db->get('surveyTempData');
+
+        $surveyTempDataId = $query->row_array()['id'];
+        
+        $this->db->set('surveyId', $surveyId);
+        $this->db->set('surveyTempDataId', $surveyTempDataId);
+        $this->db->set('data', $data);
+        $this->db->insert('surveyAnswers');
     }
 }

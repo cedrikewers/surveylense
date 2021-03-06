@@ -12,23 +12,6 @@ class Survey extends CI_Controller {
 	{
 		
 	}
-
-	// public function loadSurvey($randomId = null)
-	// {
-	// 	$survey = $this->Survey_model->checkRandomId($randomId);
-	// 	if(isset($survey)){
-	// 		$this->load->library('Template');
-	// 		$this->template->set('title', $survey['name']);
-	// 		$survey['randomId'] = $randomId;
-	// 		$this->template->load('templates/homepageTemplate','survey/surveyView', $survey);
-	// 	}
-	// 	else{
-	// 		$this->load->library('Template');
-	// 		$this->template->set('title', 'This survey does not exist');
-	// 		$this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');	
-	// 	}	
-	// }
-
 	public function loadSurvey($randomId = null)
 	{
 		$surveyTemp = $this->Survey_model->checkRandomId($randomId);
@@ -61,9 +44,12 @@ class Survey extends CI_Controller {
 
 	public function storeAnswers()
 	{
-		$data = $_POST;
-		unset($data['randomId']);
-		$this->Survey_model->storeAnswers($_POST['randomId'], time(), serialize($data));
+		$randomId = $_POST['randomId'];
+		unset($_POST['randomId']);
+		$surveyId = $this->Survey_model->storeSurvey($randomId);
+		foreach($_POST as $key => $value){
+			$this->Survey_model->storeAnswers($randomId, $surveyId, str_replace(strstr($key, "_", true)."_", "", $key), $value);
+		}
 		redirect();
 	}
 }

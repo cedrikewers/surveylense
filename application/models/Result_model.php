@@ -4,18 +4,20 @@ class Result_model extends CI_Model {
         $this->load->database();
     }
 
-    public function getData($randomId){
-        $this->db->select('data');
-        $this->db->where('surveyTempRandomId' , $randomId);
+    public function getSurvey($randomId)
+    {
+        $this->db->select('id');
+        $this->db->where('surveyTempRandomId', $randomId);
         $query = $this->db->get('survey');
-        return $query->result_array(); 
+        return $query->result_array();
     }
 
-    public function getTemp($randomId){
-        $this->db->select('name, data');
-        $this->db->where('randomId', $randomId);
-        $query = $this->db->get('surveyTemp');
-        return $query->row_array();
+    public function getData($id)
+    {
+        $this->db->select('surveyTempDataId, data');
+        $this->db->where('surveyId', $id);
+        $query = $this->db->get('surveyAnswers');
+        return $query->result_array();
     }
     
 }

@@ -6,7 +6,7 @@ class Results extends CI_Controller {
 	function __construct(){
         parent::__construct(); 
         $this->load->model('Result_model');
-        $this->load->model('Result_model');
+        $this->load->model('Survey_model');
         }
 
 	public function index()
@@ -15,37 +15,53 @@ class Results extends CI_Controller {
 	}
 
     public function downloadXLSX($randomId){
-        $this->load->library('SimpleXLSXGen'); #https://github.com/shuchkin/simplexlsxgen
-        $data = $this->Result_model->getData($randomId);
-        $template = $this->Result_model->getTemp($randomId);
-        $templateData = unserialize($template['data']);
-        $print = [];
-        foreach($data as $row){
-            array_push($print,unserialize($row['data']));
-        }
-        $printTemp = [];
         //Hier werden die Spaltenüberschriften genneriert
-        $questionsTemp = [];
-        array_push($questionsTemp, "");
-        foreach($templateData as $key => $value){
-            if(strpos($key, "q") === 0){
-                array_push($questionsTemp, $value);
+        $surveyTemp = $this->Survey_model->checkRandomId($randomId);
+		if($surveyTemp){
+            $this->load->library('SimpleXLSXGen'); #https://github.com/shuchkin/simplexlsxgen
+            $print = array();
+
+			$questions = $this->Survey_model->getQuestions($surveyTemp['id']);
+            $temp = array();
+            array_push($temp, '');
+			foreach($questions as $row){
+                array_push($temp, $row['data']);
+			}
+            array_push($print, $temp);
+            //Ende spaltenüberschriften
+
+            //Hier werden die Antwortmöglichkeiten als Text ausgelesen
+			$answers = $this->Survey_model->getAnswers($surveyTemp['id']);
+            $posibleAnswers = array();
+            foreach($answers as $row){
+				$posibleAnswers[$row['dataNumber']."_".$row['number']] = $row['data'];
+			}
+
+            $entry = $this->Result_model->getSurvey($randomId);
+            $i = 0;
+            foreach($entry as $row){
+                $i++;
+                $temp = array();
+                array_push($temp, $i);//Hier wird noch die Nummer des Datensatzes angegeben, gestartet mit 1.
+                $answers = $this->Result_model->getData($row['id']);
+                foreach($answers as $aRow){
+                    if(array_key_exists($aRow['data'], $posibleAnswers)){
+                        array_push($temp, $posibleAnswers[$aRow['data']]);
+                    }
+                    else{
+                        array_push($temp, $aRow['data']);
+                    }
+                }
+                array_push($print, $temp);
             }
+            $xlsx = SimpleXLSXGen::fromArray($print);
+            $xlsx->downloadAs('results.xlsx');          
+
         }
-        array_push($printTemp, $questionsTemp);
-        //Hier werden die Keys in die Values umgewandelt
-        $i = 0;
-        foreach($print as $row){
-            $i++;
-            $temp = [];
-            array_push($temp, $i);//Hier wird noch die Nummer des Datensatzes angegeben, gestartet mit 1.
-            foreach($row as $item){
-                array_push($temp, $templateData[$item]);
-            }
-            array_push($printTemp, $temp);
+        else{
+            $this->load->library('Template');
+			$this->template->set('title', 'This survey does not exist');
+			$this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
         }
-        $print = $printTemp;
-        $xlsx = SimpleXLSXGen::fromArray($print);
-        $xlsx->downloadAs('results.xlsx');
     }
 }
