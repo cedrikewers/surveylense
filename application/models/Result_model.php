@@ -19,6 +19,19 @@ class Result_model extends CI_Model {
         $query = $this->db->get('surveyAnswers');
         return $query->result_array();
     }
+
+    public function checkUser($randomId)
+    {
+        $this->db->select('userId');
+        $this->db->where('randomId', $randomId);
+        $query = $this->db->get('surveyTemp');
+        if($query->row_array()['userId'] == $this->session->userdata('id_user')){
+            return true;
+        }
+        else{
+            return $this->session->userdata('id_user');
+        }
+    }
     
 }
 
