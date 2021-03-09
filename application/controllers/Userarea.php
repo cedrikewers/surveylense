@@ -154,17 +154,5 @@ class Userarea extends CI_Controller {
         redirect('/userarea/surveyCreated/'.$randomId);
         
     }
-
-    public function surveyCreated($randomId){
-        $this->session->set_flashdata('randomId', $randomId);
-        $this->load->library('template');
-        $this->template->set('title', 'Survey created successfully');
-        $this->template->load('templates/userareaTemplate','userarea/surveyCreated');
-    }
-
-    public function test(){
-        $data = $this->User_model->check_password(1);
-        echo $data->password;
-    }
 }
 
