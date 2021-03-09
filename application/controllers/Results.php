@@ -115,10 +115,10 @@ class Results extends CI_Controller {
                         array_push($print, $temp);
                     }
                     $xlsx = SimpleXLSXGen::fromArray($print);
-                    $xlsx->saveAs('./assets/temp/results/results.xlsx');
-                    $this->Email_model->mailTo(array($this->Result_model->getEmail()), 'Your Results', 'Here are your Results. Have fun.', './assets/temp/results/results.xlsx');        
+                    $xlsx->saveAs(base_url('/assets/temp/results/results.xlsx'));
+                    $this->Email_model->mailTo(array($this->Result_model->getEmail()), 'Your Results', 'Here are your Results. Have fun.', base_url('/assets/temp/results/results.xlsx'));        
                     redirect();
-                    delete_files('./assets/temp/results/');
+                    delete_files(base_url('/assets/temp/results/'));
                 }
                 else{
                 $this->load->library('Template');
