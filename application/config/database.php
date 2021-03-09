@@ -74,12 +74,12 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-    'dsn'    => 'mysql:10.0.0.10:3306', 
-    'hostname' => 'surveylensedb',
+    'dsn'    => '', 
+    'hostname' => '10.0.0.10:3306',
     'username' => 'cedrikewers',
-    'password' => 'btt9#FfaS6kzJwm#wnBKRNg2bamwBNL',
-    'database' => 'web',
-    'dbdriver' => 'pdo',
+    'password' => '0M13bx_d',
+    'database' => 'surveylensedb',
+    'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,
     'db_debug' => (ENVIRONMENT !== 'production'),
