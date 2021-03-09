@@ -17,10 +17,10 @@
             <input class="form-control" name="username" type="text" style="min-width: 243px;max-width: 70%;margin: 5px;" value="<?php echo $this->session->userdata('username');?>">
             <br>
             <label>Password:</label>
-            <input class="form-control" name="oldPassword" type="text" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="old password">
+            <input class="form-control" name="oldPassword" type="password" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="old password">
             <br>
-            <input class="form-control" name="newPassword" type="text" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="new password">
-            <input class="form-control" name="newPasswordRetype" type="text" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="retype new password">
+            <input class="form-control" name="newPassword" type="password" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="new password">
+            <input class="form-control" name="newPasswordRetype" type="password" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="retype new password">
             <button class="btn btn-primary" type="submit" style="background: var(--purple);font-size: 19px; margin-top: 20px;">Update</button>
         </form>
         <?php
