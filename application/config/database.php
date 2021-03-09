@@ -74,10 +74,10 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-    'dsn'    => 'sqlite:assets/db/db.db', 
-    'hostname' => 'localhost',
-    'username' => 'root',
-    'password' => 'usbw',
+    'dsn'    => 'mysql:10.0.0.10:3306', 
+    'hostname' => 'surveylensedb',
+    'username' => 'cedrikewers',
+    'password' => 'btt9#FfaS6kzJwm#wnBKRNg2bamwBNL',
     'database' => 'web',
     'dbdriver' => 'pdo',
     'dbprefix' => '',
