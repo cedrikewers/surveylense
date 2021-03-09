@@ -24,6 +24,100 @@ class Userarea extends CI_Controller {
         
 	}
 
+    public function profile(){
+        $result = $this->User_model->getUserData($_SESSION['id_user']);
+        if($_POST){
+            if($_POST['username'] != $result->username && $_POST['email'] != $result->email){
+                $emaildata = array(
+                    'id_user' => $_SESSION['id_user'],
+                    'email' => $_POST['email']
+                    );
+                $this->User_model->update_email($emaildata);
+                $username = $this->User_model->check_username($_POST['username']);
+                if(empty($username)){
+                    $data = array(
+                        'id_user' => $_SESSION['id_user'],
+                        'username' => $_POST['username']
+                        );
+                    $this->User_model->update_username($data);
+                    $result = $this->User_model->getUserData($_SESSION['id_user']);
+                    $userdata = array(
+                        'id_user' => $result->id,
+                        'username' => $result->User
+
+                        );
+
+                        $this->session->set_userdata($userdata);
+                }
+                else{
+                    $this->session->set_flashdata('userProfileMessage', 'Username is not available');
+                }
+            }
+            elseif($_POST['username'] != $result->username){
+                $username = $this->User_model->check_username($_POST['username']);
+                if(empty($username)){
+                    $data = array(
+                        'id_user' => $_SESSION['id_user'],
+                        'username' => $_POST['username']
+                        );
+                    $this->User_model->update_username($data);
+                    $result = $this->User_model->getUserData($_SESSION['id_user']);
+                    $userdata = array(
+                        'id_user' => $result->id,
+                        'username' => $result->User
+
+                        );
+
+                        $this->session->set_userdata($userdata);
+                }
+                else{
+                    $this->session->set_flashdata('userProfileMessage', 'Username is not available');
+                }
+            }
+
+            elseif($_POST['oldPassword'] != null && $_POST['newPassword'] != null && $_POST['newPasswordRetype'] != null){
+                $oldpassword = $this->User_model->check_password($_SESSION['id_user']);
+                #echo md5($oldpassword->password);
+                echo $_POST['newPassword'].' '.$_POST['newPasswordRetype'].' '.$_POST['oldPassword']. ' old_user_hash: '.md5($_POST['oldPassword'].' old: '.$oldpassword->password);
+                if($oldpassword->password == md5($_POST['oldPassword'])){
+                    if($_POST['newPassword'] == $_POST['newPasswordRetype']){
+                        $data = array(
+                            'id_user' => $_SESSION['id_user'],
+                            'password' => md5($_POST['newPassword'])
+                            );
+                        $this->User_model->update_password($data);
+                        $this->session->set_flashdata('userProfileMessage', 'password changed');
+                    }
+                    else{
+                        $this->session->set_flashdata('userProfileMessage', 'new passwords do not match');
+                    }
+                }
+                else{
+                    $this->session->set_flashdata('userProfileMessage', 'old password is wrong');
+                }
+            }
+
+            elseif($_POST['email'] != $result->email){
+                $data = array(
+                    'id_user' => $_SESSION['id_user'],
+                    'email' => $_POST['email']
+                    );
+                $this->User_model->update_email($data);
+                redirect('/userarea/profile');
+            }
+            else{
+                $this->session->set_flashdata('userProfileMessage', 'You have not changed anything or you have not filled every necessary field');
+            }
+        }
+        $this->session->set_flashdata('email', $result->email);
+        $this->load->library('template');
+        $this->template->set('title', 'Profile');
+        $this->template->load('templates/userareaTemplate','userarea/profileView');
+        if($_POST){
+
+        }
+    }
+
     public function create(){
         $this->load->library('template');
         $this->template->set('title', 'Create Survey');
@@ -48,6 +142,11 @@ class Userarea extends CI_Controller {
         $this->load->library('template');
         $this->template->set('title', 'Survey created successfully');
         $this->template->load('templates/userareaTemplate','userarea/surveyCreated');
+    }
+
+    public function test(){
+        $data = $this->User_model->check_password(1);
+        echo $data->password;
     }
 }
 
