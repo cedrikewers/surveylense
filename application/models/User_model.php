@@ -26,4 +26,43 @@ class User_Model extends CI_Model {
         // }
     }
 
+    public function getUserData($id){
+        $this->db->select('username');
+        $this->db->select('email');
+        $this->db->where('id', $id);
+        $result = $this->db->get('users');
+        return $result->row();
+    }
+
+    public function check_username($data){
+        $this->db->where('username', $data);
+        $result = $this->db->get('users')->row();
+        return $result;
+    }
+
+    public function check_password($data){
+        $this->db->select('password');
+        $this->db->where('id', $data);
+        $result = $this->db->get('users')->row();
+        return $result;
+    }
+
+    public function update_username($data){
+        $this->db->where('id', $data['id_user']);
+        $this->db->set('username', $data['username']);
+        $this->db->update('users');
+    }
+
+    public function update_password($data){
+        $this->db->where('id', $data['id_user']);
+        $this->db->set('password', md5($data['password']));
+        $this->db->update('users');
+    }
+
+    public function update_email($data){
+        $this->db->where('id', $data['id_user']);
+        $this->db->set('email', $data['email']);
+        $this->db->update('users');
+    }
+
 }
