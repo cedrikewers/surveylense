@@ -12,14 +12,25 @@ class Survey extends CI_Controller {
 	{
 		
 	}
-
 	public function loadSurvey($randomId = null)
 	{
-		$survey = $this->Survey_model->checkRandomId($randomId);
-		if(isset($survey)){
+		$surveyTemp = $this->Survey_model->checkRandomId($randomId);
+		$survey = array('randomId' => $randomId);
+		$survey['name'] = $surveyTemp['name'];
+		$data = array();
+		if($surveyTemp){
 			$this->load->library('Template');
-			$this->template->set('title', $survey['name']);
-			$survey['randomId'] = $randomId;
+			$this->template->set('title', $surveyTemp['name']);
+			$questions = $this->Survey_model->getQuestions($surveyTemp['id']);
+			foreach($questions as $row){
+				$data['q'.$row['number']] = $row['data'];
+				
+			}
+			$answers = $this->Survey_model->getAnswers($surveyTemp['id']);
+			foreach($answers as $row){
+				$data[$row['dataNumber']."_".$row['number']] = $row['data'];
+			}
+			$survey['data'] = $data;
 			$this->template->load('templates/homepageTemplate','survey/surveyView', $survey);
 		}
 		else{
@@ -33,9 +44,12 @@ class Survey extends CI_Controller {
 
 	public function storeAnswers()
 	{
-		$data = $_POST;
-		unset($data['randomId']);
-		$this->Survey_model->storeAnswers($_POST['randomId'], time(), serialize($data));
+		$randomId = $_POST['randomId'];
+		unset($_POST['randomId']);
+		$surveyId = $this->Survey_model->storeSurvey($randomId);
+		foreach($_POST as $key => $value){
+			$this->Survey_model->storeAnswers($randomId, $surveyId, str_replace(strstr($key, "_", true)."_", "", $key), $value);
+		}
 		redirect();
 	}
 }

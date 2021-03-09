@@ -11,6 +11,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="robots" content="noindex">
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css');?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/css/fontawesome.min.css');?>">
@@ -22,6 +23,7 @@
         <script src="<?php echo base_url('assets/js/jquery-3.5.1.min.js');?>"></script>
         <script src="<?php echo base_url('assets/js/bootstrap.min.js');?>"></script>
         <script src="<?php echo base_url('assets/js/fontawesome.min.js');?>"></script>
+        <script data-ad-client="ca-pub-9035096517255870" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <title><?php echo $title; ?></title>
     </head>
 
