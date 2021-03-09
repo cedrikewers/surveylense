@@ -77,13 +77,11 @@ class Userarea extends CI_Controller {
 
             elseif($_POST['oldPassword'] != null && $_POST['newPassword'] != null && $_POST['newPasswordRetype'] != null){
                 $oldpassword = $this->User_model->check_password($_SESSION['id_user']);
-                #echo md5($oldpassword->password);
-                echo $_POST['newPassword'].' '.$_POST['newPasswordRetype'].' '.$_POST['oldPassword']. ' old_user_hash: '.md5($_POST['oldPassword'].' old: '.$oldpassword->password);
                 if($oldpassword->password == md5($_POST['oldPassword'])){
                     if($_POST['newPassword'] == $_POST['newPasswordRetype']){
                         $data = array(
                             'id_user' => $_SESSION['id_user'],
-                            'password' => md5($_POST['newPassword'])
+                            'password' => $_POST['newPassword']
                             );
                         $this->User_model->update_password($data);
                         $this->session->set_flashdata('userProfileMessage', 'password changed');
