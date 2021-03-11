@@ -119,6 +119,9 @@ class Userarea extends CI_Controller {
     public function create(){
         $this->load->library('template');
         $this->template->set('title', 'Create Survey');
+        if($_POST){
+            $this->template->load('templates/userareaTemplate','userarea/createView', $_POST);
+        }
         $this->template->load('templates/userareaTemplate','userarea/createView');
     }
 

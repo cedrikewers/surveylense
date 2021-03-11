@@ -1,7 +1,7 @@
 <?php
     $session = $this->session->userdata('id_user');
     if(empty($session)){
-        redirect('/');
+        redirect('/login');
     }
     else{
 ?>

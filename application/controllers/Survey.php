@@ -50,6 +50,8 @@ class Survey extends CI_Controller {
 		foreach($_POST as $key => $value){
 			$this->Survey_model->storeAnswers($randomId, $surveyId, str_replace(strstr($key, "_", true)."_", "", $key), $value);
 		}
-		redirect();
+		$this->load->library('Template');
+		$this->template->set('title', 'Your anwers got submitted');
+		$this->template->load('templates/homepageTemplate','survey/surveyCompleted');	
 	}
 }
