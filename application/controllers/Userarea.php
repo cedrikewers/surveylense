@@ -148,7 +148,7 @@ class Userarea extends CI_Controller {
                 $questionCount++;
                 $dataId = $this->User_model->surveyTempData($id, $questionCount, $value); 
             }
-            else{
+            elseif(strpos($key, "_")!==false){
                 $this->User_model->surveyTempDataAnswers($dataId, str_replace(strstr($key, "_", true)."_", "", $key), $value);
             }
         } 
