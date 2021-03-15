@@ -52,7 +52,7 @@
                         <li class="list-inline-item"><span>⋅</span></li>
                         <li class="list-inline-item"><a href="/imprint">Terms of Use</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="/imprint">Privacy Policy</a></li>
+                        <li class="list-inline-item"><a href="/privacypolicy">Privacy Policy</a></li>
                     </ul>
             </div>
         </div>
