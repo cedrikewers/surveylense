@@ -9,6 +9,7 @@
                 <p class="text-center"><br>If you change your username or password you will be logged out<br><br></p>
             </div>
         </div>
+        <div class="buttons">
         <form action="<?php echo(site_url('userarea/profile'))?>" method="post" id="createSurvey" style="margin: 0 24px;">
             <label>Email:</label>
             <input class="form-control" name="email" type="email" style="min-width: 243px;max-width: 70%;margin: 5px;" value="<?php echo $this->session->flashdata('email');?>">
@@ -23,6 +24,7 @@
             <input class="form-control" name="newPasswordRetype" type="password" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="retype new password">
             <button class="btn btn-primary" type="submit" style="background: var(--purple);font-size: 19px; margin-top: 20px;">Update</button>
         </form>
+        </div>
         <?php
             echo '<div class="text-danger text-center">';
             echo $this->session->flashdata('userProfileMessage');

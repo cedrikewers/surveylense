@@ -8,7 +8,7 @@
                 <h4 class="mb-5">The simple and intuitive survey tool</h4>
             </div>
             <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                <form action="<?php echo site_url('userarea/create')?>" method="get">
+                <form action="<?php echo site_url('homepage/create')?>" method="get">
                     <div class="form-row">
                         <div class="col-12 col-md-9 mb-2 mb-md-0"><input class="form-control form-control-lg" name="title" placeholder="give your survey a suitable name..."></div>
                         <div class="col-12 col-md-3"><button class="btn btn-primary btn-block btn-lg" type="submit">Let's go</button></div>

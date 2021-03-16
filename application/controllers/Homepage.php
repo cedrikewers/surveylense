@@ -16,4 +16,13 @@ class Homepage extends CI_Controller {
             $this->template->load('templates/homepageTemplate','homepage/'.$page);
         }
 	}
+
+    public function create(){
+        if(isset($_SESSION['id_user'])){
+            redirect('create?title='.$_GET['title']);
+        }
+        else{
+            redirect('login?redirect=create&title='.$_GET['title']);
+        }
+    }
 }
