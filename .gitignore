@@ -32,5 +32,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 
 application/ci_sessions/*
 assets/temp/*
-application/config/config.php
-application/config/database.php
+application/config/*
+application/config/*

@@ -21,10 +21,11 @@
         });
 
         $(".highlight-blue").on("click", ".addOthers", function(){
+            var questionNumber = $(this).parent().parent().attr('id').replace('question', '');
             if($(this).parent().find(".others").length == 0){
                 $(this).parent().children(":first").append(
                                 '<div class="form-row row-cols-2">'+
-                                    '<div class="col-11 col-xl-11"><input class="form-control others" type="text" placeholder="Others" style="margin-top: 10px;" readonly=""></div>'+
+                                    '<div class="col-11 col-xl-11"><input class="form-control others" name="'+answerCount[questionNumber-1]+'_others" type="text" placeholder="Others" style="margin-top: 10px;" readonly=""></div>'+
                                     '<div class="col-1 col-xl-1">'+
                                     '<button class="btn btn-primary btn-sm align-items-md-end deleteAnswerOption" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 11px;background: rgb(193,6,6);margin-left: -6px;"><i class="fas fa-times"></i></button></div>'+
                                 '</div>'
@@ -41,9 +42,9 @@
             answerCount.push(1);
             $("#questions").append('<div id="question'+answerCount.length+'">'+
                                 '<div class="form-row row-cols-md-2 row-cols-lg-3 row-cols-xl-3">'+
-                                    '<div class="col-md-12 col-lg-8 col-xl-8"><label>Question '+answerCount.length+'</label><input class="form-control" type="text" placeholder="Question '+answerCount.length+'"></div>'+
+                                    '<div class="col-md-12 col-lg-8 col-xl-8"><label>Question '+answerCount.length+'</label><input class="form-control" name="q'+answerCount.length+'" type="text" placeholder="Question '+answerCount.length+'"></div>'+
                                     '<div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select class="custom-select" style="margin-top: 10px;">'+
-                                            +'<option value="0" selected="">Single Choice</option>'
+                                            '<option value="0" selected>Single Choice</option>'
                                             +'<option value="1">Multiple Choice</option>'
                                             +'<option value="2">Skala</option>'
                                             +'<option value="3">Text</option>'
@@ -84,7 +85,7 @@
                 <form class="text-left" action="<?php echo site_url('userarea/storeSurveyNew')?>" method="post">
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col text-left"><label>Name</label><input class="form-control" type="text" required="" name="name" placeholder="Give your survey a name"><label>Description</label><textarea class="form-control" placeholder="Tell them what this survey is about"></textarea></div>
+                            <div class="col text-left"><label>Name</label><input class="form-control" type="text" required="" name="name" placeholder="Give your survey a name" value="<?php echo $_GET["title"]?>"><label>Description</label><textarea class="form-control" placeholder="Tell them what this survey is about"></textarea></div>
                             <div class="col-xl-3 text-left"><label>Visibility</label><select class="custom-select" name="visibility">
                                     <option value="private" selected="">Private</option>
                                     <option value="public">Public</option>
@@ -93,7 +94,7 @@
                         <span id="questions">
                             <div id="question1">
                                 <div class="form-row row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
-                                    <div class="col-md-12 col-lg-8 col-xl-8"><label>Question 1</label><input class="form-control" type="text" placeholder="Question 1"></div>
+                                    <div class="col-md-12 col-lg-8 col-xl-8"><label>Question 1</label><input class="form-control" name="q1" type="text" placeholder="Question 1"></div>
                                     <div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select class="custom-select" style="margin-top: 10px;">
                                             <option value="0" selected="">Single Choice</option>
                                             <option value="1">Multiple Choice</option>
@@ -105,7 +106,7 @@
                                 <div style="margin-left: 1%;">
                                     <span id="answerOption1">
                                         <div class="form-row row-cols-2">
-                                            <div class="col-11 col-xl-11"><input class="form-control" type="text" placeholder="Answer option 1" style="margin-top: 10px;"></div>
+                                            <div class="col-11 col-xl-11"><input class="form-control" type="text" name="1_1" placeholder="Answer option 1" style="margin-top: 10px;"></div>
                                             <div class="col-1 col-xl-1">
                                             <button class="btn btn-primary btn-sm align-items-md-end deleteAnswerOption" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 11px;background: rgb(193,6,6);margin-left: -6px;"><i class="fas fa-times"></i></button></div>
                                         </div>

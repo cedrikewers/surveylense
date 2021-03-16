@@ -36,7 +36,6 @@ class Survey_Model extends CI_Model {
     public function storeSurvey($randomId)
     {
         $this->db->set('surveyTempRandomId', $randomId);
-        $this->db->set('timestamp', time());
         $this->db->insert('survey');
         return $this->db->insert_id();
     }
