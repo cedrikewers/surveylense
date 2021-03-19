@@ -172,8 +172,10 @@
             </div>
         </div>
     </section>
-            <button id="addQuestion" class="btn btn-primary" type="button" style="font-size: x-large;width: 50px;height: 50px;margin-top: -25px;margin-left: 12%;"><strong>+</strong></button><br>
-            <button class="btn btn-primary" type="submit" style="background: var(--purple);font-size: 19px; margin-left: 50px;">Create survey</button>
+            <div style="display: flex; align-items: center; width: 100%; flex-direction: column;">
+                <button id="addQuestion" class="btn btn-primary" type="button" style="font-size: x-large;width: 50px;height: 50px;margin-top: -25px; margin-left: -40%"><strong>+</strong></button><br>
+                <button class="btn btn-primary" type="submit" style="background: var(--purple);font-size: 19px;">Create survey</button>
+            </div>
 
         </form>
 
