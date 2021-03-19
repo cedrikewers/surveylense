@@ -35,10 +35,14 @@ class Survey_Model extends CI_Model {
 
     public function storeSurvey($randomId)
     {
-        $this->db->set('surveyTempRandomId', $randomId);
+        $this->db->select('id');
+        $this->db->where('randomId', $randomId);
+        $id = $this->db->get('surveyTemp')->row_array()['id'];
+        $this->db->set('surveyTempId', $id);
         $this->db->insert('survey');
         return $this->db->insert_id();
     }
+
 
     public function storeAnswers($randomId, $surveyId, $number, $data)
     {

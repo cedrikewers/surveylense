@@ -85,7 +85,7 @@
                 <form class="text-left" action="<?php echo site_url('userarea/storeSurveyNew')?>" method="post">
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col text-left"><label>Name</label><input class="form-control" type="text" required="" name="name" placeholder="Give your survey a name" value="<?php echo $_GET["title"]?>"><label>Description</label><textarea class="form-control" placeholder="Tell them what this survey is about"></textarea></div>
+                            <div class="col text-left"><label>Name</label><input class="form-control" type="text" required="" name="name" placeholder="Give your survey a name" value="<?php if(isset($_GET["title"])){echo $_GET["title"];}?>"><label>Description</label><textarea class="form-control" placeholder="Tell them what this survey is about"></textarea></div>
                             <div class="col-xl-3 text-left"><label>Visibility</label><select class="custom-select" name="visibility">
                                     <option value="private" selected="">Private</option>
                                     <option value="public">Public</option>

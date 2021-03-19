@@ -7,7 +7,10 @@ class Result_model extends CI_Model {
     public function getSurvey($randomId)
     {
         $this->db->select('id');
-        $this->db->where('surveyTempRandomId', $randomId);
+        $this->db->where('randomId', $randomId);
+        $surveyTempId = $this->db->get('surveyTemp')->row_array()['id'];
+        $this->db->select('id');
+        $this->db->where('surveyTempId', $surveyTempId);
         $query = $this->db->get('survey');
         return $query->result_array();
     }
