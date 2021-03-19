@@ -6,7 +6,11 @@ class Userarea extends CI_Controller {
     function __construct(){
         parent::__construct(); 
         $this->load->model('User_model');
+        $session = $this->session->userdata('id_user');
+        if(empty($session)){
+            redirect('/login');
         }
+    }
 
 
 	public function index($page = 'dashboardView')
@@ -19,7 +23,7 @@ class Userarea extends CI_Controller {
         else{
             $this->load->library('template');
             $this->template->set('title', ucfirst(substr($page, 0, -4)));
-            $this->template->load('templates/userareaTemplate','userarea/'.$page);
+            $this->template->load('templates/homepageTemplate','userarea/'.$page);
         }
         
 	}
@@ -110,7 +114,7 @@ class Userarea extends CI_Controller {
         $this->session->set_flashdata('email', $result->email);
         $this->load->library('template');
         $this->template->set('title', 'Profile');
-        $this->template->load('templates/userareaTemplate','userarea/profileView');
+        $this->template->load('templates/homepageTemplate','userarea/profileView');
         if($_POST){
 
         }
@@ -120,16 +124,16 @@ class Userarea extends CI_Controller {
         $this->load->library('template');
         $this->template->set('title', 'Create Survey');
         if($_POST){
-            $this->template->load('templates/userareaTemplate','userarea/createView', $_POST);
+            $this->template->load('templates/homepageTemplate','userarea/createView', $_POST);
         }
-        $this->template->load('templates/userareaTemplate','userarea/createView');
+        $this->template->load('templates/homepageTemplate','userarea/createView');
     }
 
     public function surveyCreated($randomId){
         $this->session->set_flashdata('randomId', $randomId);
         $this->load->library('template');
         $this->template->set('title', 'Survey created successfully');
-        $this->template->load('templates/userareaTemplate','userarea/surveyCreated');
+        $this->template->load('templates/homepageTemplate','userarea/surveyCreated');
     }
 
     public function storeSurveyNew(){ 
