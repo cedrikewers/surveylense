@@ -17,6 +17,7 @@ class Survey extends CI_Controller {
 		$surveyTemp = $this->Survey_model->checkRandomId($randomId);
 		$survey = array('randomId' => $randomId);
 		$survey['name'] = $surveyTemp['name'];
+		$survey['description'] = $surveyTemp['description'];
 		$data = array();
 		if($surveyTemp){
 			$this->load->library('Template');

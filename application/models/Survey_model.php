@@ -11,7 +11,7 @@ class Survey_Model extends CI_Model {
     // }
 
     public function checkRandomId($randomId){
-        $query = $this->db->query('SELECT name, id FROM surveyTemp WHERE randomId = "'.$randomId.'"');
+        $query = $this->db->query('SELECT name, description, id FROM surveyTemp WHERE randomId = "'.$randomId.'"');
         // $this->db->where('randomId', $randomId);
         // $query = $this->db->get('surveyTemp');
         return $query->row_array();

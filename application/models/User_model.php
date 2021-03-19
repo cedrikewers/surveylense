@@ -4,9 +4,10 @@ class User_Model extends CI_Model {
         $this->load->database();
     }
 
-    public function surveyTemp($randomId, $name, $user){
+    public function surveyTemp($randomId, $name, $description, $user){
         $this->db->set('randomId',$randomId);
         $this->db->set('name', $name);
+        $this->db->set('description', $description);
         $this->db->set('userId', $user);
         $this->db->insert('surveyTemp');
         return $this->db->insert_id();

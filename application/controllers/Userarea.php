@@ -138,7 +138,7 @@ class Userarea extends CI_Controller {
         }
         while($this->User_model->randomIdExists($randomId));
         // Hier wurde eine zufällige Id generiert und mit der Datenbank abgeglichen, damit diese sich nicht doppelt.
-        $id = $this->User_model->surveyTemp($randomId, $_POST['name'], $_SESSION['id_user']);
+        $id = $this->User_model->surveyTemp($randomId, $_POST['name'], $_POST['description'], $_SESSION['id_user']);
         $data = $_POST;
         unset($data["name"]);
         $questionCount = 0;
