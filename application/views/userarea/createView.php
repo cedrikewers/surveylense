@@ -43,7 +43,7 @@
             $("#questions").append('<div id="question'+answerCount.length+'">'+
                                 '<div class="form-row row-cols-md-2 row-cols-lg-3 row-cols-xl-3">'+
                                     '<div class="col-md-12 col-lg-8 col-xl-8"><label>Question '+answerCount.length+'</label><input class="form-control" name="q'+answerCount.length+'" type="text" placeholder="Question '+answerCount.length+'"></div>'+
-                                    '<div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select class="custom-select" style="margin-top: 10px;">'+
+                                    '<div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select class="custom-select" onchange="changeType($(this))" style="margin-top: 10px;">'+
                                             '<option value="0" selected>Single Choice</option>'
                                             +'<option value="1">Multiple Choice</option>'
                                             +'<option value="2">Skala</option>'
@@ -78,7 +78,7 @@
         var val = $(pThis).val();
         switch (parseInt(val)){
             case 3:
-                $(pThis).parent().parent().next().html("");
+                $(pThis).parent().parent().next().html('<button class="btn btn-primary text-capitalize d-lg-none delQuestion2" type="button" style="background: rgb(255,0,0);"><i class="fas fa-trash"></i></button>');
                 break;
             case 2:
                 $(pThis).parent().parent().next().html(''+
@@ -103,7 +103,7 @@
                             +'<div class="form-row row-cols-2">'
                                 +'<div class="col-1 col-xl-1 text-right"><label class="labelLower" style="width: 100%;margin-top: 17px;">1</label><label class="labelHigher" style="margin-top: 17px;">10</label></div>'
                                 +'<div class="col-11 col-xl-10 offset-xl-0"><input class="form-control" type="text" placeholder="Label (optional)" style="margin-top: 10px;"><input class="form-control" type="text" placeholder="Label (optional)" style="margin-top: 10px;"></div>'
-                            +'</div><button class="btn btn-primary text-capitalize d-lg-none" type="button" style="background: rgb(255,0,0);"><i class="fas fa-trash"></i></button>'
+                            +'</div><button class="btn btn-primary text-capitalize d-lg-none delQuestion2" type="button" style="background: rgb(255,0,0);"><i class="fas fa-trash"></i></button>'
                         +'</div>');
                 break;
             case 0:
