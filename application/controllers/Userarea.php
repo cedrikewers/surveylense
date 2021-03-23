@@ -181,6 +181,10 @@ class Userarea extends CI_Controller {
                     $i = 1;
                     while(array_key_exists($key."_".$i, $_POST)){
                         $this->User_model->surveyTempDataAnswers($dataId, $i, $_POST[$key."_".$i]);
+                        $i++;
+                    }
+                    if(array_key_exists($key."_others", $_POST)){
+                        $this->User_model->surveyTempDataAnswers($dataId, 0, "others");
                     }
                     break;
                 case 2://It is a question with the "scale" answer type
@@ -189,6 +193,7 @@ class Userarea extends CI_Controller {
                     break;
             }
         }
+        redirect('/userarea/surveyCreated/'.$randomId);
     }
 }
 
