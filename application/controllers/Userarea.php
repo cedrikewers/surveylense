@@ -159,5 +159,36 @@ class Userarea extends CI_Controller {
         redirect('/userarea/surveyCreated/'.$randomId);
         
     }
+
+    public function storeSurvey(){//despite the name, this version is newer
+        do{
+            $randomId = substr(hash("md5", random_bytes(20)), 0, 6);
+        }
+        while($this->User_model->randomIdExists($randomId));
+        //This generated a randomId and checked, that it is unique
+        $id = $this->User_model->surveyTemp($randomId, $_POST['name'], $_POST['description'], $_SESSION['id_user'], $_POST['visibility']);
+        $questions = array();
+        foreach($_POST as $key => $value){
+            if(strpos($key, "q")===0){
+                $questions[str_replace("q", "", $key)] = $value;
+            }
+        }
+        foreach($questions as $key => $value){
+            $dataId = $this->User_model->surveyTempData($id, $key, $_POST[$key."_type"], $value);
+            switch($_POST[$key."_type"]){
+                case 0:
+                case 1://It is a question with the "single choice" or "multible choice" answer type
+                    $i = 1;
+                    while(array_key_exists($key."_".$i, $_POST)){
+                        $this->User_model->surveyTempDataAnswers($dataId, $i, $_POST[$key."_".$i]);
+                    }
+                    break;
+                case 2://It is a question with the "scale" answer type
+                    $this->User_model->surveyTempDataAnswers($dataId, $_POST[$key."_lower"], $_POST[$key."_labelLower"]);
+                    $this->User_model->surveyTempDataAnswers($dataId, $_POST[$key."_higher"], $_POST[$key."_labelHigher"]);
+                    break;
+            }
+        }
+    }
 }
 

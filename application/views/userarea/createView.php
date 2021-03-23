@@ -43,10 +43,10 @@
             $("#questions").append('<div id="question'+answerCount.length+'">'+
                                 '<div class="form-row row-cols-md-2 row-cols-lg-3 row-cols-xl-3">'+
                                     '<div class="col-md-12 col-lg-8 col-xl-8"><label>Question '+answerCount.length+'</label><input class="form-control" name="q'+answerCount.length+'" type="text" placeholder="Question '+answerCount.length+'"></div>'+
-                                    '<div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select class="custom-select" onchange="changeType($(this))" style="margin-top: 10px;">'+
+                                    '<div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select class="custom-select" onchange="changeType($(this))" name="'+answerCount.length+'_type"style="margin-top: 10px;">'+
                                             '<option value="0" selected>Single Choice</option>'
                                             +'<option value="1">Multiple Choice</option>'
-                                            +'<option value="2">Skala</option>'
+                                            +'<option value="2">Scale</option>'
                                             +'<option value="3">Text</option>'
                                     +'</select></div>'
                                 +'<div class="col-lg-1 col-xl-1 order-2"><button class="btn btn-primary btn-sm d-none d-print-block d-sm-none d-md-none d-lg-block d-xl-block align-items-md-end delQuestion" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 33px;background: #ff0000;margin-left: -6px;"><i class="fas fa-trash"></i></button></div>'
@@ -76,19 +76,20 @@
 
     function changeType(pThis){
         var val = $(pThis).val();
+        var questionNumber = $(pThis).parent().parent().parent().attr('id').replace('question', '');
         switch (parseInt(val)){
-            case 3:
+            case 3: //It is a question with the "text" answer type
                 $(pThis).parent().parent().next().html('<button class="btn btn-primary text-capitalize d-lg-none delQuestion2" type="button" style="background: rgb(255,0,0);"><i class="fas fa-trash"></i></button>');
                 break;
-            case 2:
+            case 2://It is a question with the "scale" answer type
                 $(pThis).parent().parent().next().html(''+
                             '<div class="form-row row-cols-2">'
-                                +'<div class="col-3 col-sm-2 col-md-2 col-lg-1 col-xl-1"><select class="form-control labelLower" onchange="changeSkala($(this))">'
+                                +'<div class="col-3 col-sm-2 col-md-2 col-lg-1 col-xl-1"><select name="'+questionNumber+'_lower" class="form-control labelLower" onchange="changeScale($(this))">'
                                         +'<option value="0">0</option>'
                                         +'<option value="1" selected="">1</option>'
                                     +' </select></div>'
                                 +'<div class="col-3 col-md-2 col-lg-1 col-xl-1 d-flex d-lg-flex justify-content-lg-center align-items-lg-end"><label class="col-form-label">to</label></div>'
-                                +'<div class="col-3 col-sm-2 col-md-2 col-lg-1 col-xl-1"><select class="form-control labelHigher" onchange="changeSkala($(this))">'
+                                +'<div class="col-3 col-sm-2 col-md-2 col-lg-1 col-xl-1"><select class="form-control labelHigher" name="'+questionNumber+'_higher" onchange="changeScale($(this))">'
                                         +'<option value="2">2</option>'
                                         +'<option value="3">3</option>'
                                         +'<option value="4">4</option>'
@@ -102,17 +103,16 @@
                             +'</div>'
                             +'<div class="form-row row-cols-2">'
                                 +'<div class="col-1 col-xl-1 text-right"><label class="labelLower" style="width: 100%;margin-top: 17px;">1</label><label class="labelHigher" style="margin-top: 17px;">10</label></div>'
-                                +'<div class="col-11 col-xl-10 offset-xl-0"><input class="form-control" type="text" placeholder="Label (optional)" style="margin-top: 10px;"><input class="form-control" type="text" placeholder="Label (optional)" style="margin-top: 10px;"></div>'
+                                +'<div class="col-11 col-xl-10 offset-xl-0"><input class="form-control" type="text" placeholder="Label (optional)" style="margin-top: 10px;" name="'+questionNumber+'_labelLower"><input class="form-control" type="text" placeholder="Label (optional)" style="margin-top: 10px;" name="'+questionNumber+'_labelHigher"></div>'
                             +'</div><button class="btn btn-primary text-capitalize d-lg-none delQuestion2" type="button" style="background: rgb(255,0,0);"><i class="fas fa-trash"></i></button>'
                         +'</div>');
                 break;
-            case 0:
+            case 0://It is a question with the "single choice" or "multible choice" answer type
             case 1:
-                var questionNumber = $(pThis).parent().parent().parent().attr('id').replace('question', '');
                 $(pThis).parent().parent().next().html(''
                                     +'<span id="answerOption1">'
                                         +'<div class="form-row row-cols-2">'
-                                            +'<div class="col-11 col-xl-11"><input class="form-control" type="text" name="1_1" placeholder="Answer option 1" style="margin-top: 10px;"></div>'
+                                            +'<div class="col-11 col-xl-11"><input class="form-control" type="text" name="'+questionNumber+'_1" placeholder="Answer option 1" style="margin-top: 10px;"></div>'
                                             +'<div class="col-1 col-xl-1">'
                                             +'<button class="btn btn-primary btn-sm align-items-md-end deleteAnswerOption" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 11px;background: rgb(193,6,6);margin-left: -6px;"><i class="fas fa-times"></i></button></div>'
                                         +'</div>'
@@ -122,7 +122,7 @@
         } 
     }
 
-    function changeSkala(pThis){
+    function changeScale(pThis){
         var name = $(pThis).attr("class").split(" ")[1];
         $("label."+name).html($(pThis).val());
     }
@@ -148,10 +148,10 @@
                             <div id="question1">
                                 <div class="form-row row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
                                     <div class="col-md-12 col-lg-8 col-xl-8"><label>Question 1</label><input class="form-control" name="q1" type="text" placeholder="Question 1"></div>
-                                    <div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select class="custom-select type" onchange="changeType($(this))" name="type" style="margin-top: 10px;">
+                                    <div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select class="custom-select type" onchange="changeType($(this))" name="1_type" style="margin-top: 10px;">
                                             <option value="0" selected="">Single Choice</option>
                                             <option value="1">Multiple Choice</option>
-                                            <option value="2">Skala</option>
+                                            <option value="2">Scale</option>
                                             <option value="3">Text</option>
                                         </select></div>
                                     <div class="col-lg-1 col-xl-1 order-2"><button class="btn btn-primary btn-sm d-none d-print-block d-sm-none d-md-none d-lg-block d-xl-block align-items-md-end delQuestion" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 33px;background: #ff0000;margin-left: -6px;"><i class="fas fa-trash"></i></button></div>
