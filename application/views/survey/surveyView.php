@@ -1,6 +1,4 @@
 <link rel="stylesheet" href="<?php echo base_url('assets/css/Highlight-Blue.css')?>">
-<link rel="stylesheet" href="<?php echo base_url('assets/css/surveyView.css')?>">
-<script src="<?php echo base_url('assets/js/rangeSlider.js')?>"></script>
 <script>
     $(document).ready(function(e){
         $(".other").change(function(){
@@ -58,19 +56,37 @@
                                 if(array_key_exists($i."_".$j, $data))
                                 $higher = $j;
                             }
-                            echo '<div id="'.$i.'_range" style="width: 99%"></div>';
-                            echo '<script>$("#'.$i.'_range").rangeSlider({ skin: "red", direction: "horizontal", tip:false, scale:true, type:"single",
-                            }, { step: 1, min: '.$lower.', max: '.$higher.'});</script>';
-                            echo '<div>
-                            <div class="form-row">
-                                <div class="col">
-                                    <p>'.$data[$i.'_'.$lower].'</p>
+                            if($data[$i.'_'.$higher]!=null){
+                                $lableHigher = $data[$i.'_'.$higher].' ('.$higher.')';
+                            }
+                            else{
+                                $lableHigher = $higher;
+                            }
+                            if($data[$i.'_'.$lower]!=null){
+                                $lableLower = $data[$i.'_'.$lower].' ('.$lower.')';
+                            }
+                            else{
+                                $lableLower = $lower;
+                            }
+                            echo '<input type="range" name="'.$i.'_0" style="width: '.strval(100-(100/$higher)+3).'%; margin-left: '.strval(((100/$higher)/2)-1.5).'%" value='.$lower.'" min="'.$lower.'" max="'.$higher.'" step="1" />';
+                            echo '<div class="row">
+                                <div class="col" style="width: '.strval(100/$higher).'%; padding:0px">
+                                    <p style="text-align: center">'.$lableLower.'</p>
+                                </div>';
+                                for($j = $lower+1; $j < $higher; $j++){
+                                    echo '<div class="col" style="width: '.strval(100/$higher).'%; padding:0px">
+                                            <p style="text-align: center">'.$j.'</p>
+                                        </div>';
+                                }
+                            echo '<div class="col" style="width: '.strval(100/$higher).'%; padding:0px">
+                                    <p style="text-align: center">'.$lableHigher.'</p>
                                 </div>
-                                <div class="col">
-                                    <p class="text-right">'.$data[$i.'_'.$higher].'</p>
-                                </div>
-                            </div>
-                        </div>';
+                            </div>';
+                            // echo '<p style="width: '.strval(100/$higher).'%">'.$data[$i.'_'.$lower].'</p>'; 
+                            // for($j = $lower+1; $j < $higher; $j++){
+                            //             echo '<p style="width: '.strval(100/$higher).'%">'.$j.'</p>';
+                            // }
+                            // echo '<p style="width: '.strval(100/$higher).'%">'.$data[$i.'_'.$higher].'</p>'; 
                             break;
                         case 3:
                             echo '<textarea class="form-control" name="'.$i.'_0"></textarea>';
