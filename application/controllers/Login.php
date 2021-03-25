@@ -24,6 +24,9 @@ class Login extends CI_Controller {
                     );
     
                     $this->session->set_userdata($data);
+                    if(isset($_GET['redirect'])){
+                      redirect($_GET['redirect'].'?title='.$_GET['title']);
+                    }
                     redirect('/userarea');
                 }
                 else{
@@ -36,7 +39,7 @@ class Login extends CI_Controller {
                 redirect('/login');
             }
         }
-
+        
         $this->load->library('template');
         $this->template->set('title', ucfirst($page));
         $this->template->load('templates/loginTemplate','login/'.$page);

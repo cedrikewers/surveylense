@@ -31,7 +31,20 @@
                         echo('<div class="collapse navbar-collapse" id="navcol-1"><a class="btn btn-primary ml-auto" role="button" href="/login">Sign In</a></div>');
                     }
                     else{
-                        echo('<div class="collapse navbar-collapse" id="navcol-1"><a class="btn btn-primary ml-auto" role="button" href="/userarea">User Area</a></div>');
+                        echo('<div class="nav-item dropdown">
+                        <a class="nav-link btn btn-primary dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+                            .$this->session->userdata('username').
+                        '</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item text-primary font-weight-bold" href="/userarea/create">Create</a>
+                            <a class="dropdown-item" href="/userarea/manage">Manage</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/userarea/profile">Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="/login/logout">Logout</a>
+                        </div>
+                    </div>
+                        ');
                     }
                 ?>
             </div>
@@ -52,7 +65,7 @@
                         <li class="list-inline-item"><span>⋅</span></li>
                         <li class="list-inline-item"><a href="/imprint">Terms of Use</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="/imprint">Privacy Policy</a></li>
+                        <li class="list-inline-item"><a href="/privacypolicy">Privacy Policy</a></li>
                     </ul>
             </div>
         </div>

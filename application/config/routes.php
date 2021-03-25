@@ -56,6 +56,7 @@ $route['translate_uri_dashes'] = FALSE;
 
 
 $route['imprint'] = 'homepage/index/imprintView';
+$route['privacypolicy'] = 'homepage/index/privacyPolicyView';
 $route['create'] = 'userarea/create';
 $route['login'] = 'login';
 $route['register'] = 'login/register';
