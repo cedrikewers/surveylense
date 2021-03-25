@@ -11,14 +11,14 @@ class Survey_Model extends CI_Model {
     // }
 
     public function checkRandomId($randomId){
-        $query = $this->db->query('SELECT name, id FROM surveyTemp WHERE randomId = "'.$randomId.'"');
+        $query = $this->db->query('SELECT name, description, id FROM surveyTemp WHERE randomId = "'.$randomId.'"');
         // $this->db->where('randomId', $randomId);
         // $query = $this->db->get('surveyTemp');
         return $query->row_array();
     }
 
     public function getQuestions($id){
-        $this->db->select('number, data');
+        $this->db->select('number, data, type');
         $this->db->where('surveyTempId', $id);
         // $this->db->join('surveyTemp', 'surveyTempData.surveyTempId = surveyTemp.id');
         $query = $this->db->get('surveyTempData');
@@ -33,20 +33,19 @@ class Survey_Model extends CI_Model {
         return $query->result_array();
     }
 
-    public function storeSurvey($randomId)
+    public function storeSurvey($id)
     {
-        $this->db->set('surveyTempRandomId', $randomId);
-        $this->db->set('timestamp', time());
+        $this->db->set('surveyTempId', $id);
         $this->db->insert('survey');
         return $this->db->insert_id();
     }
 
-    public function storeAnswers($randomId, $surveyId, $number, $data)
+
+    public function storeAnswers($surveyTempid, $surveyId, $number, $data)
     {
-        $this->db->select('surveyTempData.id');
-        $this->db->join('surveyTemp', 'surveyTempData.surveyTempId = surveyTemp.id');
-        $this->db->where('surveyTemp.randomId', $randomId);
-        $this->db->where('surveyTempData.number', $number);
+        $this->db->select('id');
+        $this->db->where('surveyTempId', $surveyTempid);
+        $this->db->where('number', $number);
         $query = $this->db->get('surveyTempData');
 
         $surveyTempDataId = $query->row_array()['id'];
@@ -56,4 +55,12 @@ class Survey_Model extends CI_Model {
         $this->db->set('data', $data);
         $this->db->insert('surveyAnswers');
     }
+
+    public function getSurveyTempId($randomId){
+        $this->db->select('id');
+        $this->db->where('randomId', $randomId);
+        $query = $this->db->get('surveyTemp');
+        return $query->row_array()['id'];
+    }
+
 }

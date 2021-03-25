@@ -6,7 +6,11 @@ class Userarea extends CI_Controller {
     function __construct(){
         parent::__construct(); 
         $this->load->model('User_model');
+        $session = $this->session->userdata('id_user');
+        if(empty($session)){
+            redirect('/login');
         }
+    }
 
 
 	public function index($page = 'dashboardView')
@@ -19,7 +23,7 @@ class Userarea extends CI_Controller {
         else{
             $this->load->library('template');
             $this->template->set('title', ucfirst(substr($page, 0, -4)));
-            $this->template->load('templates/userareaTemplate','userarea/'.$page);
+            $this->template->load('templates/homepageTemplate','userarea/'.$page);
         }
         
 	}
@@ -110,7 +114,7 @@ class Userarea extends CI_Controller {
         $this->session->set_flashdata('email', $result->email);
         $this->load->library('template');
         $this->template->set('title', 'Profile');
-        $this->template->load('templates/userareaTemplate','userarea/profileView');
+        $this->template->load('templates/homepageTemplate','userarea/profileView');
         if($_POST){
 
         }
@@ -119,14 +123,17 @@ class Userarea extends CI_Controller {
     public function create(){
         $this->load->library('template');
         $this->template->set('title', 'Create Survey');
-        $this->template->load('templates/userareaTemplate','userarea/createView');
+        if($_POST){
+            $this->template->load('templates/homepageTemplate','userarea/createView', $_POST);
+        }
+        $this->template->load('templates/homepageTemplate','userarea/createView');
     }
 
     public function surveyCreated($randomId){
         $this->session->set_flashdata('randomId', $randomId);
         $this->load->library('template');
         $this->template->set('title', 'Survey created successfully');
-        $this->template->load('templates/userareaTemplate','userarea/surveyCreated');
+        $this->template->load('templates/homepageTemplate','userarea/surveyCreated');
     }
 
     public function storeSurveyNew(){ 
@@ -135,7 +142,7 @@ class Userarea extends CI_Controller {
         }
         while($this->User_model->randomIdExists($randomId));
         // Hier wurde eine zufällige Id generiert und mit der Datenbank abgeglichen, damit diese sich nicht doppelt.
-        $id = $this->User_model->surveyTemp($randomId, $_POST['name'], $_SESSION['id_user']);
+        $id = $this->User_model->surveyTemp($randomId, $_POST['name'], $_POST['description'], $_SESSION['id_user']);
         $data = $_POST;
         unset($data["name"]);
         $questionCount = 0;
@@ -145,12 +152,55 @@ class Userarea extends CI_Controller {
                 $questionCount++;
                 $dataId = $this->User_model->surveyTempData($id, $questionCount, $value); 
             }
-            else{
+            elseif(strpos($key, "_")!==false){
                 $this->User_model->surveyTempDataAnswers($dataId, str_replace(strstr($key, "_", true)."_", "", $key), $value);
             }
         } 
         redirect('/userarea/surveyCreated/'.$randomId);
         
     }
-}
 
+    public function storeSurvey(){//despite the name, this version is newer
+        do{
+            $randomId = substr(hash("md5", random_bytes(20)), 0, 6);
+        }
+        while($this->User_model->randomIdExists($randomId));
+        //This generated a randomId and checked, that it is unique
+        $id = $this->User_model->surveyTemp($randomId, $_POST['name'], $_POST['description'], $_SESSION['id_user'], $_POST['visibility']);
+        $questions = array();
+        foreach($_POST as $key => $value){
+            if(strpos($key, "q")===0){
+                $questions[str_replace("q", "", $key)] = $value;
+            }
+        }
+        foreach($questions as $key => $value){
+            $dataId = $this->User_model->surveyTempData($id, $key, $_POST[$key."_type"], $value);
+            switch($_POST[$key."_type"]){
+                case 0:
+                case 1://It is a question with the "single choice" or "multible choice" answer type
+                    $i = 1;
+                    while(array_key_exists($key."_".$i, $_POST)){
+                        $this->User_model->surveyTempDataAnswers($dataId, $i, $_POST[$key."_".$i]);
+                        $i++;
+                    }
+                    if(array_key_exists($key."_others", $_POST)){
+                        $this->User_model->surveyTempDataAnswers($dataId, 0, "others");
+                    }
+                    break;
+                case 2://It is a question with the "scale" answer type
+                    $this->User_model->surveyTempDataAnswers($dataId, $_POST[$key."_lower"], $_POST[$key."_labelLower"]);
+                    $this->User_model->surveyTempDataAnswers($dataId, $_POST[$key."_higher"], $_POST[$key."_labelHigher"]);
+                    break;
+            }
+        }
+        redirect('/userarea/surveyCreated/'.$randomId);
+    }
+
+    public function manage()
+    {
+        $surveyTemp = $this->User_model->getSurveyTempByUser($_SESSION['id_user']); 
+        $this->load->library('template');
+        $this->template->set('title', 'Manage your Surveys');
+        $this->template->load('templates/homepageTemplate','userarea/manageView.php', array('surveyTemp' => $surveyTemp));
+    }
+}

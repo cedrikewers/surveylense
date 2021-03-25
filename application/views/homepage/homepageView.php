@@ -8,9 +8,9 @@
                 <h4 class="mb-5">The simple and intuitive survey tool</h4>
             </div>
             <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                <form>
+                <form action="<?php echo site_url('homepage/create')?>" method="get">
                     <div class="form-row">
-                        <div class="col-12 col-md-9 mb-2 mb-md-0"><input class="form-control form-control-lg" type="email" placeholder="give your survey a suitable name..."></div>
+                        <div class="col-12 col-md-9 mb-2 mb-md-0"><input class="form-control form-control-lg" name="title" placeholder="give your survey a suitable name..."></div>
                         <div class="col-12 col-md-3"><button class="btn btn-primary btn-block btn-lg" type="submit">Let's go</button></div>
                     </div>
                 </form>
@@ -63,27 +63,6 @@
             <div class="col-lg-8 order-lg-1 p-4">
                 <h2>Fully Responsive Design</h2>
                 <p class="lead mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi deserunt aliquid qui, eaque, voluptates tempore ad pariatur vero, nemo repellat consequuntur. Sit rerum minus, repellat similique molestias fuga labore corporis? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium commodi nobis eveniet ullam, odio quidem? Ipsam tempore soluta, dicta velit ullam qui, accusantium ad ea voluptatibus accusamus eligendi minus nisi.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Another Banner with option to create a new servey -->
-<section class="homepageBanner text-white text-center" style="background:url('assets/pictures/bg-homepage.jpg') no-repeat center center;background-size:cover;">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-9 mx-auto">
-                <h1 class="mb-0">Surveylense<br></h1>
-                <h4 class="mb-5">The simple and intuitive survey tool</h4>
-            </div>
-            <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                <form>
-                    <div class="form-row">
-                        <div class="col-12 col-md-9 mb-2 mb-md-0"><input class="form-control form-control-lg" type="email" placeholder="give your survey a suitable name..."></div>
-                        <div class="col-12 col-md-3"><button class="btn btn-primary btn-block btn-lg" type="submit">Let's go</button></div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

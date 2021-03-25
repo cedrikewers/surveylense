@@ -4,10 +4,12 @@ class User_Model extends CI_Model {
         $this->load->database();
     }
 
-    public function surveyTemp($randomId, $name, $user){
+    public function surveyTemp($randomId, $name, $description, $user, $visibility){
         $this->db->set('randomId',$randomId);
         $this->db->set('name', $name);
+        $this->db->set('description', $description);
         $this->db->set('userId', $user);
+        $this->db->set('visibility', $visibility);
         $this->db->insert('surveyTemp');
         return $this->db->insert_id();
     }   
@@ -19,9 +21,10 @@ class User_Model extends CI_Model {
         return $result->row();
     }
 
-    public function surveyTempData($surveyTempId, $number, $data){
+    public function surveyTempData($surveyTempId, $number, $type, $data){
         $this->db->set('surveyTempId',$surveyTempId);
         $this->db->set('number', $number);
+        $this->db->set('type', $type);
         $this->db->set('data', $data);
         $this->db->insert('surveyTempData');
         return $this->db->insert_id();
@@ -71,6 +74,11 @@ class User_Model extends CI_Model {
         $this->db->where('id', $data['id_user']);
         $this->db->set('email', $data['email']);
         $this->db->update('users');
+    }
+
+    public function getSurveyTempByUser($userId){
+        $query = $this->db->query('SELECT surveyTemp.randomId, surveyTemp.name, surveyTemp.timestamp, COUNT(survey.id) AS count FROM surveyTemp LEFT JOIN survey ON surveyTemp.id = survey.surveyTempId WHERE userId = '.$userId.' GROUP BY surveyTemp.id');
+        return $query->result_array();
     }
 
 }

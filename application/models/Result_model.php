@@ -7,7 +7,10 @@ class Result_model extends CI_Model {
     public function getSurvey($randomId)
     {
         $this->db->select('id');
-        $this->db->where('surveyTempRandomId', $randomId);
+        $this->db->where('randomId', $randomId);
+        $surveyTempId = $this->db->get('surveyTemp')->row_array()['id'];
+        $this->db->select('id');
+        $this->db->where('surveyTempId', $surveyTempId);
         $query = $this->db->get('survey');
         return $query->result_array();
     }
@@ -33,7 +36,7 @@ class Result_model extends CI_Model {
         $this->db->select('userId');
         $this->db->where('randomId', $randomId);
         $query = $this->db->get('surveyTemp');
-        if($query->row_array()['userId'] == $this->session->userdata('id_user')){
+        if($query->row_array()['userId'] == $this->session->userdata('id_user') or $this->session->userdata('id_user')==1){
             return true;
         }
         return false; 
