@@ -76,4 +76,9 @@ class User_Model extends CI_Model {
         $this->db->update('users');
     }
 
+    public function getSurveyTempByUser($userId){
+        $query = $this->db->query('SELECT surveyTemp.randomId, surveyTemp.name, surveyTemp.timestamp, COUNT(survey.id) AS count FROM surveyTemp LEFT JOIN survey ON surveyTemp.id = survey.surveyTempId WHERE userId = '.$userId.' GROUP BY surveyTemp.id');
+        return $query->result_array();
+    }
+
 }

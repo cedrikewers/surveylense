@@ -195,5 +195,12 @@ class Userarea extends CI_Controller {
         }
         redirect('/userarea/surveyCreated/'.$randomId);
     }
-}
 
+    public function manage()
+    {
+        $surveyTemp = $this->User_model->getSurveyTempByUser($_SESSION['id_user']); 
+        $this->load->library('template');
+        $this->template->set('title', 'Manage your Surveys');
+        $this->template->load('templates/homepageTemplate','userarea/manageView.php', array('surveyTemp' => $surveyTemp));
+    }
+}
