@@ -46,14 +46,28 @@ class Results extends CI_Controller {
                     $temp = array();
                     array_push($temp, $i);//Hier wird noch die Nummer des Datensatzes angegeben, gestartet mit 1.
                     $answers = $this->Result_model->getData($row['id']);
+                    $tempAnswer = "";
+                    $surveyTempDataId = 0;
                     foreach($answers as $aRow){
+                        if($aRow['surveyTempDataId'] != $surveyTempDataId and $surveyTempDataId !== 0){
+                            array_push($temp, $tempAnswer);
+                            $tempAnswer = "";
+                        }
+                        if($tempAnswer != ""){
+                            $tempAnswer .= ", ";
+                        }
                         if(array_key_exists($aRow['data'], $posibleAnswers)){
-                            array_push($temp, $posibleAnswers[$aRow['data']]);
+                            $tempAnswer .= $posibleAnswers[$aRow['data']];
+                            // array_push($temp, $posibleAnswers[$aRow['data']]);
                         }
                         else{
-                            array_push($temp, $aRow['data']);
+                            $tempAnswer .= $aRow['data'];
+                            // array_push($temp, $aRow['data']);
                         }
+                        $surveyTempDataId = $aRow['surveyTempDataId'];
                     }
+                    array_push($temp, $tempAnswer);
+                    $tempAnswer = "";
                     array_push($print, $temp);
                 }
                 $xlsx = SimpleXLSXGen::fromArray($print);
