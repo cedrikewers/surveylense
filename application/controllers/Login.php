@@ -6,6 +6,7 @@ class Login extends CI_Controller {
     function __construct(){
         parent::__construct();
         $this->load->model('Login_model');
+        $this->load->model('Email_model');
     }
 
 	public function index(){
@@ -16,19 +17,22 @@ class Login extends CI_Controller {
             $result = $this->Login_model->check_user($_POST);
             print_r($result);
             if(!empty($result)){
-
-                $data = array(
-                'id_user' => $result->id,
-                'username' => $result->username
-
-                );
-
-                $this->session->set_userdata($data);
-                if(isset($_GET['redirect'])){
-                    redirect($_GET['redirect'].'?title='.$_GET['title']);
+                if($result->active == 1){
+                    $data = array(
+                        'id_user' => $result->id,
+                        'username' => $result->username
+                    );
+    
+                    $this->session->set_userdata($data);
+                    if(isset($_GET['redirect'])){
+                      redirect($_GET['redirect'].'?title='.$_GET['title']);
+                    }
+                    redirect('/userarea');
                 }
-                redirect('/userarea'); // eure Datenseite !!!!!!!!!!!!!!!
-
+                else{
+                    $this->session->set_flashdata('flash_data', 'Account not active');
+                redirect('/login');
+                }
             }
             else{
                 $this->session->set_flashdata('flash_data', 'Username or Password wrong');
@@ -50,20 +54,25 @@ class Login extends CI_Controller {
                 if($_POST['password'] == $_POST['password_repeat']){
                     $result = $this->Login_model->check_username($_POST);
                     if(empty($result)){
-                        $this->Login_model->create_user($_POST);
-                        $loginResult = $this->Login_model->check_user($_POST);
-                        if(!empty($loginResult)){
-    
-                            $data = array(
-                            'id_user' => $result->id,
-                            'username' => $result->User
-    
-                            );
-    
-                            $this->session->set_userdata($data);
-                            redirect('/userarea'); // eure Datenseite !!!!!!!!!!!!!!!
-    
+                        $createUser = $this->Login_model->create_user($_POST);
+                        $userData = $this->Login_model->getUserData($createUser);
+                        do{
+                            $randomId = substr(hash("md5", random_bytes(20)), 0, 10);
                         }
+                        while($this->Login_model->randomIdExists($randomId));
+                        $data = array(
+                            'randomID' => $randomId,
+                            'userID' => $createUser
+            
+                            );
+                        $this->Login_model->verify($data);
+
+                        $this->Email_model->mailTo(array($userData->email),"Verify your Email address",'Hello ' . $userData->username . '</br> please verify your email address by opening this link: https://surveylense.de/login/verify/' . $randomId);
+                        
+                        $data['email'] = $this->Email_model->obfuscate_email($userData->email);
+                        $this->load->library('template');
+                        $this->template->set('title', "verify your account");
+                        $this->template->load('templates/loginTemplate','login/verificationView', $data);
                     }
                     else{
                         $this->session->set_flashdata('flash_data', 'Username is not available');
@@ -73,19 +82,6 @@ class Login extends CI_Controller {
                 else{
                     $this->session->set_flashdata('flash_data', 'Passwords do not match');
                     redirect('/register');
-                }
-                $result = $this->Login_model->check_user($_POST);
-                if(!empty($result)){
-    
-                    $data = array(
-                    'id_user' => $result->id,
-                    'username' => $result->User
-    
-                    );
-    
-                    $this->session->set_userdata($data);
-                    redirect('/'); // eure Datenseite !!!!!!!!!!!!!!!
-    
                 }
             }
             else{
@@ -106,5 +102,19 @@ class Login extends CI_Controller {
         $this->session->unset_userdata($data);
         redirect('/');
         }
+
+    public function verify($randomId){
+        if(null !== $randomId){
+            $userId = $this->Login_model->verifyUser($randomId);
+            $this->Login_model->activateUser($userId->UserID);
+
+            $this->load->library('template');
+            $this->template->set('title', "Your account was verified");
+            $this->template->load('templates/loginTemplate','login/activationView');
+        }
+        else{
+        redirect('/');
+        }
+    }
 
 }

@@ -133,4 +133,8 @@ class Results extends CI_Controller {
                 
                 
     }
+
+    public function test(){
+        $this->Email_model->mailTo(array("admin@flo-server.de"),"Hallo Flo","hallo florian");
+    }
 }
