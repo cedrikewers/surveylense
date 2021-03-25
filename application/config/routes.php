@@ -60,6 +60,7 @@ $route['privacypolicy'] = 'homepage/index/privacyPolicyView';
 $route['create'] = 'userarea/create';
 $route['login'] = 'login';
 $route['register'] = 'login/register';
+$route['passwordreset'] = 'login/passwordreset';
 $route['userarea/(:any)'] = 'userarea/$1';
 $route['s/(:any)'] = 'survey/loadSurvey/$1';
 $route['results/download/(:any)'] = 'results/downloadXLSX/$1' ;
