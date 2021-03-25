@@ -28,11 +28,11 @@
                         case 0:
                             $j = 1;
                             while(array_key_exists($i."_".$j, $data)){
-                                echo '<div class="form-check" style="margin-left: 32px;"><input id="'.$i."_".$j.'" class="form-check-input" name="'.$i."_".$j.'" type="radio" value="'.$i."_".$j.'"><label class="form-check-label" for="'.$i."_".$j.'" style="color: var(--gray-dark);">'.$data[$i."_".$j].'</label></div>';
+                                echo '<div class="form-check" style="margin-left: 32px;"><input id="'.$i."_".$j.'" class="form-check-input" name="'.$i.'" type="radio" value="'.$i."_".$j.'"><label class="form-check-label" for="'.$i."_".$j.'" style="color: var(--gray-dark);">'.$data[$i."_".$j].'</label></div>';
                                 $j++;
                             }
                             if(array_key_exists($i."_".'0', $data)){
-                                echo '<div class="form-check" style="margin-left: 32px;"><input id="'.$i.'_0" class="form-check-input" name="'.$i.'_0" type="radio"><input class="form-check-label other" type="text" for="'.$i.'_0" style="background-color:#dddddd; border: none; margin-top: -8px; margin-left:-3px" placeholder="Other..." ></div>';
+                                echo '<div class="form-check" style="margin-left: 32px;"><input id="'.$i.'_0" class="form-check-input" name="'.$i.'" type="radio"><input class="form-check-label other" type="text" for="'.$i.'_0" style="background-color:#dddddd; border: none; margin-top: -8px; margin-left:-3px" placeholder="Other..." ></div>';
                             }
                             break;
                         case 1:  
