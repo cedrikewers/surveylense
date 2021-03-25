@@ -27,7 +27,7 @@
                                 </div><button class="btn btn-primary btn-block text-white btn-user" type="submit">Register Account</button>
                                 <hr>
                             </form>
-                            <div class="text-center"><a class="small" href="/">Forgot Password?</a></div>
+                            <div class="text-center"><a class="small" href="/passwordreset">Forgot Password?</a></div>
                             <div class="text-center"><a class="small" href="/login">Already have an account? Login!</a></div>
                         </div>
                     </div>

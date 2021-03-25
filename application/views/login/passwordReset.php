@@ -10,23 +10,22 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h4 class="text-dark mb-4">Welcome Back!</h4>
+                                        <h4 class="text-dark mb-4">Reset your password!</h4>
                                     </div>
                                     <div class="text-center">
                                         <?php if(isset($_SESSION)) {
-                                                echo '<div class="text-danger">';
+                                                echo '<div class="text-success">';
                                                 echo $this->session->flashdata('flash_data');
                                                 echo '</div>';
                                             }
                                         ?>
                                     </div>
-                                    <form action="<?php site_url('login') ?>" method="post" class="user">
-                                        <div class="form-group"><input class="form-control form-control-user" type="text" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Username..." name="username"></div>
-                                        <div class="form-group"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Password" name="password"></div>
-                                        <button class="btn btn-primary btn-block text-white btn-user" type="submit">Login</button>
+                                    <form action="<?php site_url('passwordreset') ?>" method="post" class="user">
+                                        <div class="form-group"><input class="form-control form-control-user" type="email" placeholder="Enter Email..." name="email"></div>
+                                        <button class="btn btn-primary btn-block text-white btn-user" type="submit">Reset</button>
                                         <hr>
                                     </form>
-                                    <div class="text-center"><a class="small" href="/passwordreset">Forgot Password?</a></div>
+                                    <div class="text-center"><a class="small" href="/login">Already have an account? Login!</a></div>
                                     <div class="text-center"><a class="small" href="/register">Create an Account!</a></div>
                                 </div>
                             </div>
