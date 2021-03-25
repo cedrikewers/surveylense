@@ -36,7 +36,7 @@ class Result_model extends CI_Model {
         $this->db->select('userId');
         $this->db->where('randomId', $randomId);
         $query = $this->db->get('surveyTemp');
-        if($query->row_array()['userId'] == $this->session->userdata('id_user') || $query->row_array()['userId']==1){
+        if($query->row_array()['userId'] == $this->session->userdata('id_user') or $this->session->userdata('id_user')==1){
             return true;
         }
         return false; 
