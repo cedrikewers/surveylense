@@ -169,6 +169,6 @@ class Login extends CI_Controller {
         }
         $this->load->library('template');
         $this->template->set('title', 'Reset your password');
-        $this->template->load('templates/loginTemplate','login/passwordreset');
+        $this->template->load('templates/loginTemplate','login/passwordResetView');
      }
 }
