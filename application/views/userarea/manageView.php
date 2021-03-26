@@ -12,7 +12,7 @@
                             <span class="d-none d-lg-inline">Created: '.$survey['timestamp'].'</span>
                             <span class="d-none d-lg-inline" style="margin-left: 5%;">Total Answers: '.$survey['count'].'</span>
                             <a style="margin-left: 5%;"><i class="fas fa-pen"></i><span class="d-none d-sm-inline">Edit</span></a>
-                            <a style="margin-left: 5%;"><i class="far fa-chart-bar"></i><span class="d-none d-sm-inline">Results</span></a>
+                            <a href="'.site_url('results/results/'.$survey['randomId']).'"style="margin-left: 5%;"><i class="far fa-chart-bar"></i><span class="d-none d-sm-inline">Results</span></a>
                             <a href="'.site_url('results/download/'.$survey['randomId']).'" style="margin-left: 5%;"><i class="fas fa-download"></i><span class="d-none d-sm-inline">Download</span></a>
                         </div> 
               

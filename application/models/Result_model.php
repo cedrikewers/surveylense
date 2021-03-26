@@ -41,6 +41,15 @@ class Result_model extends CI_Model {
         }
         return false; 
     }
+
+    public function getDataset($surveyTempDataId ,$type){
+        switch($type){
+            case 1: 
+                $query = $this->db->query('SELECT data, COUNT(data) AS count FROM surveyAnswers WHERE surveyTempDataId = '.$surveyTempDataId.' GROUP BY data ORDER BY count DESC');
+                return $query->result_array();
+        }
+    }
+
     
 }
 

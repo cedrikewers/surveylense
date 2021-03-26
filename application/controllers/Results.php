@@ -15,10 +15,10 @@ class Results extends CI_Controller {
 		
 	}
 
-    public function downloadXLSX($randomId){
+    public function generateResultsXLSX($randomId){
         //Hier werden die Spaltenüberschriften genneriert
         $surveyTemp = $this->Survey_model->checkRandomId($randomId);
-		if($surveyTemp){
+        if($surveyTemp){
             if($this->Result_model->checkUser($randomId)){
                 $this->load->library('SimpleXLSXGen'); #https://github.com/shuchkin/simplexlsxgen
                 $print = array();
@@ -70,85 +70,57 @@ class Results extends CI_Controller {
                     $tempAnswer = "";
                     array_push($print, $temp);
                 }
-                $xlsx = SimpleXLSXGen::fromArray($print);
-                $xlsx->downloadAs('results.xlsx');          
-                redirect();
+                return SimpleXLSXGen::fromArray($print);
             }
             else{
             $this->load->library('Template');
-			$this->template->set('title', 'You dont have the rights to accses this survey');
-			$this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
+            $this->template->set('title', 'You dont have the rights to accses this survey');
+            $this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
             }
         }
         else{
             $this->load->library('Template');
-			$this->template->set('title', 'This survey does not exist');
-			$this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
+            $this->template->set('title', 'This survey does not exist');
+            $this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
         }
+   }
+
+    public function downloadXLSX($randomId){
+        $this->generateResultsXLSX($randomId)->downloadAs('results.xlsx');          
+        redirect();
     }
 
     public function mail($randomId){
-            //Hier werden die Spaltenüberschriften genneriert
-            $surveyTemp = $this->Survey_model->checkRandomId($randomId);
-            if($surveyTemp){
-                if($this->Result_model->checkUser($randomId)){
-                    $this->load->library('SimpleXLSXGen'); #https://github.com/shuchkin/simplexlsxgen
-                    $print = array();
-    
-                    $questions = $this->Survey_model->getQuestions($surveyTemp['id']);
-                    $temp = array();
-                    array_push($temp, '');
-                    foreach($questions as $row){
-                        array_push($temp, $row['data']);
-                    }
-                    array_push($print, $temp);
-                    //Ende spaltenüberschriften
-    
-                    //Hier werden die Antwortmöglichkeiten als Text ausgelesen
-                    $answers = $this->Survey_model->getAnswers($surveyTemp['id']);
-                    $posibleAnswers = array();
-                    foreach($answers as $row){
-                        $posibleAnswers[$row['dataNumber']."_".$row['number']] = $row['data'];
-                    }
-    
-                    $entry = $this->Result_model->getSurvey($randomId);
-                    $i = 0;
-                    foreach($entry as $row){
-                        $i++;
-                        $temp = array();
-                        array_push($temp, $i);//Hier wird noch die Nummer des Datensatzes angegeben, gestartet mit 1.
-                        $answers = $this->Result_model->getData($row['id']);
-                        foreach($answers as $aRow){
-                            if(array_key_exists($aRow['data'], $posibleAnswers)){
-                                array_push($temp, $posibleAnswers[$aRow['data']]);
-                            }
-                            else{
-                                array_push($temp, $aRow['data']);
-                            }
-                        }
-                        array_push($print, $temp);
-                    }
-                    $xlsx = SimpleXLSXGen::fromArray($print);
-                    $xlsx->saveAs('./assets/temp/results.xlsx');
-                    $this->Email_model->mailTo(array($this->Result_model->getEmail()), 'Your Results', 'Here are your Results. Have fun.', './assets/temp/results.xlsx');        
-                    redirect();
-                }
-                else{
-                $this->load->library('Template');
-                $this->template->set('title', 'You dont have the rights to accses this survey');
-                $this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
-                }
-            }
-            else{
-                $this->load->library('Template');
-                $this->template->set('title', 'This survey does not exist');
-                $this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
-            }
-                
-                
+            
+        $this->generateResultsXLSX($randomId)->saveAs('./assets/temp/results.xlsx');
+         $this->Email_model->mailTo(array($this->Result_model->getEmail()), 'Your Results', 'Here are your Results. Have fun.'.base_url('/assets/temp/results.xlsx'),  './assets/temp/results.xlsx');        
+        redirect();            
     }
 
-    public function test(){
-        $this->Email_model->mailTo(array("admin@flo-server.de"),"Hallo Flo","hallo florian");
+    public function results($randomId){
+        $surveyTemp = $this->Survey_model->checkRandomId($randomId);//name, description, id FROM surveyTemp
+        if($surveyTemp){
+            $viewData = array();
+            $questions = $this->Survey_model->getQuestions($surveyTemp['id']);//number, data, type, id FROM surveyTempData
+            $result = array();
+            foreach($questions as $question){
+                $questionTemp = array();
+                $questionTemp['name'] = $question['data'];
+                $questionTemp['dataset'] = $this->Result_model->getDataset($question['id'], 1);
+                array_push($result, $questionTemp);
+            }
+            $viewData['result'] = $result;
+            $this->load->library('Template');
+            $this->template->set('title', $surveyTemp['name'].' - Results');
+            $this->template->load('templates/homepageTemplate','result/resultView', $viewData);
+        }
+        else{
+            $this->load->library('Template');
+            $this->template->set('title', 'This survey does not exist');
+            $this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
+        }
+        
     }
+
+       
 }
