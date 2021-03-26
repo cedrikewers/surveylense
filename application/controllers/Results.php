@@ -103,11 +103,28 @@ class Results extends CI_Controller {
             $viewData = array();
             $questions = $this->Survey_model->getQuestions($surveyTemp['id']);//number, data, type, id FROM surveyTempData
             $result = array();
+            $i = 1;
             foreach($questions as $question){
                 $questionTemp = array();
                 $questionTemp['name'] = $question['data'];
-                $questionTemp['dataset'] = $this->Result_model->getDataset($question['id'], 1);
+                $questionTemp['type'] = $question['type'];
+                $questionTemp['dataset'] = $this->Result_model->getDataset($question['id'], $question['type']);//data, count FROM surveyAwnsers
+
+                $answers = $this->Survey_model->getAnswers($surveyTemp['id']);
+                $posibleAnswers = array();
+                foreach($answers as $row){
+                    $posibleAnswers[$row['dataNumber']."_".$row['number']] = $row['data'];
+                }
+                for($u = 0; $u < count($questionTemp['dataset']); $u++){
+                    if(array_key_exists($questionTemp['dataset'][$u]['data'], $posibleAnswers)){
+                        $questionTemp['dataset'][$u]['data'] = $posibleAnswers[$questionTemp['dataset'][$u]['data']];
+                    }
+                }
                 array_push($result, $questionTemp);
+                if($i > 2){
+                    break;
+                }
+                $i++;
             }
             $viewData['result'] = $result;
             $this->load->library('Template');

@@ -44,11 +44,24 @@ class Result_model extends CI_Model {
 
     public function getDataset($surveyTempDataId ,$type){
         switch($type){
+            case 0:
             case 1: 
+            case 2:
                 $query = $this->db->query('SELECT data, COUNT(data) AS count FROM surveyAnswers WHERE surveyTempDataId = '.$surveyTempDataId.' GROUP BY data ORDER BY count DESC');
                 return $query->result_array();
+            case 3:
+            
         }
     }
+
+    // public function getAnswers($surveyTempDataId){
+    //     $query = $this->db->query('SELECT surveyTempData.number AS questionNumber, surveyTempDataAnswers.number AS answerNumber, surveyTempDataAnswers.data FROM surveyTempData JOIN surveyTempDataAnswers ON surveyTempData.id = surveyTempDataAnswers.surveyTempDataId WHERE surveyTempDataAnswers.surveyTempDataId = '.$surveyTempDataId);
+    //     $result = array();
+    //     foreach($query->result_array() as $answer){
+    //         $result[$answer['questionNumber'].'_'.$answer['answerNumber']] = $answer['data'];
+    //     }
+    //     return $result;
+    // }
 
     
 }
