@@ -11,6 +11,13 @@ class Login_model extends CI_Model {
     }
     public function check_username($data){
         $this->db->where('username', $data['username']);
+        $this->db->or_where('email', $data['email']);
+        $result = $this->db->get('users')->row();
+        return $result;
+    }
+
+    public function check_email($data){
+        $this->db->where('email', $data['email']);
         $result = $this->db->get('users')->row();
         return $result;
     }
@@ -31,6 +38,15 @@ class Login_model extends CI_Model {
         return $result->row();
     }
 
+    public function getUserEmail($data){
+        $this->db->select('id');
+        $this->db->select('email');
+        $this->db->select('username');
+        $this->db->where('email', $data);
+        $result = $this->db->get('users');
+        return $result->row();
+    }
+
     public function randomIdExists($randomId){
         $this->db->select('randomID');
         $this->db->where('randomID', $randomId);
@@ -40,21 +56,35 @@ class Login_model extends CI_Model {
 
     public function verify($data){
         $this->db->set('randomId',$data['randomID']);
-        $this->db->set('userId', $data['userID']);
+        $this->db->set('userID', $data['userID']);
+        $this->db->set('type', $data['type']);
         $this->db->insert('usersVerify');
         return $this->db->insert_id();
     }
 
     public function verifyUser($randomId){
         $this->db->select('UserID');
+        $this->db->select('type');
         $this->db->where('randomID', $randomId);
         $result = $this->db->get('usersVerify');
         return $result->row();
     }
 
+    public function verifySetDisabled($randomId){
+        $this->db->where('randomID', $randomId);
+        $this->db->set('type', 0);
+        $this->db->update('usersVerify');
+    }
+
     public function activateUser($data){
         $this->db->where('id', $data);
         $this->db->set('active', 1);
+        $this->db->update('users');
+    }
+
+    public function resetPassword($data){
+        $this->db->where('id', $data['id']);
+        $this->db->set('password', md5($data['password']));
         $this->db->update('users');
     }
 }
