@@ -42,7 +42,7 @@
                 }
             }
             echo '<h1>'.$question['name'].'</h1>';
-            echo '<div class="row"><div class="col-lg-7">';
+            echo '<div class="row"><div class="col-xl-7">';
             echo '<canvas id="'.$i.'" width="200" height="100"></canvas>
             <script>
             var ctx = document.getElementById("'.$i.'");
@@ -75,7 +75,7 @@
             </script>';
             echo '</div>';            
             echo '<div class="col-5">
-                    <table class="table">
+                    <table class="table d-none d-md-block">
                         <thead>
                             <th scope="col">&empty;</th>';
                         foreach($question['dataset'] as $answer){
