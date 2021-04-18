@@ -1,5 +1,5 @@
 <script src="<?php echo base_url('assets/js/chart.min.js')?>"></script>
-<div style="margin: 10%">
+<div style="padding: 8%">
     <?php 
         $i = 1;
         $colors = array(
@@ -10,18 +10,24 @@
             array("rgba(153, 102, 255, 0.2)", "rgba(153, 102, 255, 1)"),
             array("rgba(255, 159, 64, 0.2)", "rgba(255, 159, 64, 1)") 
         );
+        echo '<h1 style="margin-bottom: 3%" class="d-none d-sm-block">'.$title.'</h1>
+            <h3 class="d-sm-none" style="margin-bottom: 3%">'.$title.'</h3>';
         foreach($result as $question){
             $labels = "";
             $values = "";
             $sum = 0;
             $entryCount = 0;
             $generatedColors = array("","");
-            $colorCount = 0;// $colorCount = random_int(0, 5);
+            $colorCount = 0;
+            // $colorCount = random_int(0, 5);
 
             switch($question['type']){
                 case 0:
                 case 1:
                     foreach($question['dataset'] as $answer){
+
+                        $entryCount += $answer['count'];
+
                         if($labels == ""){
                             $labels .= '"'.$answer['data'].'"';
                             $generatedColors[0] .= '"'.$colors[$colorCount][0].'"';
@@ -43,8 +49,9 @@
                             $colorCount = 0;
                         }
                     }
-                    echo '<h1>'.$question['name'].'</h1>';
-                    echo '<div class="row"><div class="col-xl-7">';
+                    echo '<h2 class="d-none d-sm-block">'.$question['name'].'</h2>
+                        <h4 class="d-sm-none">'.$question['name'].'</h2>';
+                    echo '<div class="row" style="margin-bottom: 50px"><div class="col-xl-7">';
                     echo '<canvas id="'.$i.'" width="200" height="100"></canvas>
                     <script>
                     var ctx = document.getElementById("'.$i.'");
@@ -75,8 +82,54 @@
                         }
                     });
                     </script>
-                    </div>
                     </div>';
+                    echo '
+                        <div class="col-xl-5 d-none d-md-block">
+                        <div class="row">
+                        <div class="col-xl-12 col-md-6">
+                            <table class="table" style="margin-top: 5px;">
+                                <thead>
+                                    <tr>';
+                                        foreach($question['dataset'] as $answer){
+                                            echo '<th scope="col">'.$answer['data'].'</th>';
+                                        }              
+                    echo '         </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>';
+                                        foreach($question['dataset'] as $answer){
+                                            echo '<td>'.round(floatval($answer['count']*100/$entryCount), 2).'%</td>';
+                                        }
+                    echo'           </tr>
+                                </tbody>
+                            </table>
+                            </div>';
+                    if(isset($question['othersData'])){
+                    echo '  <div class="col-xl-12 col-md-6">
+                            <p>Top custom answers: </p>
+                            <table class="table d-none d-md-block">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Answer</th>
+                                        <th scope="col">#</th>
+                                    </tr>
+                                </thead>
+                                <tbody>';
+                                        $k = 0; 
+                                        foreach($question['othersData'] as $data => $count){
+                                            if($k > 2){break;}
+                                            echo '<tr><td>'.$data.'</td>';
+                                            echo '<td>'.$count.'</td></tr>';
+                                            $k++;
+                                        }
+                    echo'          
+                                </tbody>
+                            </table>
+                            </div>';}
+                    echo'</div class="col-xl-5">
+                    </div>
+                    </div>
+                    ';
                     $i++;
                 break;
                 case 2:     
@@ -106,8 +159,9 @@
                             $colorCount = 0;
                         }
                     }
-                    echo '<h1>'.$question['name'].'</h1>';
-                    echo '<div class="row"><div class="col-xl-7">';
+                    echo '<h2 class="d-none d-sm-block">'.$question['name'].'</h2>
+                         <h4 class="d-sm-none">'.$question['name'].'</h2>';
+                    echo '<div class="row" style="margin-bottom: 50px"><div class="col-xl-7">';
                     echo '<canvas id="'.$i.'" width="200" height="100"></canvas>
                     <script>
                     var ctx = document.getElementById("'.$i.'");
@@ -122,20 +176,7 @@
                                 borderColor: ['.$generatedColors[1].'],
                                 borderWidth: 1
                             }]
-                        },
-                        // options: {
-                        //     legend: {
-                        //         display: false,
-                        //     },
-                        //     scales: {
-                        //         xAxes: [{
-                        //             ticks: {
-                        //                 beginAtZero: true,
-                        //                 stepSize: 1
-                        //             }
-                        //         }]
-                        //     }
-                        // }
+                        }
                     });
                     </script>';
                     echo '</div>';            
@@ -155,11 +196,12 @@
                     $i++;
                 break;
             case 3:
-                echo '<h1>'.$question['name'].'</h1>
-                        <p>Die fünf meist gewählten Antworten: <p>
+                echo '<h2 class="d-none d-sm-block">'.$question['name'].'</h2>
+                      <h4 class="d-sm-none">'.$question['name'].'</h2>
+                        <p>The five most popular answers: <p>
                 ';
-                echo '<div class="col-5">
-                            <table class="table d-none d-md-block">
+                echo '<div style="margin-bottom: 50px; max-width: 500px">
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Antwort</th>
@@ -181,5 +223,7 @@
             break;
             }
         }
+        echo '<p> You can download the plain results as an Excel sheet by clicking the button. Please be aware that some programms such as <i>Libre Office</i> are unable to open this document. 
+            However, the offical <i>Microsoft Excel</i> and the <i>Google Sheets</i> Web-App do work.</p><a href="'.site_url('/results/download/'.$randomId).'" class="btn btn-light"><i class="fas fa-download"></i> Download</a>';
     ?>
 </div>

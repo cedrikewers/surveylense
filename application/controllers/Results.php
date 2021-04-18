@@ -116,6 +116,7 @@ class Results extends CI_Controller {
                 }
                 if($question['type'] < 2){
 
+                    $othersData = array();
                     $others = 0;
                     $limit = count($questionTemp['dataset']);
                     $j = 0;
@@ -126,6 +127,7 @@ class Results extends CI_Controller {
                                 $questionTemp['dataset'][$j]['data'] = $posibleAnswers[$questionTemp['dataset'][$j]['data']];
                             }
                             else{
+                                $othersData[$questionTemp['dataset'][$j]['data']] =  $questionTemp['dataset'][$j]['count'];
                                 $others += $questionTemp['dataset'][$j]['count'];
                                 unset($questionTemp['dataset'][$j]);
                                 $limit++;
@@ -133,26 +135,17 @@ class Results extends CI_Controller {
                         }
                         $j++;
                     }
-                
-                    // $u = 0;
-                    // foreach($questionTemp['dataset'] as $dataset){
-                    //     if(array_key_exists($dataset['data'], $posibleAnswers)){
-                    //         $questionTemp['dataset'][$u]['data'] = $posibleAnswers[$questionTemp['dataset'][$u]['data']];
-                    //         $u++;
-                    //     }
-                    //     else{
-                    //         $others += $questionTemp['dataset'][$u]['count'];
-                    //         unset($questionTemp['dataset'][$u]);
-                    //     }
-                    // }
-                
                     if($others > 0){
                         array_push($questionTemp['dataset'], array('data' => 'Others', 'count' => $others));
+                        arsort($othersData);
+                        $questionTemp['othersData'] = $othersData;
                     }   
                 }
                 array_push($result, $questionTemp);
             }
             $viewData['result'] = $result;
+            $viewData['title'] = $surveyTemp['name'];
+            $viewData['randomId'] = $randomId;
             $this->load->library('Template');
             $this->template->set('title', $surveyTemp['name'].' - Results');
             $this->template->load('templates/homepageTemplate','result/resultView', $viewData);
