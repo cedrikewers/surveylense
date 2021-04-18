@@ -60,7 +60,7 @@
                         data: {
                             labels: ['.$labels.'],
                             datasets: [{
-                                label: "hello World",
+                                label: "#",
                                 data: ['.$values.'],
                                 backgroundColor: ['.$generatedColors[0].'],
                                 borderColor: ['.$generatedColors[1].'],
@@ -170,7 +170,7 @@
                         data: {
                             labels: ['.$labels.'],
                             datasets: [{
-                                label: "hello World",
+                                label: "#",
                                 data: ['.$values.'],
                                 backgroundColor: ['.$generatedColors[0].'],
                                 borderColor: ['.$generatedColors[1].'],
