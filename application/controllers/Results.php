@@ -91,9 +91,10 @@ class Results extends CI_Controller {
     }
 
     public function mail($randomId){
-            
-        $this->generateResultsXLSX($randomId)->saveAs('./assets/temp/results.xlsx');
-        $this->Email_model->mailTo(array($this->Result_model->getEmail()), 'Your Results', 'Here are your Results. Have fun.'.base_url('/assets/temp/results.xlsx'),  './assets/temp/results.xlsx');        
+        $title = $this->Survey_model->checkRandomId($randomId)['name'];
+        $this->generateResultsXLSX($randomId)->saveAs('./assets/temp/'.$title.'_Results.xlsx');
+        $this->Email_model->mailTo(array($this->Result_model->getEmail()), 'Your Results', 'Here are your Results. Have fun.',  './assets/temp/'.$title.'_Results.xlsx');
+        unlink('./assets/temp/'.$title.'_Results.xlsx');        
         redirect();            
     }
 

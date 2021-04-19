@@ -10,7 +10,7 @@ class Email_model extends CI_Model {
         $config['smtp_host'] = "ssl://smtp.ionos.de";
         $config['smtp_port'] = "465";
         $config['smtp_user'] = "noreply@surveylense.de";
-        $config['smtp_pass'] = "MPG_Pr0jekt2021";
+        $config['smtp_pass'] = "ifq1-Projekt-2021";
         $config['charset'] = "utf-8";
         $config['mailtype'] = "html";
         $config['newline'] = "\r\n";
