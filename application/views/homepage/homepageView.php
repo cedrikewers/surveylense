@@ -41,6 +41,20 @@
     </div>
 </section>
 
+<section class="bg-light text-left">
+    <div class="container">
+        <h1 class="text-center pb-3">Recently created Surveys</h1>
+        <div class="card bg-dark border-light">
+            <ul class="list-group list-group-flush">
+            <?php
+                foreach ($content as $data_item){
+                    echo '<a href="/s/'.$data_item['randomId'].'" class="text-reset"><li class="list-group-item"><div class="row"><div class="col-lg-3 font-weight-bold">'.$data_item['name'].'</div><div class="col-lg-9">'.$data_item['description'].'</div></div></li></a>';
+                }
+            ?>
+            </ul>
+        </div>
+    </div>
+</section>
 <!-- Detailed feature explanation -->
 <section class="information bg-light text-center">
     <div class="container p-0">

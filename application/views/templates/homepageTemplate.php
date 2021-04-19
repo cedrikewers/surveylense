@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-lg-12 my-auto h-100 text-center">
                     <ul class="list-inline mb-2">
-                        <li class="list-inline-item"><a href="/imprint">About</a></li>
+                        <li class="list-inline-item"><a href="/imprint">Legal details</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
                         <li class="list-inline-item"><a href="/imprint">Contact</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>

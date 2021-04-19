@@ -3,31 +3,30 @@
 <link rel="stylesheet" href="<?php echo base_url('assets/css/Highlight-Blue.css');?>">
 
 <div class="highlight-blue">
-        <div class="container" style="height: 165px;">
-            <div class="intro">
-                <h2 class="text-center">Manage your Profile<br></h2>
-                <p class="text-center"><br>If you change your username or password you will be logged out<br><br></p>
-            </div>
+    <div class="container">
+        <div class="intro">
+            <h2 class="text-center">Update your Profile<br></h2>
         </div>
         <div class="buttons">
-        <form action="<?php echo(site_url('userarea/profile'))?>" method="post" id="createSurvey" style="margin: 0 24px;">
-            <label>Email:</label>
-            <input class="form-control" name="email" type="email" style="min-width: 243px;max-width: 70%;margin: 5px;" value="<?php echo $this->session->flashdata('email');?>">
-            <br>
-            <label>Username:</label>
-            <input class="form-control" name="username" type="text" style="min-width: 243px;max-width: 70%;margin: 5px;" value="<?php echo $this->session->userdata('username');?>">
-            <br>
-            <label>Password:</label>
-            <input class="form-control" name="oldPassword" type="password" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="old password">
-            <br>
-            <input class="form-control" name="newPassword" type="password" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="new password">
-            <input class="form-control" name="newPasswordRetype" type="password" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="retype new password">
-            <button class="btn btn-primary" type="submit" style="background: var(--purple);font-size: 19px; margin-top: 20px;">Update</button>
-        </form>
+            <form class="text-left" action="<?php echo(site_url('userarea/profile'))?>" method="post" id="createSurvey" style="margin: 0 24px;">
+                <label>Email:</label>
+                <input class="form-control" name="email" type="email" style="min-width: 243px;max-width: 70%;margin: 5px;" value="<?php echo $this->session->flashdata('email');?>">
+                <br>
+                <label>Username:</label>
+                <input class="form-control" name="username" type="text" style="min-width: 243px;max-width: 70%;margin: 5px;" value="<?php echo $this->session->userdata('username');?>">
+                <br>
+                <label>Password:</label>
+                <input class="form-control" name="oldPassword" type="password" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="old password">
+                <br>
+                <input class="form-control" name="newPassword" type="password" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="new password">
+                <input class="form-control" name="newPasswordRetype" type="password" style="min-width: 243px;max-width: 70%;margin: 5px;" placeholder="retype new password">
+                <button class="btn btn-primary" type="submit" style="background: var(--purple);font-size: 19px; margin-top: 20px;">Update</button>
+            </form>
         </div>
-        <?php
-            echo '<div class="text-danger text-center">';
-            echo $this->session->flashdata('userProfileMessage');
-            echo '</div>';
-        ?>
     </div>
+    <?php
+        echo '<div class="text-danger text-center">';
+        echo $this->session->flashdata('userProfileMessage');
+        echo '</div>';
+    ?>
+</div>

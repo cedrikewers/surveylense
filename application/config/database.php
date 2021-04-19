@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn'    => '', 
-    'hostname' => 'localhost:3306',
-    'username' => 'cedrikewers',
-    'password' => '0M13bx_d',
+    'hostname' => apache_getenv("DB_HOSTNAME").':3306',
+    'username' => apache_getenv("DB_USER"),
+    'password' => apache_getenv("DB_PASSWD"),
     'database' => 'surveylensedb',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',

@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://surveylense.de';
+$config['base_url'] = apache_getenv("APP_HOSTNAME");
 
 /*
 |--------------------------------------------------------------------------
