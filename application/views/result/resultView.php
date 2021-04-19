@@ -226,4 +226,17 @@
         echo '<p> You can download the plain results as an Excel sheet by clicking the button. Please be aware that some programms such as <i>Libre Office</i> are unable to open this document. 
             However, the offical <i>Microsoft Excel</i> and the <i>Google Sheets</i> Web-App do work.</p><a href="'.site_url('/results/download/'.$randomId).'" class="btn btn-light"><i class="fas fa-download"></i> Download</a>';
     ?>
+    <p style="margin-top: 30px;">You can mail this sheet to any email address or the one you signed up with<p>
+    <form id="mail" action="<?php echo site_url('/results/mail/'.$randomId)?>" method="post">
+        <input class="form-control" placeholder="Send this to..." type="email" style="max-width: 400px" name="email"><br>
+        <div class="form-check" style="margin-left: 5px; margin-top: -10px;" ><input id="self" class="form-check-input" type="checkbox" value="self" name="self"><label class="form-check-label" for="self" style="color: var(--gray-dark);">Send to myself</label></div>
+        <button class="btn btn-secondary" type="submit" style="margin-top: 10px; margin-bottom: 5px;" >Send</button>
+        <p 
+        <?php if(isset($_SESSION['result'])){
+            if(strpos($_SESSION['result'], 'E') !== 0){
+                echo 'style="color: red;"';
+            }
+            echo '>'.$_SESSION['result'];
+        }?></p>
+    </form>
 </div>

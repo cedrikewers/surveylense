@@ -91,11 +91,22 @@ class Results extends CI_Controller {
     }
 
     public function mail($randomId){
-        $title = $this->Survey_model->checkRandomId($randomId)['name'];
-        $this->generateResultsXLSX($randomId)->saveAs('./assets/temp/'.$title.'_Results.xlsx');
-        $this->Email_model->mailTo(array($this->Result_model->getEmail()), 'Your Results', 'Here are your Results. Have fun.',  './assets/temp/'.$title.'_Results.xlsx');
-        unlink('./assets/temp/'.$title.'_Results.xlsx');        
-        redirect();            
+        $this->session->set_flashdata('result', 'Please choose at least one option.');
+        if(isset($_POST)){
+            $title = $this->Survey_model->checkRandomId($randomId)['name'];
+            $this->generateResultsXLSX($randomId)->saveAs('./assets/temp/'.$title.'_Results.xlsx');
+            if($_POST['email'] != null){
+                $this->Email_model->mailTo(array($_POST['email']), 'Your Results', 'Here are your Results. Have fun.',  './assets/temp/'.$title.'_Results.xlsx');
+                $this->session->set_flashdata('result', 'Email(s) have been send.');
+            }
+            if($_POST['self'] == 'self'){
+                $this->Email_model->mailTo(array($this->Result_model->getEmail()), 'Your Results', 'Here are your Results. Have fun.',  './assets/temp/'.$title.'_Results.xlsx');
+                $this->session->set_flashdata('result', 'Email(s) have been send.');
+            } 
+            unlink('./assets/temp/'.$title.'_Results.xlsx'); 
+        }       
+        redirect('/results/results/'.$randomId.'#mail');
+        
     }
 
     public function results($randomId){
