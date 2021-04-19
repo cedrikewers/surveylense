@@ -7,17 +7,17 @@ class Email_model extends CI_Model {
     {
         $this->load->library('email');
         $config['protocol'] = "smtp";
-        $config['smtp_host'] = "ssl://".apache_getenv("MAIL_HOSTNAME");
+        $config['smtp_host'] = "ssl://".$GLOBALS['MAIL_HOSTNAME'];
         $config['smtp_port'] = "465";
-        $config['smtp_user'] = apache_getenv("MAIL_ADDRESS");
-        $config['smtp_pass'] = apache_getenv("MAIL_PASSWD");
+        $config['smtp_user'] = $GLOBALS['MAIL_ADDRESS'];
+        $config['smtp_pass'] = $GLOBALS['MAIL_PASSWD'];
         $config['charset'] = "utf-8";
         $config['mailtype'] = "html";
         $config['newline'] = "\r\n";
 
         $this->email->initialize($config);
 
-        $this->email->from(apache_getenv("MAIL_ADDRESS"), 'Surveylense');
+        $this->email->from($GLOBALS['MAIL_ADDRESS'], 'Surveylense');
         $this->email->to($to);
         $this->email->subject($title);
         $this->email->message($content);

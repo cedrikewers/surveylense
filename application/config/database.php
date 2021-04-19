@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn'    => '', 
-    'hostname' => apache_getenv("DB_HOSTNAME").':3306',
-    'username' => apache_getenv("DB_USER"),
-    'password' => apache_getenv("DB_PASSWD"),
+    'hostname' => $GLOBALS['DB_HOSTNAME'].':3306',
+    'username' => $GLOBALS['DB_USER'],
+    'password' => $GLOBALS['DB_PASSWD'],
     'database' => 'surveylensedb',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
