@@ -8,7 +8,7 @@ class Results extends CI_Controller {
         $this->load->model('Result_model');
         $this->load->model('Survey_model');
         $this->load->model('Email_model');
-        }
+    }
 
 	public function index()
 	{

@@ -1,3 +1,4 @@
+
 <!-- Banner with option to create a new servey -->
 <header class="homepageBanner text-white text-center" style="background:url('assets/pictures/bg-homepage.jpg') no-repeat center center; background-size:cover;">
     <div class="overlay"></div>
@@ -20,6 +21,8 @@
 </header>
 
 <!-- Short feature explanation -->
+<div class="row bg-light m-0" style="max-width: 100%;" >
+<div class="col-9">
 <section class="features-icons bg-light text-center">
     <div class="container">
         <div class="row">
@@ -67,3 +70,31 @@
         </div>
     </div>
 </section>
+</div>
+
+<!-- Sidebar with public Surveys-->
+<div class="col-lg-3 bg-light" style="margin-top: 20px;" >
+    <?php 
+        foreach($publicSurveys as $survey){
+            $shortDesc = substr($survey['description'], 0, 60);
+            if(strlen($survey['description']) > 60){
+                $shortDesc .= '<span style="cursor:pointer;">...</span>';
+            }
+            echo '<div class="card" style="padding: 3%;">
+                    <div class="card-body">
+                        <h4 class="card-title"><a href="'.site_url('s/'.$survey['randomId']).'" style="text-decoration: none; color:black;">'.$survey['name'].'</a></h4>
+                        <h6 class="text-muted card-subtitle mb-2">Created: '.substr($survey['timestamp'], 0, 9).', '.$survey['count'].' answers</h6>
+                        <p class="card-text shortDesc" onclick="toggleDesc($(this))">'.$shortDesc.'</p><p class="card-text longDesc d-none">'.$survey['description'].'</p><a class="card-link" href="'.site_url('s/'.$survey['randomId']).'">Complete it</a>
+                    </div>
+                </div>';
+        }
+    ?>
+</div>
+</div>
+
+<script>
+    function toggleDesc(pThis){
+        $(pThis).toggleClass("d-none");
+        $(pThis).next().toggleClass("d-none");
+    }
+</script>
