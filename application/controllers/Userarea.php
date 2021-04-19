@@ -31,6 +31,7 @@ class Userarea extends CI_Controller {
     public function profile(){
         $result = $this->User_model->getUserData($_SESSION['id_user']);
         if($_POST){
+            # username and email changed
             if($_POST['username'] != $result->username && $_POST['email'] != $result->email){
                 $emaildata = array(
                     'id_user' => $_SESSION['id_user'],
@@ -46,17 +47,19 @@ class Userarea extends CI_Controller {
                     $this->User_model->update_username($data);
                     $result = $this->User_model->getUserData($_SESSION['id_user']);
                     $userdata = array(
-                        'id_user' => $result->id,
-                        'username' => $result->User
+                        'id_user' => $_SESSION['id_user'],
+                        'username' => $result->username
 
                         );
 
-                        $this->session->set_userdata($userdata);
+                    $this->session->set_userdata($userdata);
+                    $this->session->set_flashdata('userProfileMessage', 'Email and Username changed');
                 }
                 else{
                     $this->session->set_flashdata('userProfileMessage', 'Username is not available');
                 }
             }
+            # username changed
             elseif($_POST['username'] != $result->username){
                 $username = $this->User_model->check_username($_POST['username']);
                 if(empty($username)){
@@ -67,18 +70,19 @@ class Userarea extends CI_Controller {
                     $this->User_model->update_username($data);
                     $result = $this->User_model->getUserData($_SESSION['id_user']);
                     $userdata = array(
-                        'id_user' => $result->id,
-                        'username' => $result->User
+                        'id_user' => $_SESSION['id_user'],
+                        'username' => $result->username
 
                         );
 
-                        $this->session->set_userdata($userdata);
+                    $this->session->set_userdata($userdata);
+                    $this->session->set_flashdata('userProfileMessage', 'Username changed');
                 }
                 else{
                     $this->session->set_flashdata('userProfileMessage', 'Username is not available');
                 }
             }
-
+            # password changed
             elseif($_POST['oldPassword'] != null && $_POST['newPassword'] != null && $_POST['newPasswordRetype'] != null){
                 $oldpassword = $this->User_model->check_password($_SESSION['id_user']);
                 if($oldpassword->password == md5($_POST['oldPassword'])){
@@ -99,12 +103,14 @@ class Userarea extends CI_Controller {
                 }
             }
 
+            # email changed
             elseif($_POST['email'] != $result->email){
                 $data = array(
                     'id_user' => $_SESSION['id_user'],
                     'email' => $_POST['email']
                     );
                 $this->User_model->update_email($data);
+                $this->session->set_flashdata('userProfileMessage', 'Email changed');
                 redirect('/userarea/profile');
             }
             else{
