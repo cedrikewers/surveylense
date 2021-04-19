@@ -34,4 +34,4 @@ application/ci_sessions/*
 assets/temp/*
 application/config/*
 application/config/*
-.htaccess
+/application/config/passwords.php

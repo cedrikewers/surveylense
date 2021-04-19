@@ -1,4 +1,6 @@
 <?php
+#Include File for used credentials (required for full use of the webapp)
+include_once './application/config/passwords.php';
 /**
  * CodeIgniter
  *
