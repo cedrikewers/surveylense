@@ -18,9 +18,8 @@ class Survey_Model extends CI_Model {
     }
 
     public function getQuestions($id){
-        $this->db->select('number, data, type');
+        $this->db->select('number, data, type, id');
         $this->db->where('surveyTempId', $id);
-        // $this->db->join('surveyTemp', 'surveyTempData.surveyTempId = surveyTemp.id');
         $query = $this->db->get('surveyTempData');
         return $query->result_array();
     }
