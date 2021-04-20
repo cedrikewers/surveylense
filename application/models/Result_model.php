@@ -49,7 +49,11 @@ class Result_model extends CI_Model {
             case 2:
                 $query = $this->db->query('SELECT data, COUNT(data) AS count FROM surveyAnswers WHERE surveyTempDataId = '.$surveyTempDataId.' GROUP BY data ORDER BY count DESC');
                 return $query->result_array();
+                break;
             case 3:
+                $query = $this->db->query('SELECT data, COUNT(data) AS count FROM surveyAnswers WHERE surveyTempDataId = '.$surveyTempDataId.' GROUP BY data ORDER BY count DESC LIMIT 5');
+                return $query->result_array();
+                break;
             
         }
     }

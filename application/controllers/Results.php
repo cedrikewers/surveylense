@@ -8,7 +8,7 @@ class Results extends CI_Controller {
         $this->load->model('Result_model');
         $this->load->model('Survey_model');
         $this->load->model('Email_model');
-        }
+    }
 
 	public function index()
 	{
@@ -91,10 +91,22 @@ class Results extends CI_Controller {
     }
 
     public function mail($randomId){
-            
-        $this->generateResultsXLSX($randomId)->saveAs('./assets/temp/results.xlsx');
-         $this->Email_model->mailTo(array($this->Result_model->getEmail()), 'Your Results', 'Here are your Results. Have fun.'.base_url('/assets/temp/results.xlsx'),  './assets/temp/results.xlsx');        
-        redirect();            
+        $this->session->set_flashdata('result', 'Please choose at least one option.');
+        if(isset($_POST)){
+            $title = $this->Survey_model->checkRandomId($randomId)['name'];
+            $this->generateResultsXLSX($randomId)->saveAs('./assets/temp/'.$title.'_Results.xlsx');
+            if($_POST['email'] != null){
+                $this->Email_model->mailTo(array($_POST['email']), 'Your Results', 'Here are your Results. Have fun.',  './assets/temp/'.$title.'_Results.xlsx');
+                $this->session->set_flashdata('result', 'Email(s) have been send.');
+            }
+            if($_POST['self'] == 'self'){
+                $this->Email_model->mailTo(array($this->Result_model->getEmail()), 'Your Results', 'Here are your Results. Have fun.',  './assets/temp/'.$title.'_Results.xlsx');
+                $this->session->set_flashdata('result', 'Email(s) have been send.');
+            } 
+            unlink('./assets/temp/'.$title.'_Results.xlsx'); 
+        }       
+        redirect('/results/results/'.$randomId.'#mail');
+        
     }
 
     public function results($randomId){
@@ -103,7 +115,6 @@ class Results extends CI_Controller {
             $viewData = array();
             $questions = $this->Survey_model->getQuestions($surveyTemp['id']);//number, data, type, id FROM surveyTempData
             $result = array();
-            $i = 1;
             foreach($questions as $question){
                 $questionTemp = array();
                 $questionTemp['name'] = $question['data'];
@@ -115,18 +126,38 @@ class Results extends CI_Controller {
                 foreach($answers as $row){
                     $posibleAnswers[$row['dataNumber']."_".$row['number']] = $row['data'];
                 }
-                for($u = 0; $u < count($questionTemp['dataset']); $u++){
-                    if(array_key_exists($questionTemp['dataset'][$u]['data'], $posibleAnswers)){
-                        $questionTemp['dataset'][$u]['data'] = $posibleAnswers[$questionTemp['dataset'][$u]['data']];
+                if($question['type'] < 2){
+
+                    $othersData = array();
+                    $others = 0;
+                    $limit = count($questionTemp['dataset']);
+                    $j = 0;
+
+                    while($j < $limit){
+                        if(isset($questionTemp['dataset'][$j])){
+                            if(array_key_exists($questionTemp['dataset'][$j]['data'], $posibleAnswers)){
+                                $questionTemp['dataset'][$j]['data'] = $posibleAnswers[$questionTemp['dataset'][$j]['data']];
+                            }
+                            else{
+                                $othersData[$questionTemp['dataset'][$j]['data']] =  $questionTemp['dataset'][$j]['count'];
+                                $others += $questionTemp['dataset'][$j]['count'];
+                                unset($questionTemp['dataset'][$j]);
+                                $limit++;
+                            }                           
+                        }
+                        $j++;
                     }
+                    if($others > 0){
+                        array_push($questionTemp['dataset'], array('data' => 'Others', 'count' => $others));
+                        arsort($othersData);
+                        $questionTemp['othersData'] = $othersData;
+                    }   
                 }
                 array_push($result, $questionTemp);
-                if($i > 2){
-                    break;
-                }
-                $i++;
             }
             $viewData['result'] = $result;
+            $viewData['title'] = $surveyTemp['name'];
+            $viewData['randomId'] = $randomId;
             $this->load->library('Template');
             $this->template->set('title', $surveyTemp['name'].' - Results');
             $this->template->load('templates/homepageTemplate','result/resultView', $viewData);
