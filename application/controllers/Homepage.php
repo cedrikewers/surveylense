@@ -2,6 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Homepage extends CI_Controller {
+    function __construct(){
+        parent::__construct();
+        $this->load->model('Homepage_model');
+    }
 
     function __construct(){
         parent::__construct(); 
@@ -11,10 +15,14 @@ class Homepage extends CI_Controller {
 
 	public function index($page = 'homepageView')
 	{
-        $viewdata['publicSurveys'] = $this->Survey_model->getRandomPublic();
-        $this->load->library('template');
-        $this->template->set('title', ucfirst(substr($page, 0, -4)));
-        $this->template->load('templates/homepageTemplate','homepage/'.$page, $viewdata);
+//         $viewdata['publicSurveys'] = $this->Survey_model->getRandomPublic();
+//         $this->load->library('template');
+//         $this->template->set('title', ucfirst(substr($page, 0, -4)));
+//         $this->template->load('templates/homepageTemplate','homepage/'.$page, $viewdata);
+            $data['content'] = $this->Homepage_model->get_last_surveys();
+            $this->load->library('template');
+            $this->template->set('title', ucfirst(substr($page, 0, -4)));
+            $this->template->load('templates/homepageTemplate','homepage/'.$page, $data);
 	}
 
     public function create(){

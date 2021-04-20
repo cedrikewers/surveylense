@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+<?php
+    $session = $this->session->userdata('id_user');
+    if(empty($session)){
+        redirect('/');
+    }
+    else{
+?>
+<!doctype html>
 <html lang="en">
     <head>
         <!-- Required meta tags -->
@@ -16,7 +23,7 @@
         <script src="<?php echo base_url('assets/js/jquery-3.5.1.min.js');?>"></script>
         <script src="<?php echo base_url('assets/js/bootstrap.min.js');?>"></script>
         <script src="<?php echo base_url('assets/js/fontawesome.min.js');?>"></script>
-        <script data-ad-client="ca-pub-9472418723711778" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script data-ad-client="ca-pub-9035096517255870" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <title><?php echo $title; ?></title>
     </head>
 
@@ -25,28 +32,25 @@
         <nav class="navbar navbar-light navbar-expand bg-white shadow navigation-clean">
             <div class="container">
                 <a class="navbar-brand" href="/">Surveylense</a>
-                <?php
-                    $session = $this->session->userdata('id_user');
-                    if(empty($session)){
-                        echo('<div class="collapse navbar-collapse" id="navcol-1"><a class="btn btn-primary ml-auto" role="button" href="/login">Sign In</a></div>');
-                    }
-                    else{
-                        echo('<div class="nav-item dropdown">
-                        <a class="nav-link btn btn-primary dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
-                            .$this->session->userdata('username').
-                        '</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item text-primary font-weight-bold" href="/userarea/create">Create</a>
-                            <a class="dropdown-item" href="/userarea/manage">Manage</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/userarea/profile">Profile</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="/login/logout">Logout</a>
-                        </div>
+                <div class="nav-item"><a class="nav-link" href="<?php echo site_url('create');?>">Create a survey</a></div>
+                <div class="nav-item"><a class="nav-link" href="#">Link2</a></div>
+                <div class="nav-item dropdown">
+                    <a class="nav-link btn btn-primary dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <?php 
+                        $session = $this->session->userdata('username');
+                        echo $session; 
+                    ?>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item text-primary font-weight-bold" href="/userarea/create">Create</a>
+                        <a class="dropdown-item" href="/userarea/manage">Manage</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/userarea/profile">Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" href="/login/logout">Logout</a>
                     </div>
-                        ');
-                    }
-                ?>
+                </div>
+                <!--<div class="collapse navbar-collapse" id="navcol-1"><a class="btn btn-primary ml-auto" role="button" href="/login">Sign In</a></div>-->
             </div>
         </nav>
 
@@ -65,10 +69,11 @@
                         <li class="list-inline-item"><span>⋅</span></li>
                         <li class="list-inline-item"><a href="/imprint">Terms of Use</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="/privacypolicy">Privacy Policy</a></li>
+                        <li class="list-inline-item"><a href="/imprint">Privacy Policy</a></li>
                     </ul>
             </div>
         </div>
     </footer>
     </body>
 </html>
+<?php } ?>

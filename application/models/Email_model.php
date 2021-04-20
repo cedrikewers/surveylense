@@ -7,17 +7,17 @@ class Email_model extends CI_Model {
     {
         $this->load->library('email');
         $config['protocol'] = "smtp";
-        $config['smtp_host'] = "ssl://smtp.ionos.de";
+        $config['smtp_host'] = "ssl://".$GLOBALS['MAIL_HOSTNAME'];
         $config['smtp_port'] = "465";
-        $config['smtp_user'] = "noreply@surveylense.de";
-        $config['smtp_pass'] = "ifq1-Projekt-2021";
+        $config['smtp_user'] = $GLOBALS['MAIL_ADDRESS'];
+        $config['smtp_pass'] = $GLOBALS['MAIL_PASSWD'];
         $config['charset'] = "utf-8";
         $config['mailtype'] = "html";
         $config['newline'] = "\r\n";
 
         $this->email->initialize($config);
 
-        $this->email->from('noreply@surveylense.de', 'Surveylense');
+        $this->email->from($GLOBALS['MAIL_ADDRESS'], 'Surveylense');
         $this->email->to($to);
         $this->email->subject($title);
         $this->email->message($content);
