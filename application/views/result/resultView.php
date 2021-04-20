@@ -26,7 +26,7 @@
                 case 1:
                     foreach($question['dataset'] as $answer){
 
-                        $entryCount += $answer['count'];
+                        $sum += $answer['count'];
 
                         if($labels == ""){
                             $labels .= '"'.$answer['data'].'"';
@@ -98,7 +98,7 @@
                                 <tbody>
                                     <tr>';
                                         foreach($question['dataset'] as $answer){
-                                            echo '<td>'.round(floatval($answer['count']*100/$entryCount), 2).'%</td>';
+                                            echo '<td>'.round(floatval($answer['count']*100/$question['entryCount']), 2).'%</td>';
                                         }
                     echo'           </tr>
                                 </tbody>
@@ -139,12 +139,12 @@
                     }
                     foreach($question['dataset'] as $answer){
                         if($labels == ""){
-                            $labels .= '"'.$answer['data'].', '.round(floatval($answer['count']*100/$entryCount), 2).'%"';
+                            $labels .= '"'.$answer['data'].', '.round(floatval($answer['count']*100/$sum), 2).'%"';
                             $generatedColors[0] .= '"'.$colors[$colorCount][0].'"';
                             $generatedColors[1] .= '"'.$colors[$colorCount][1].'"';
                         }
                         else{
-                            $labels .= ',"'.$answer['data'].', '.round(floatval($answer['count']*100/$entryCount), 2).'%"';
+                            $labels .= ',"'.$answer['data'].', '.round(floatval($answer['count']*100/$sum), 2).'%"';
                             $generatedColors[0] .= ',"'.$colors[$colorCount][0].'"';
                             $generatedColors[1] .= ',"'.$colors[$colorCount][1].'"';
                         }
@@ -187,7 +187,7 @@
                     echo'            </thead>
                                 <tbody>
                                     <tr>
-                                        <td>'.floatval($sum/$entryCount).'</td>';      
+                                        <td>'.round(floatval($sum/$entryCount), 2).'</td>';      
                     echo'                </tr>
                                 </tbody>
                             </table>

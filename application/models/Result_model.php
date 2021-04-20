@@ -46,27 +46,22 @@ class Result_model extends CI_Model {
         switch($type){
             case 0:
             case 1: 
-            case 2:
                 $query = $this->db->query('SELECT data, COUNT(data) AS count FROM surveyAnswers WHERE surveyTempDataId = '.$surveyTempDataId.' GROUP BY data ORDER BY count DESC');
-                return $query->result_array();
+                break;
+            case 2:
+                $query = $this->db->query('SELECT CAST(data AS INT) as data, COUNT(data) AS count FROM surveyAnswers WHERE surveyTempDataId = '.$surveyTempDataId.' GROUP BY data ORDER BY data ASC');
                 break;
             case 3:
-                $query = $this->db->query('SELECT data, COUNT(data) AS count FROM surveyAnswers WHERE surveyTempDataId = '.$surveyTempDataId.' GROUP BY data ORDER BY count DESC LIMIT 5');
-                return $query->result_array();
-                break;
-            
+                $query = $this->db->query('SELECT data, COUNT(data) AS count FROM surveyAnswers WHERE surveyTempDataId = '.$surveyTempDataId.' GROUP BY data ORDER BY count DESC LIMIT 5');  
         }
+        return $query->result_array();
+        
     }
 
-    // public function getAnswers($surveyTempDataId){
-    //     $query = $this->db->query('SELECT surveyTempData.number AS questionNumber, surveyTempDataAnswers.number AS answerNumber, surveyTempDataAnswers.data FROM surveyTempData JOIN surveyTempDataAnswers ON surveyTempData.id = surveyTempDataAnswers.surveyTempDataId WHERE surveyTempDataAnswers.surveyTempDataId = '.$surveyTempDataId);
-    //     $result = array();
-    //     foreach($query->result_array() as $answer){
-    //         $result[$answer['questionNumber'].'_'.$answer['answerNumber']] = $answer['data'];
-    //     }
-    //     return $result;
-    // }
-
+    public function getEntryCount($surveyTempId){
+        $query = $this->db->query('SELECT COUNT(*) as count FROM survey WHERE surveyTempId = '.$surveyTempId);
+        return $query->row_array()['count'];
+    }
     
 }
 

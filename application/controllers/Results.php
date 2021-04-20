@@ -58,11 +58,9 @@ class Results extends CI_Controller {
                         }
                         if(array_key_exists($aRow['data'], $posibleAnswers)){
                             $tempAnswer .= $posibleAnswers[$aRow['data']];
-                            // array_push($temp, $posibleAnswers[$aRow['data']]);
                         }
                         else{
                             $tempAnswer .= $aRow['data'];
-                            // array_push($temp, $aRow['data']);
                         }
                         $surveyTempDataId = $aRow['surveyTempDataId'];
                     }
@@ -136,7 +134,11 @@ class Results extends CI_Controller {
                     while($j < $limit){
                         if(isset($questionTemp['dataset'][$j])){
                             if(array_key_exists($questionTemp['dataset'][$j]['data'], $posibleAnswers)){
-                                $questionTemp['dataset'][$j]['data'] = $posibleAnswers[$questionTemp['dataset'][$j]['data']];
+                                $key = $posibleAnswers[$questionTemp['dataset'][$j]['data']];
+                                $questionTemp['dataset'][$j]['data'] = substr($key, 0, 10);
+                                if($questionTemp['dataset'][$j]['data'] != $key){
+                                    $questionTemp['dataset'][$j]['data'] .= '...';
+                                }
                             }
                             else{
                                 $othersData[$questionTemp['dataset'][$j]['data']] =  $questionTemp['dataset'][$j]['count'];
@@ -152,6 +154,7 @@ class Results extends CI_Controller {
                         arsort($othersData);
                         $questionTemp['othersData'] = $othersData;
                     }   
+                    $questionTemp['entryCount'] = $this->Result_model->getEntryCount($surveyTemp['id']);
                 }
                 array_push($result, $questionTemp);
             }

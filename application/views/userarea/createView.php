@@ -128,7 +128,8 @@
     }
 </script>
 
-<section class="highlight-blue">
+
+<section class="highlight-blue" style="background-color: 8BD8FF;">
         <div class="container">
             <div class="intro">
                 <h2 class="text-center">Create a new Survey</h2>
@@ -171,7 +172,7 @@
                     </div>
             </div>
         </div>
-    </section>
+</section>
             <div style="display: flex; align-items: center; width: 100%; flex-direction: column;">
                 <button id="addQuestion" class="btn btn-primary" type="button" style="font-size: x-large;width: 50px;height: 50px;margin-top: -25px; margin-left: -40%"><strong>+</strong></button><br>
                 <button class="btn btn-primary" type="submit" style="background: var(--purple);font-size: 19px;">Create survey</button>

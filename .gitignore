@@ -30,6 +30,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/tests/
 /tests/results/
 
-application/ci_sessions/*
-application/config/*
+/application/ci_sessions/*
 /application/config/passwords.php
