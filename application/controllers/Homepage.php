@@ -11,11 +11,8 @@ class Homepage extends CI_Controller {
 
 	public function index($page = 'homepageView')
 	{
-//         $viewdata['publicSurveys'] = $this->Survey_model->getRandomPublic();
-//         $this->load->library('template');
-//         $this->template->set('title', ucfirst(substr($page, 0, -4)));
-//         $this->template->load('templates/homepageTemplate','homepage/'.$page, $viewdata);
-            $data['content'] = $this->Homepage_model->get_last_surveys();
+            $viewdata['publicSurveys'] = $this->Survey_model->getRandomPublic();
+	    $viewdata['content'] = $this->Homepage_model->get_last_surveys();
             $this->load->library('template');
             $this->template->set('title', ucfirst(substr($page, 0, -4)));
             $this->template->load('templates/homepageTemplate','homepage/'.$page, $data);
