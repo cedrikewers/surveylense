@@ -3,14 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Homepage extends CI_Controller {
     function __construct(){
-        parent::__construct();
-        $this->load->model('Homepage_model');
-    }
-
-    function __construct(){
         parent::__construct(); 
         $this->load->model('Result_model');
         $this->load->model('Survey_model');
+	$this->load->model('Homepage_model');
     }
 
 	public function index($page = 'homepageView')
