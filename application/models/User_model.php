@@ -81,4 +81,24 @@ class User_Model extends CI_Model {
         return $query->result_array();
     }
 
+    public function getEditTemp($randomId){
+        $this->db->select('name, description, visibility, id');
+        $this->db->where('randomId', $randomId);
+        $result = $this->db->get('surveyTemp')->row_array();
+        $questions = $this->db->query('SELECT data, number, id, type FROM surveyTempData WHERE surveyTempId = '.$result['id']);
+        foreach($questions->result_array() as $questionTemp){
+            $question = $questionTemp;
+            $answers = $this->db->query('SELECT data, number FROM surveyTempDataAnswers WHERE surveyTempDataId = '.$question['id']);
+            foreach($answers->result_array() as $answer){
+                $question['answers'][$answer['number']] = $answer['data'];
+            }
+            $result['questions'][$question['number']] = $question;
+        }
+        // $i = 0;
+        // while(array_key_exists($i, $result['questions'])){
+        //     $result['questions'][$i] = $this->db->query('SELECT data, number FROM surveyTempDataAnswers WHERE surveyTempDataId = '.$result['questions'][$i]['id'])->result_array();   
+        // }
+        return $result;
+    }
+
 }

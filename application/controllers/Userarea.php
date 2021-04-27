@@ -209,4 +209,26 @@ class Userarea extends CI_Controller {
         $this->template->set('title', 'Manage your Surveys');
         $this->template->load('templates/homepageTemplate','userarea/manageView.php', array('surveyTemp' => $surveyTemp));
     }
+
+    public function editSurvey($randomId){
+        $this->load->model('Result_model');
+        $surveyTemp = $this->User_model->getEditTemp($randomId);
+        if($surveyTemp){
+            if($this->Result_model->checkUser($randomId) ){
+                $this->load->library('template');
+                $this->template->set('title', 'Manage your Surveys');
+                $this->template->load('templates/homepageTemplate','userarea/editView.php', array('surveyTemp' => $surveyTemp));
+            }
+            else{
+                $this->load->library('Template');
+                $this->template->set('title', 'You dont have the rights to accses this survey');
+                $this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
+            }
+        }
+        else{
+            $this->load->library('Template');
+            $this->template->set('title', 'This survey does not exist');
+            $this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
+        }
+    }
 }
