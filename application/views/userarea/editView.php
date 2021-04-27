@@ -117,7 +117,7 @@
                                     <div id="question'.$question['number'].'">
                                     <div class="form-row row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
                                         <div class="col-md-12 col-lg-8 col-xl-8"><label>Question '.$question['number'].'</label><input class="form-control" name="q'.$question['number'].'" type="text" placeholder="Question '.$question['number'].'" value="'.$question['data'].'"></div>
-                                        <div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select disabled class="custom-select type" style="margin-top: 10px;" >
+                                        <div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select disabled class="custom-select type" style="margin-top: 10px;" name="'.$question['number'].'_type">
                                                 <option>'.$select[$question['type']].'</option>
                                             </select></div>
                                     </div>
@@ -190,7 +190,7 @@
 </section>
             <div style="display: flex; align-items: center; width: 100%; flex-direction: column; margin-bottom: 64px;">
                 <button id="addQuestion" class="btn btn-primary" type="button" style="font-size: x-large;width: 50px;height: 50px;margin-top: -25px; margin-left: -40%"><strong>+</strong></button><br>
-                <button class="btn btn-primary" type="submit" style="background: var(--purple);font-size: 19px;">Create survey</button>
+                <button class="btn btn-primary" type="submit" style="background: var(--purple);font-size: 19px;">Update survey</button>
             </div>
 
         </form>

@@ -6,6 +6,7 @@ class Userarea extends CI_Controller {
     function __construct(){
         parent::__construct(); 
         $this->load->model('User_model');
+        $this->load->model('Result_model');
         $session = $this->session->userdata('id_user');
         if(empty($session)){
             redirect('/login');
@@ -142,6 +143,13 @@ class Userarea extends CI_Controller {
         $this->template->load('templates/homepageTemplate','userarea/surveyCreated');
     }
 
+    public function surveyUpdated($randomId){
+        $this->session->set_flashdata('randomId', $randomId);
+        $this->load->library('template');
+        $this->template->set('title', 'Survey created successfully');
+        $this->template->load('templates/homepageTemplate','userarea/surveyUpdated');
+    }
+
     public function storeSurveyNew(){ 
         do{
             $randomId = substr(hash("md5", random_bytes(20)), 0, 6);
@@ -214,7 +222,7 @@ class Userarea extends CI_Controller {
         $this->load->model('Result_model');
         $surveyTemp = $this->User_model->getEditTemp($randomId);
         if($surveyTemp){
-            if($this->Result_model->checkUser($randomId) ){
+            if($this->Result_model->checkUser($randomId)){
                 $this->load->library('template');
                 $this->template->set('title', 'Manage your Surveys');
                 $this->template->load('templates/homepageTemplate','userarea/editView.php', array('surveyTemp' => $surveyTemp));
@@ -230,5 +238,46 @@ class Userarea extends CI_Controller {
             $this->template->set('title', 'This survey does not exist');
             $this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
         }
+    }
+
+    public function updateSurvey()
+    {
+        if($this->Result_model->checkUser($_POST['randomId'])){
+            $id = $this->User_model->updateSurveyTemp($_POST['randomId'], $_POST['name'], $_POST['description'], $_POST['visibility']);
+            $questions = array();
+            foreach($_POST as $key => $value){
+                if(strpos($key, "q")===0){
+                    $questions[str_replace("q", "", $key)] = $value;
+                }
+            }
+            foreach($questions as $key => $value){
+                $dataId = $this->User_model->updateSurveyTempData($id, $key, $value);
+                $this->User_model->clearAnswers($dataId);
+                switch($_POST[$key."_type"]){
+                    case 0:
+                    case 1://It is a question with the "single choice" or "multible choice" answer type
+                        $i = 1;
+                        while(array_key_exists($key."_".$i, $_POST)){
+                            $this->User_model->surveyTempDataAnswers($dataId, $i, $_POST[$key."_".$i]);
+                            $i++;
+                        }
+                        if(array_key_exists($key."_others", $_POST)){
+                            $this->User_model->surveyTempDataAnswers($dataId, 0, "others");
+                        }
+                        break;
+                    case 2://It is a question with the "scale" answer type
+                        $this->User_model->surveyTempDataAnswers($dataId, $_POST[$key."_lower"], $_POST[$key."_labelLower"]);
+                        $this->User_model->surveyTempDataAnswers($dataId, $_POST[$key."_higher"], $_POST[$key."_labelHigher"]);
+                        break;
+                }
+            }
+            redirect('/userarea/surveyUpdated/'.$_POST['randomId']);
+        }
+        else{
+            $this->load->library('Template');
+            $this->template->set('title', 'You dont have the rights to accses this survey');
+            $this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
+        }
+        redirect('/userarea/surveyUpdated/'.$_POST['randomId']);
     }
 }

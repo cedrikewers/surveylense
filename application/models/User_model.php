@@ -103,7 +103,7 @@ class User_Model extends CI_Model {
     }
 
     public function updateSurveyTemp($randomId, $name, $description, $visibility){
-        $this->db->query('UPDATE surveyTemp SET name =  '.$this->db->escape($name).', description = '.$this->db->escape($description).', visibility = '.$this->db->escape($visibility).' WHERE randomId = '.$randomId);
+        $this->db->query('UPDATE surveyTemp SET name =  '.$this->db->escape($name).', description = '.$this->db->escape($description).', visibility = '.$this->db->escape($visibility).' WHERE randomId = "'.$randomId.'"');
         $this->db->select('id');
         $this->db->where('randomId', $randomId);
         return $this->db->get('surveyTemp')->row_array()['id'];
@@ -114,11 +114,13 @@ class User_Model extends CI_Model {
         $this->db->select('id');
         $this->db->where('surveyTempId', $surveyTempId);
         $this->db->where('number', $number);
-        return $this->db->get('surveyTemp')->row_array()['id'];
+        return $this->db->get('surveyTempData')->row_array()['id'];
     }
 
-    public function updateSurveyTempDataAnswers($surveyTempDataId, $number, $data){
-        $this->db->query('UPDATE surveyTempDataAnswers SET data =  '.$this->db->escape($data).' WHERE surveyTempId = '.$surveyTempDataId.' AND number = '.$number);
+    public function clearAnswers($dataId)
+    {
+        $this->db->where('surveyTempDataId', $dataId);
+        $this->db->delete('surveyTempDataAnswers');
     }
 
 }
