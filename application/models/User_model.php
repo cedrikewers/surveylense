@@ -94,11 +94,31 @@ class User_Model extends CI_Model {
             }
             $result['questions'][$question['number']] = $question;
         }
+        $result['randomId'] = $randomId;
         // $i = 0;
         // while(array_key_exists($i, $result['questions'])){
         //     $result['questions'][$i] = $this->db->query('SELECT data, number FROM surveyTempDataAnswers WHERE surveyTempDataId = '.$result['questions'][$i]['id'])->result_array();   
         // }
         return $result;
+    }
+
+    public function updateSurveyTemp($randomId, $name, $description, $visibility){
+        $this->db->query('UPDATE surveyTemp SET name =  '.$this->db->escape($name).', description = '.$this->db->escape($description).', visibility = '.$this->db->escape($visibility).' WHERE randomId = '.$randomId);
+        $this->db->select('id');
+        $this->db->where('randomId', $randomId);
+        return $this->db->get('surveyTemp')->row_array()['id'];
+    }
+
+    public function updateSurveyTempData($surveyTempId, $number, $data){
+        $this->db->query('UPDATE surveyTempData SET data =  '.$this->db->escape($data).' WHERE surveyTempId = '.$surveyTempId.' AND number = '.$number);
+        $this->db->select('id');
+        $this->db->where('surveyTempId', $surveyTempId);
+        $this->db->where('number', $number);
+        return $this->db->get('surveyTemp')->row_array()['id'];
+    }
+
+    public function updateSurveyTempDataAnswers($surveyTempDataId, $number, $data){
+        $this->db->query('UPDATE surveyTempDataAnswers SET data =  '.$this->db->escape($data).' WHERE surveyTempId = '.$surveyTempDataId.' AND number = '.$number);
     }
 
 }

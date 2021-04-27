@@ -65,3 +65,4 @@ $route['userarea/(:any)'] = 'userarea/$1';
 $route['s/(:any)'] = 'survey/loadSurvey/$1';
 $route['results/download/(:any)'] = 'results/downloadXLSX/$1' ;
 $route['edit/(:any)'] = 'userarea/editSurvey/$1';
+$route['updateSurvey'] = 'userarea/updateSurvey';
