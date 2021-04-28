@@ -85,7 +85,7 @@ class User_Model extends CI_Model {
         $this->db->select('name, description, visibility, id');
         $this->db->where('randomId', $randomId);
         $result = $this->db->get('surveyTemp')->row_array();
-        $questions = $this->db->query('SELECT data, number, id, type FROM surveyTempData WHERE surveyTempId = '.$result['id']);
+        $questions = $this->db->query('SELECT data, number, id, type FROM surveyTempData WHERE surveyTempId = '.$result['id'].' ORDER BY number');
         foreach($questions->result_array() as $questionTemp){
             $question = $questionTemp;
             $answers = $this->db->query('SELECT data, number FROM surveyTempDataAnswers WHERE surveyTempDataId = '.$question['id']);
@@ -121,6 +121,37 @@ class User_Model extends CI_Model {
     {
         $this->db->where('surveyTempDataId', $dataId);
         $this->db->delete('surveyTempDataAnswers');
+    }
+
+    public function updateQuestionOrder($order, $randomId){//i've tried manny other methods of doing this, trust me.
+        $this->db->select('id');
+        $this->db->where('randomId', $randomId);
+        $surveyTempId = $this->db->get('surveyTemp')->row_array()['id'];
+
+        $this->db->select('id, number');
+        $this->db->where('surveyTempId', $surveyTempId);
+        $questions = $this->db->get('surveyTempData')->result_array();
+
+        foreach($questions as $question){
+            reset($order);
+            for($i = 0; $i < count($order); $i++){
+                if($question['number'] == current($order)){
+                    $this->db->query('UPDATE surveyTempData SET number = '.strval(key($order)+1).' WHERE id = '.$question['id']);
+                    break;
+                }
+                next($order);
+            }
+        }
+    }
+
+    public function deleteQuestionModal($number, $randomId)
+    {
+        $this->db->select('id');
+        $this->db->where('randomId', $randomId);
+        $surveyTempId = $this->db->get('surveyTemp')->row_array()['id'];
+
+        $this->db->query('DELETE FROM surveyTempData WHERE number = '.$this->db->escape($number).' AND surveyTempId = '.$surveyTempId);
+        
     }
 
 }

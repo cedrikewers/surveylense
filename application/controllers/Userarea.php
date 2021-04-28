@@ -282,6 +282,23 @@ class Userarea extends CI_Controller {
             $this->template->set('title', 'You dont have the rights to accses this survey');
             $this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
         }
-        redirect('/userarea/surveyUpdated/'.$_POST['randomId']);
     }
+
+    public function manageQuestions()
+    {
+        if($this->Result_model->checkUser($_POST['randomId'])){
+            $this->User_model->updateQuestionOrder($_POST['order'], $_POST['randomId']);
+        }
+        
+    }
+
+    public function deleteQuestionModal()
+    {
+        if($this->Result_model->checkUser($_POST['randomId'])){
+            $this->User_model->deleteQuestionModal($_POST['number'], $_POST['randomId']);
+        }
+        
+    }
+
+
 }

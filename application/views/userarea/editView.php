@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="<?php echo base_url('assets/css/Highlight-Blue.css');?>">
 
 <script src="<?php echo base_url('assets/js/create.js');?>"></script>
+<script src="http://SortableJS.github.io/Sortable/Sortable.js"></script>
 
 <script>
     var answerCount = [];
@@ -36,7 +37,31 @@
             
         });
 
+        $('#manageQuestions').click(function(){
+            $.post(
+                '<?php echo site_url('userarea/manageQuestions')?>',
+                {
+                    order: manageQuestions.toArray(),
+                    randomId: '<?php echo $surveyTemp['randomId']; ?>'
+                },
+                location.reload()
+            )
+        });
+
+        $('.deleteQuestionModal').click(function(){
+            var number = $(this).parent().attr('data-id');
+            $.post(
+                '<?php echo site_url('userarea/deleteQuestionModal')?>',
+                {
+                    number: number,
+                    randomId: '<?php echo $surveyTemp['randomId']; ?>'
+                },
+                location.reload()
+            )
+        });
+
     });
+
 </script>
 
 
@@ -44,7 +69,7 @@
         <div class="container">
             <div class="intro">
                 <h2 class="text-center">Edit a new Survey</h2>
-                <p class="text-center">You can edit this survey by changing the questions or answers. Please notice, that this can cause problems with the results if people already answered this survey.
+                <p class="text-center">You can edit this survey by changing the questions or answers. Please notice, that this can cause problems with the results if people already answered this survey. To delete questions or change their order, click on 'Manage Questions' below.
                 </p>
             </div>
             <div class="buttons">
@@ -148,6 +173,7 @@
                             ?>
                         </span>
                     </div>
+                    <button class="btn btn-light manageQuestionModal" type="button" style="background-color: #f8f9fa; border-color: #f8f9fa;" onclick="$('#manageQuestionsModal').modal();">Manage Questions</button>
             </div>
         </div>
 </section>
@@ -157,6 +183,41 @@
             </div>
 
         </form>
+
+<!-- Modal -->
+<div class="modal fade" id="manageQuestionsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Manage Question</h5>
+        <button type="button" class="btn btn-light" aria-label="Close" onclick="$('#manageQuestionsModal').modal('hide');">X</button>
+      </div>
+      <div class="modal-body">
+        <ul id="orderQuestions" class="list-group">
+            <?php 
+            
+            foreach($surveyTemp['questions'] as $question){
+                $name = substr($question['data'], 0, 40);
+                if($name != $question['data']){
+                    $name .= '...';
+                }
+                echo '<li class="list-group-item" data-id="'.$question['number'].'" style="cursor:pointer">'.$name.'
+                <button class="btn btn-primary btn-sm align-items-md-end deleteQuestionModal" type="button" style="background: rgb(193,6,6);float: right;border-color:white;"><i class="fas fa-trash"></i></button></li>';
+            }
+            
+            ?>
+        </ul>
+        <script>var manageQuestions = Sortable.create(document.getElementById('orderQuestions'));</script>
+        <p id="test"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="manageQuestions">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 
 
