@@ -3,11 +3,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
 <link rel="stylesheet" href="<?php echo base_url('assets/css/Highlight-Blue.css');?>">
 
+<script src="<?php echo base_url('assets/js/create.js');?>"></script>
+
 <script>
     var answerCount = [];
     $(document).ready(function(e){
 
-        $(".highlight-blue").on("click", ".addAnswerOption", function(){
+        $(".highlight-blue").on("click", ".addAnswerOptionPreset", function(){
             var questionNumber = $(this).parent().attr('id').replace('question', '');
             answerCount[questionNumber-1]++; 
             $(this).parent().children(":first").next().children(":first").append(
@@ -20,7 +22,7 @@
             
         });
 
-        $(".highlight-blue").on("click", ".addOthers", function(){
+        $(".highlight-blue").on("click", ".addOthersPreset", function(){
             var questionNumber = $(this).parent().attr('id').replace('question', '');
             if($(this).parent().find(".others").length == 0){
                 $(this).parent().children(":first").next().append(
@@ -34,50 +36,7 @@
             
         });
 
-        $(".highlight-blue").on("click", ".deleteAnswerOption", function(){
-            $(this).parent().parent().remove();
-        });
-
-        $("#addQuestion").click(function(){
-            answerCount.push(1);
-            $("#questions").append('<div id="question'+answerCount.length+'">'+
-                                '<div class="form-row row-cols-md-2 row-cols-lg-3 row-cols-xl-3">'+
-                                    '<div class="col-md-12 col-lg-8 col-xl-8"><label>Question '+answerCount.length+'</label><input class="form-control" name="q'+answerCount.length+'" type="text" placeholder="Question '+answerCount.length+'"></div>'+
-                                    '<div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select class="custom-select" onchange="changeType($(this))" name="'+answerCount.length+'_type"style="margin-top: 10px;">'+
-                                            '<option value="0" selected>Single Choice</option>'
-                                            +'<option value="1">Multiple Choice</option>'
-                                            +'<option value="2">Scale</option>'
-                                            +'<option value="3">Text</option>'
-                                    +'</select></div>'
-                                +'<div class="col-lg-1 col-xl-1 order-2"><button class="btn btn-primary btn-sm d-none d-print-block d-sm-none d-md-none d-lg-block d-xl-block align-items-md-end delQuestion" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 33px;background: #ff0000;margin-left: -6px;"><i class="fas fa-trash"></i></button></div>'
-                                    +'</div>'
-                                    +'<div style="margin-left: 1%;">'
-                                        +'<span id="answerOption1">'
-                                            +'<div class="form-row row-cols-2">'
-                                            +'<div class="col-11 col-xl-11"><input class="form-control" type="text" name="'+answerCount.length+'_'+answerCount[answerCount.length-1]+'" placeholder="Answer option 1" style="margin-top: 10px;"></div>'
-                                            +'<div class="col-1 col-xl-1">'
-                                        +'<button class="btn btn-primary btn-sm align-items-md-end deleteAnswerOption" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 11px;background: rgb(193,6,6);margin-left: -6px;"><i class="fas fa-times"></i></button></div>'
-                                        +'</div>'
-                                        +'</span>'
-                                    +'<button class="btn btn-primary text-capitalize d-none d-lg-inline addAnswerOption" type="button" style="background: var(--indigo);">Add Answer option</button><button class="btn btn-primary text-capitalize d-lg-none addAnswerOption" type="button" style="background: var(--indigo);"><i class="fas fa-plus-circle"></i></button><button class="btn btn-primary text-capitalize addOthers" type="button" style="background: var(--purple);">Add "Others"</button><button class="btn btn-primary text-capitalize d-lg-none delQuestion2" type="button" style="background: rgb(255,0,0);"><i class="fas fa-trash"></i></button>'
-                                +'</div>'
-                            +'</div>');
-        });
-
-        $(".highlight-blue").on("click", ".delQuestion", function(){
-            $(this).parent().parent().parent().remove();
-        });
-
-        $(".highlight-blue").on("click", ".delQuestion2", function(){
-            $(this).parent().parent().remove();
-        });
-
     });
-
-    function changeScale(pThis){
-        var name = $(pThis).attr("class").split(" ")[1];
-        $("label."+name).html($(pThis).val());
-    }
 </script>
 
 
@@ -122,7 +81,7 @@
                                             </select>
                                             <input type="hidden" name="'.$question['number'].'_type" value="'.$question['type'].'">
                                         </div>
-                                    </div>
+                                        </div>
                                     <div style="margin-left: 1%;"><span class="answerOptions">';
                                     switch($question['type']){
                                         case 0:
@@ -148,7 +107,7 @@
                                                         <button class="btn btn-primary btn-sm align-items-md-end deleteAnswerOption" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 11px;background: rgb(193,6,6);margin-left: -6px;"><i class="fas fa-times"></i></button></div>
                                                     </div>';
                                             }
-                                            echo '</div><button class="btn btn-primary text-capitalize d-none d-lg-inline addAnswerOption" type="button" style="background: var(--indigo);">Add Answer option</button><button class="btn btn-primary text-capitalize d-lg-none addAnswerOption" type="button" style="background: var(--indigo);"><i class="fas fa-plus-circle"></i></button><button class="btn btn-primary text-capitalize addOthers" type="button" style="background: var(--purple);">Add "Others"</button><button class="btn btn-primary text-capitalize d-lg-none delQuestion2" type="button" style="background: rgb(255,0,0);"><i class="fas fa-trash"></i></button>';
+                                            echo '</div><button class="btn btn-primary text-capitalize d-none d-lg-inline addAnswerOptionPreset" type="button" style="background: var(--indigo);">Add Answer option</button><button class="btn btn-primary text-capitalize d-lg-none addAnswerOptionPreset" type="button" style="background: var(--indigo);"><i class="fas fa-plus-circle"></i></button><button class="btn btn-primary text-capitalize addOthersPreset" type="button" style="background: var(--purple);">Add "Others"</button><button class="btn btn-primary text-capitalize d-lg-none delQuestion2" type="button" style="background: rgb(255,0,0);"><i class="fas fa-trash"></i></button>';
                                             break;
                                         case 2:
                                             $selected = array("", "", "", "", "", "", "", "", "", "", "",);

@@ -245,6 +245,7 @@ class Userarea extends CI_Controller {
         if($this->Result_model->checkUser($_POST['randomId'])){
             $id = $this->User_model->updateSurveyTemp($_POST['randomId'], $_POST['name'], $_POST['description'], $_POST['visibility']);
             $questions = array();
+            $newQuestions = array();
             foreach($_POST as $key => $value){
                 if(strpos($key, "q")===0){
                     $questions[str_replace("q", "", $key)] = $value;
@@ -252,6 +253,9 @@ class Userarea extends CI_Controller {
             }
             foreach($questions as $key => $value){
                 $dataId = $this->User_model->updateSurveyTempData($id, $key, $value);
+                if($dataId == null){
+                    $dataId = $this->User_model->surveyTempData($id, $key, $_POST[$key."_type"], $value);
+                }
                 $this->User_model->clearAnswers($dataId);
                 switch($_POST[$key."_type"]){
                     case 0:
