@@ -21,6 +21,7 @@
     </head>
 
     <body>
+    <div style="min-height: 100vh; margin-bottom: -64px;">
         <!-- Navbar -->
         <nav class="navbar navbar-light navbar-expand bg-white shadow navigation-clean">
             <div class="container">
@@ -52,7 +53,7 @@
 
         <!-- Custom content -->
         <?php echo $content; ?>
-
+        </div>
         <!-- Footer -->
         <footer class="footer bg-white shadow">
         <div class="container">
@@ -70,5 +71,6 @@
             </div>
         </div>
     </footer>
+    
     </body>
 </html>

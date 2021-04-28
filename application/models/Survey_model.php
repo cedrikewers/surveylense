@@ -75,4 +75,9 @@ class Survey_Model extends CI_Model {
         return $result;
     }   
 
+    public function getRandomSurvey(){
+        $query = $this->db->query('SELECT randomId FROM surveyTemp WHERE visibility = "public" ORDER BY RAND() DESC LIMIT 1');
+        return $query->row_array()['randomId'];
+    }
+
 }

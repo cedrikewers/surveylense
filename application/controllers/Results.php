@@ -58,11 +58,9 @@ class Results extends CI_Controller {
                         }
                         if(array_key_exists($aRow['data'], $posibleAnswers)){
                             $tempAnswer .= $posibleAnswers[$aRow['data']];
-                            // array_push($temp, $posibleAnswers[$aRow['data']]);
                         }
                         else{
                             $tempAnswer .= $aRow['data'];
-                            // array_push($temp, $aRow['data']);
                         }
                         $surveyTempDataId = $aRow['surveyTempDataId'];
                     }
@@ -73,28 +71,51 @@ class Results extends CI_Controller {
                 return SimpleXLSXGen::fromArray($print);
             }
             else{
-            $this->load->library('Template');
-            $this->template->set('title', 'You dont have the rights to accses this survey');
-            $this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
+                return 2;
             }
         }
         else{
-            $this->load->library('Template');
-            $this->template->set('title', 'This survey does not exist');
-            $this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
+            return 1;
         }
    }
 
     public function downloadXLSX($randomId){
-        $this->generateResultsXLSX($randomId)->downloadAs('results.xlsx');          
-        redirect();
+        $results = $this->generateResultsXLSX($randomId);    
+            if($results == 2){
+                $this->load->library('Template');
+                $this->template->set('title', 'You dont have the rights to accses this survey');
+                $this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
+            }  
+            if($results == 1){
+                $this->load->library('Template');
+                $this->template->set('title', 'This survey does not exist');
+                $this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
+            }   
+            if($results != 2 && $results != 1){
+                $results->downloadAs('Results.xlsx');
+            }
     }
 
     public function mail($randomId){
         $this->session->set_flashdata('result', 'Please choose at least one option.');
         if(isset($_POST)){
             $title = $this->Survey_model->checkRandomId($randomId)['name'];
-            $this->generateResultsXLSX($randomId)->saveAs('./assets/temp/'.$title.'_Results.xlsx');
+
+            $results = $this->generateResultsXLSX($randomId);    
+            if($results == 2){
+                $this->load->library('Template');
+                $this->template->set('title', 'You dont have the rights to accses this survey');
+                $this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
+            }  
+            if($results == 1){
+                $this->load->library('Template');
+                $this->template->set('title', 'This survey does not exist');
+                $this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
+            }   
+            if($results != 2 && $results != 1){
+                $results->saveAs('./assets/temp/'.$title.'_Results.xlsx');;
+            }
+
             if($_POST['email'] != null){
                 $this->Email_model->mailTo(array($_POST['email']), 'Your Results', 'Here are your Results. Have fun.',  './assets/temp/'.$title.'_Results.xlsx');
                 $this->session->set_flashdata('result', 'Email(s) have been send.');
@@ -112,55 +133,67 @@ class Results extends CI_Controller {
     public function results($randomId){
         $surveyTemp = $this->Survey_model->checkRandomId($randomId);//name, description, id FROM surveyTemp
         if($surveyTemp){
-            $viewData = array();
-            $questions = $this->Survey_model->getQuestions($surveyTemp['id']);//number, data, type, id FROM surveyTempData
-            $result = array();
-            foreach($questions as $question){
-                $questionTemp = array();
-                $questionTemp['name'] = $question['data'];
-                $questionTemp['type'] = $question['type'];
-                $questionTemp['dataset'] = $this->Result_model->getDataset($question['id'], $question['type']);//data, count FROM surveyAwnsers
+            if($this->Result_model->checkUser($randomId)){
+                $viewData = array();
+                $questions = $this->Survey_model->getQuestions($surveyTemp['id']);//number, data, type, id FROM surveyTempData
+                $result = array();
+                foreach($questions as $question){
+                    $questionTemp = array();
+                    $questionTemp['name'] = $question['data'];
+                    $questionTemp['type'] = $question['type'];
+                    $questionTemp['dataset'] = $this->Result_model->getDataset($question['id'], $question['type']);//data, count FROM surveyAwnsers
 
-                $answers = $this->Survey_model->getAnswers($surveyTemp['id']);
-                $posibleAnswers = array();
-                foreach($answers as $row){
-                    $posibleAnswers[$row['dataNumber']."_".$row['number']] = $row['data'];
-                }
-                if($question['type'] < 2){
-
-                    $othersData = array();
-                    $others = 0;
-                    $limit = count($questionTemp['dataset']);
-                    $j = 0;
-
-                    while($j < $limit){
-                        if(isset($questionTemp['dataset'][$j])){
-                            if(array_key_exists($questionTemp['dataset'][$j]['data'], $posibleAnswers)){
-                                $questionTemp['dataset'][$j]['data'] = $posibleAnswers[$questionTemp['dataset'][$j]['data']];
-                            }
-                            else{
-                                $othersData[$questionTemp['dataset'][$j]['data']] =  $questionTemp['dataset'][$j]['count'];
-                                $others += $questionTemp['dataset'][$j]['count'];
-                                unset($questionTemp['dataset'][$j]);
-                                $limit++;
-                            }                           
-                        }
-                        $j++;
+                    $answers = $this->Survey_model->getAnswers($surveyTemp['id']);
+                    $posibleAnswers = array();
+                    foreach($answers as $row){
+                        $posibleAnswers[$row['dataNumber']."_".$row['number']] = $row['data'];
                     }
-                    if($others > 0){
-                        array_push($questionTemp['dataset'], array('data' => 'Others', 'count' => $others));
-                        arsort($othersData);
-                        $questionTemp['othersData'] = $othersData;
-                    }   
+                    if($question['type'] < 2){
+
+                        $othersData = array();
+                        $others = 0;
+                        $limit = count($questionTemp['dataset']);
+                        $j = 0;
+
+                        while($j < $limit){
+                            if(isset($questionTemp['dataset'][$j])){
+                                if(array_key_exists($questionTemp['dataset'][$j]['data'], $posibleAnswers)){
+                                    $key = $posibleAnswers[$questionTemp['dataset'][$j]['data']];
+                                    $questionTemp['dataset'][$j]['data'] = substr($key, 0, 10);
+                                    if($questionTemp['dataset'][$j]['data'] != $key){
+                                        $questionTemp['dataset'][$j]['data'] .= '...';
+                                    }
+                                }
+                                else{
+                                    $othersData[$questionTemp['dataset'][$j]['data']] =  $questionTemp['dataset'][$j]['count'];
+                                    $others += $questionTemp['dataset'][$j]['count'];
+                                    unset($questionTemp['dataset'][$j]);
+                                    $limit++;
+                                }                           
+                            }
+                            $j++;
+                        }
+                        if($others > 0){
+                            array_push($questionTemp['dataset'], array('data' => 'Others', 'count' => $others));
+                            arsort($othersData);
+                            $questionTemp['othersData'] = $othersData;
+                        }   
+                        $questionTemp['entryCount'] = $this->Result_model->getEntryCount($surveyTemp['id']);
+                    }
+                    array_push($result, $questionTemp);
                 }
-                array_push($result, $questionTemp);
+                $viewData['result'] = $result;
+                $viewData['title'] = $surveyTemp['name'];
+                $viewData['randomId'] = $randomId;
+                $this->load->library('Template');
+                $this->template->set('title', $surveyTemp['name'].' - Results');
+                $this->template->load('templates/homepageTemplate','result/resultView', $viewData);
             }
-            $viewData['result'] = $result;
-            $viewData['title'] = $surveyTemp['name'];
-            $viewData['randomId'] = $randomId;
-            $this->load->library('Template');
-            $this->template->set('title', $surveyTemp['name'].' - Results');
-            $this->template->load('templates/homepageTemplate','result/resultView', $viewData);
+            else{
+                $this->load->library('Template');
+                $this->template->set('title', 'You dont have the rights to accses this survey');
+                $this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
+            }
         }
         else{
             $this->load->library('Template');

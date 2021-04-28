@@ -8,7 +8,7 @@
             array("rgba(255, 206, 86, 0.2)", "rgba(255, 206, 86, 1)"),
             array("rgba(75, 192, 192, 0.2)", "rgba(75, 192, 192, 1)"),
             array("rgba(153, 102, 255, 0.2)", "rgba(153, 102, 255, 1)"),
-            array("rgba(255, 159, 64, 0.2)", "rgba(255, 159, 64, 1)") 
+            array("rgba(255, 159, 64, 0.2)", "rgba(255, 159, 64, 1)")     
         );
         echo '<h1 style="margin-bottom: 3%" class="d-none d-sm-block">'.$title.'</h1>
             <h3 class="d-sm-none" style="margin-bottom: 3%">'.$title.'</h3>';
@@ -25,8 +25,6 @@
                 case 0:
                 case 1:
                     foreach($question['dataset'] as $answer){
-
-                        $entryCount += $answer['count'];
 
                         if($labels == ""){
                             $labels .= '"'.$answer['data'].'"';
@@ -98,7 +96,7 @@
                                 <tbody>
                                     <tr>';
                                         foreach($question['dataset'] as $answer){
-                                            echo '<td>'.round(floatval($answer['count']*100/$entryCount), 2).'%</td>';
+                                            echo '<td>'.round(floatval($answer['count']*100/$question['entryCount']), 2).'%</td>';
                                         }
                     echo'           </tr>
                                 </tbody>
@@ -187,7 +185,7 @@
                     echo'            </thead>
                                 <tbody>
                                     <tr>
-                                        <td>'.floatval($sum/$entryCount).'</td>';      
+                                        <td>'.round(floatval($sum/$entryCount), 2).'</td>';      
                     echo'                </tr>
                                 </tbody>
                             </table>
