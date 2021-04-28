@@ -123,4 +123,8 @@ class User_Model extends CI_Model {
         $this->db->delete('surveyTempDataAnswers');
     }
 
+    public function updateSurveyTempDataAnswers($surveyTempDataId, $number, $data){
+        $this->db->query('UPDATE surveyTempDataAnswers SET data =  '.$this->db->escape($data).' WHERE surveyTempDataId = '.$surveyTempDataId.' AND number = '.$number);
+    }
+
 }

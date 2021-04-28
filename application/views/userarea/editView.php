@@ -117,9 +117,11 @@
                                     <div id="question'.$question['number'].'">
                                     <div class="form-row row-cols-md-2 row-cols-lg-3 row-cols-xl-3">
                                         <div class="col-md-12 col-lg-8 col-xl-8"><label>Question '.$question['number'].'</label><input class="form-control" name="q'.$question['number'].'" type="text" placeholder="Question '.$question['number'].'" value="'.$question['data'].'"></div>
-                                        <div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select disabled class="custom-select type" style="margin-top: 10px;" name="'.$question['number'].'_type">
+                                        <div class="col-md-12 col-lg-3 col-xl-3 d-lg-flex d-xl-flex align-items-lg-end align-items-xl-end"><select disabled class="custom-select type" style="margin-top: 10px;">
                                                 <option>'.$select[$question['type']].'</option>
-                                            </select></div>
+                                            </select>
+                                            <input type="hidden" name="'.$question['number'].'_type" value="'.$question['type'].'">
+                                        </div>
                                     </div>
                                     <div style="margin-left: 1%;"><span class="answerOptions">';
                                     switch($question['type']){
@@ -150,8 +152,10 @@
                                             break;
                                         case 2:
                                             $selected = array("", "", "", "", "", "", "", "", "", "", "",);
+                                            $lowerHigher = array();
                                             foreach($question['answers'] as $key => $value){
                                                 $selected[$key] = 'selected';
+                                                array_push($lowerHigher, $key);
                                             }
                                             echo '<div class="form-row row-cols-2">
                                             <div class="col-3 col-sm-2 col-md-2 col-lg-1 col-xl-1"><select name="'.$question['number'].'_lower" class="form-control labelLower" onchange="changeScale($(this))">
@@ -172,7 +176,7 @@
                                                 </select></div>
                                         </div>
                                         <div class="form-row row-cols-2">
-                                            <div class="col-1 col-xl-1 text-right"><label class="labelLower" style="width: 100%;margin-top: 17px;">1</label><label class="labelHigher" style="margin-top: 17px;">10</label></div>
+                                            <div class="col-1 col-xl-1 text-right"><label class="labelLower" style="width: 100%;margin-top: 17px;">'.current($lowerHigher).'</label><label class="labelHigher" style="margin-top: 17px;">'.next($lowerHigher).'</label></div>
                                             <div class="col-11 col-xl-10 offset-xl-0"><input class="form-control" type="text" placeholder="Label (optional)" style="margin-top: 10px;" name="'.$question['number'].'_labelLower" value="'.current($question['answers']).'"><input class="form-control" type="text" placeholder="Label (optional)" style="margin-top: 10px;" name="'.$question['number'].'_labelHigher" value="'.next($question['answers']).'"></div>
                                         </div><button class="btn btn-primary text-capitalize d-lg-none delQuestion2" type="button" style="background: rgb(255,0,0);"><i class="fas fa-trash"></i></button>
                                         </div>';
