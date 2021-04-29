@@ -14,6 +14,7 @@
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="<?php echo base_url('assets/js/jquery-3.5.1.min.js');?>"></script>
+        <script src="<?php echo base_url('assets/js/bootstrap.bundle.min.js');?>"></script>
         <script src="<?php echo base_url('assets/js/bootstrap.min.js');?>"></script>
         <script src="<?php echo base_url('assets/js/fontawesome.min.js');?>"></script>
         <script data-ad-client="ca-pub-9472418723711778" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -38,6 +39,7 @@
                         '</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item text-primary font-weight-bold" href="/userarea/create">Create</a>
+                            <a class="dropdown-item" href="/userarea">Dashboard</a>
                             <a class="dropdown-item" href="/userarea/manage">Manage</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/userarea/profile">Profile</a>

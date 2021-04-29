@@ -150,8 +150,21 @@ class User_Model extends CI_Model {
         $this->db->where('randomId', $randomId);
         $surveyTempId = $this->db->get('surveyTemp')->row_array()['id'];
 
-        $this->db->query('DELETE FROM surveyTempData WHERE number = '.$this->db->escape($number).' AND surveyTempId = '.$surveyTempId);
-        
+        $this->db->query('DELETE FROM surveyTempData WHERE number = '.$this->db->escape($number).' AND surveyTempId = '.$surveyTempId);  
+    }
+
+    public function getMostRecentSurvey()
+    {
+        $this->db->select('randomId, name, description, timestamp');
+        $this->db->where('userId', $_SESSION['id_user']);
+        $this->db->order_by('timestamp', 'DESC');
+        return $this->db->get('surveyTemp')->row_array();
+    }
+
+    public function getMostTrafficSurvey($randomId)
+    {
+        $query = $this->db->query('SELECT surveyTemp.randomId, surveyTemp.name, surveyTemp.description, surveyTemp.timestamp, COUNT(survey.id) as count FROM surveyTemp JOIN survey ON surveyTemp.id = survey.surveyTempId WHERE surveyTemp.userId = '.$_SESSION['id_user'].' AND survey.timestamp >=  DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -7 DAY) AND surveyTemp.randomId != "'.$randomId.'" GROUP BY surveyTemp.randomId ORDER BY COUNT(survey.id) DESC LIMIT 3');
+        return $query->result_array();//^Der SQL Befehl holt die Infpormationen zu den drei Umfragen des Nutzers, die in den letzten sieben Tagen die meisten Antworten erhalten haben.
     }
 
 }
