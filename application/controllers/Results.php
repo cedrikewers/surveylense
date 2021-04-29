@@ -81,17 +81,17 @@ class Results extends CI_Controller {
 
     public function downloadXLSX($randomId){
         $results = $this->generateResultsXLSX($randomId);    
-            if($results == 2){
+            if($results === 2){
                 $this->load->library('Template');
                 $this->template->set('title', 'You dont have the rights to accses this survey');
                 $this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
             }  
-            if($results == 1){
+            if($results === 1){
                 $this->load->library('Template');
                 $this->template->set('title', 'This survey does not exist');
                 $this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
             }   
-            if($results != 2 && $results != 1){
+            if($results !== 2 && $results !== 1){
                 $results->downloadAs('Results.xlsx');
             }
     }
@@ -102,17 +102,17 @@ class Results extends CI_Controller {
             $title = $this->Survey_model->checkRandomId($randomId)['name'];
 
             $results = $this->generateResultsXLSX($randomId);    
-            if($results == 2){
+            if($results === 2){
                 $this->load->library('Template');
                 $this->template->set('title', 'You dont have the rights to accses this survey');
                 $this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
             }  
-            if($results == 1){
+            if($results === 1){
                 $this->load->library('Template');
                 $this->template->set('title', 'This survey does not exist');
                 $this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
             }   
-            if($results != 2 && $results != 1){
+            if($results !== 2 && $results !== 1){
                 $results->saveAs('./assets/temp/'.$title.'_Results.xlsx');;
             }
 
