@@ -7,7 +7,7 @@
             <div class="col-8 d-flex justify-content-end">
                 <form class="form-inline my-2 my-lg-0" action="<?= site_url('admin/adminarea/users') ?>" method="post">
                     <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
         </div>

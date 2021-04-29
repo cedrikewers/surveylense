@@ -10,7 +10,7 @@ class Admin extends CI_Controller {
 
     public function index(){
 
-        $page = "Adminlogin";
+        $page = "adminLogin";
         if($_POST){
 
             $result = $this->Admin_model->check_user($_POST);
