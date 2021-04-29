@@ -51,13 +51,18 @@ class Survey extends CI_Controller {
 	public function storeAnswers()
 	{
 		$id = $this->Survey_model->getSurveyTempId($_POST['randomId']);
+		$randomId = $_POST['randomId'];
 		unset($_POST['randomId']);
 		$surveyId = $this->Survey_model->storeSurvey($id);
 		foreach($_POST as $key => $value){
 			$this->Survey_model->storeAnswers($id, $surveyId, str_replace(strstr($key, "_"), "", $key), $value);
 		}
+		for($i = 0; $i < 5; $i++){//failsafe
+			$viewdata['randSurvey'] =  $this->Survey_model->getRandomSurvey();
+			if($viewdata['randSurvey'] != $randomId){break;}
+		}
 		$this->load->library('Template');
 		$this->template->set('title', 'Your anwers got submitted');
-		$this->template->load('templates/homepageTemplate','survey/surveyCompleted');	
+		$this->template->load('templates/homepageTemplate','survey/surveyCompleted', $viewdata);	
 	}
 }

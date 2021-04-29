@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <!-- Required meta tags -->
@@ -16,11 +16,12 @@
         <script src="<?php echo base_url('assets/js/jquery-3.5.1.min.js');?>"></script>
         <script src="<?php echo base_url('assets/js/bootstrap.min.js');?>"></script>
         <script src="<?php echo base_url('assets/js/fontawesome.min.js');?>"></script>
-        <script data-ad-client="ca-pub-9035096517255870" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script data-ad-client="ca-pub-9472418723711778" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <title><?php echo $title; ?></title>
     </head>
 
     <body>
+    <div style="min-height: 100vh; margin-bottom: -64px;">
         <!-- Navbar -->
         <nav class="navbar navbar-light navbar-expand bg-white shadow navigation-clean">
             <div class="container">
@@ -52,7 +53,7 @@
 
         <!-- Custom content -->
         <?php echo $content; ?>
-
+        </div>
         <!-- Footer -->
         <footer class="footer bg-white shadow">
         <div class="container">
@@ -70,5 +71,6 @@
             </div>
         </div>
     </footer>
+    
     </body>
 </html>

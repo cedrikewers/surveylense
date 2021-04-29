@@ -62,4 +62,22 @@ class Survey_Model extends CI_Model {
         return $query->row_array()['id'];
     }
 
+    public function getRandomPublic(){
+        $query = $this->db->query('SELECT surveyTemp.randomId, surveyTemp.name, surveyTemp.description, surveyTemp.timestamp, COUNT(survey.surveyTempId) AS count FROM surveyTemp LEFT JOIN survey ON surveyTemp.id = survey.surveyTempId WHERE visibility = "public" GROUP BY surveyTemp.id ORDER BY count DESC LIMIT 1');
+        $result['top'] = $query->row_array();
+        $query = $this->db->query('SELECT surveyTemp.randomId, surveyTemp.name, surveyTemp.description, surveyTemp.timestamp, COUNT(survey.surveyTempId) AS count FROM surveyTemp LEFT JOIN survey ON surveyTemp.id = survey.surveyTempId WHERE visibility = "public" GROUP BY surveyTemp.id ORDER BY RAND() DESC LIMIT 5');
+        $random = $query->result_array();
+        $i = 0;
+        foreach($random as $survey){
+            $result[$i] = $survey;
+            $i++;
+        }
+        return $result;
+    }   
+
+    public function getRandomSurvey(){
+        $query = $this->db->query('SELECT randomId FROM surveyTemp WHERE visibility = "public" ORDER BY RAND() DESC LIMIT 1');
+        return $query->row_array()['randomId'];
+    }
+
 }

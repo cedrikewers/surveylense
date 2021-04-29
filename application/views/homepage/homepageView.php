@@ -1,3 +1,4 @@
+
 <!-- Banner with option to create a new servey -->
 <header class="homepageBanner text-white text-center" style="background:url('assets/pictures/bg-homepage.jpg') no-repeat center center; background-size:cover;">
     <div class="overlay"></div>
@@ -42,17 +43,37 @@
 </section>
 
 <section class="bg-light text-left">
-    <div class="container">
+    <!-- <div class="container">
         <h1 class="text-center pb-3">Recently created Surveys</h1>
         <div class="card bg-dark border-light">
             <ul class="list-group list-group-flush">
             <?php
-                foreach ($content as $data_item){
-                    echo '<a href="/s/'.$data_item['randomId'].'" class="text-reset"><li class="list-group-item"><div class="row"><div class="col-lg-3 font-weight-bold">'.$data_item['name'].'</div><div class="col-lg-9">'.$data_item['description'].'</div></div></li></a>';
-                }
+                // foreach ($content as $data_item){
+                //     echo '<a href="/s/'.$data_item['randomId'].'" class="text-reset"><li class="list-group-item"><div class="row"><div class="col-lg-3 font-weight-bold">'.$data_item['name'].'</div><div class="col-lg-9">'.$data_item['description'].'</div></div></li></a>';
+                // }
             ?>
             </ul>
         </div>
+    </div> -->
+    <div class="container">
+    <div class="row ">
+    <?php 
+        foreach($publicSurveys as $survey){
+            $shortDesc = substr($survey['description'], 0, 65);
+            if(strlen($survey['description']) > 65){
+                $shortDesc .= '<span style="cursor:pointer;">...</span>';
+            }
+            echo '<div class="col-md-6"><div class="card" style="padding: 3%;min-height:100%">
+                    <div class="card-body">
+                        <h4 class="card-title"><a href="'.site_url('s/'.$survey['randomId']).'" style="text-decoration: none; color:black;">'.$survey['name'].'</a></h4>
+                        <h6 class="text-muted card-subtitle mb-2">Created: '.substr($survey['timestamp'], 0, 9).', '.$survey['count'].' answers</h6>
+                        <p class="card-text shortDesc" onclick="toggleDesc($(this))">'.$shortDesc.'</p><p class="card-text longDesc d-none">'.$survey['description'].'</p><a class="card-link" href="'.site_url('s/'.$survey['randomId']).'">Fill out</a>
+                    </div>
+                </div>
+                </div>';
+        }
+    ?>
+    </div>
     </div>
 </section>
 <!-- Detailed feature explanation -->
@@ -81,3 +102,27 @@
         </div>
     </div>
 </section>
+
+<!-- Sidebar with public Surveys-->
+    <?php 
+        foreach($publicSurveys as $survey){
+            $shortDesc = substr($survey['description'], 0, 60);
+            if(strlen($survey['description']) > 60){
+                $shortDesc .= '<span style="cursor:pointer;">...</span>';
+            }
+            echo '<div class="card" style="padding: 3%;">
+                    <div class="card-body">
+                        <h4 class="card-title"><a href="'.site_url('s/'.$survey['randomId']).'" style="text-decoration: none; color:black;">'.$survey['name'].'</a></h4>
+                        <h6 class="text-muted card-subtitle mb-2">Created: '.substr($survey['timestamp'], 0, 9).', '.$survey['count'].' answers</h6>
+                        <p class="card-text shortDesc" onclick="toggleDesc($(this))">'.$shortDesc.'</p><p class="card-text longDesc d-none">'.$survey['description'].'</p><a class="card-link" href="'.site_url('s/'.$survey['randomId']).'">Fill out</a>
+                    </div>
+                </div>';
+        }
+    ?>
+
+<script>
+    function toggleDesc(pThis){
+        $(pThis).toggleClass("d-none");
+        $(pThis).next().toggleClass("d-none");
+    }
+</script>
