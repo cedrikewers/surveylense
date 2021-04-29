@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="<?php echo base_url('assets/css/Highlight-Blue.css');?>">
 
 <script src="<?php echo base_url('assets/js/create.js');?>"></script>
-<script src="http://SortableJS.github.io/Sortable/Sortable.js"></script>
+<script src="https://SortableJS.github.io/Sortable/Sortable.js"></script>
 
 <script>
     var answerCount = [];
