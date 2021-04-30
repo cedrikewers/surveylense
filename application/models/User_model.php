@@ -163,8 +163,22 @@ class User_Model extends CI_Model {
 
     public function getMostTrafficSurvey($randomId)
     {
-        $query = $this->db->query('SELECT surveyTemp.randomId, surveyTemp.name, surveyTemp.description, surveyTemp.timestamp, COUNT(survey.id) as count FROM surveyTemp JOIN survey ON surveyTemp.id = survey.surveyTempId WHERE surveyTemp.userId = '.$_SESSION['id_user'].' AND survey.timestamp >=  DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -7 DAY) AND surveyTemp.randomId != "'.$randomId.'" GROUP BY surveyTemp.randomId ORDER BY COUNT(survey.id) DESC LIMIT 3');
-        return $query->result_array();//^Der SQL Befehl holt die Infpormationen zu den drei Umfragen des Nutzers, die in den letzten sieben Tagen die meisten Antworten erhalten haben.
+        $query = $this->db->query('SELECT surveyTemp.randomId, surveyTemp.name, surveyTemp.description, surveyTemp.timestamp, COUNT(survey.id) as count FROM surveyTemp JOIN survey ON surveyTemp.id = survey.surveyTempId WHERE surveyTemp.userId = '.$_SESSION['id_user'].' AND survey.timestamp >=  DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -7 DAY) AND surveyTemp.randomId != "'.$randomId.'" GROUP BY surveyTemp.randomId ORDER BY COUNT(survey.id) DESC LIMIT 9');
+        return $query->result_array();//^Der SQL Befehl holt die Infpormationen zu den 9 Umfragen des Nutzers, die in den letzten sieben Tagen die meisten Antworten erhalten haben.
     }
+
+    public function updateLastOnline(){
+        $this->db->query('UPDATE users SET lastOnline = current_timestamp() WHERE id = '.$_SESSION['id_user']);
+    }
+
+    public function getActivitySinceLastOnline($randomId){
+        $query = $this->db->query('SELECT COUNT(survey.id) as count FROM surveyTemp JOIN survey ON surveyTemp.id = survey.surveyTempId WHERE surveyTemp.userId = '.$_SESSION['id_user'].' AND survey.timestamp >=  (SELECT lastOnline FROM users WHERE id = '.$_SESSION['id_user'].') AND surveyTemp.randomId = "'.$randomId.'" GROUP BY surveyTemp.randomId');
+        $result = $query->row_array();//^Der SQL Vefehl liefert die Anzahl an neuen Antworten zu einer bestimmten Umfrage zurück
+        if(isset($result['count'])){
+            return $result['count'];
+        }
+        return 0;
+    }
+
 
 }

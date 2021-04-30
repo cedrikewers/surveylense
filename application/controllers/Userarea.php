@@ -17,20 +17,27 @@ class Userarea extends CI_Controller {
 	public function index()
 	{
 
+        
+
         $mostRecentSurvey = $this->User_model->getMostRecentSurvey();
         $mostTrafficSurvey = $this->User_model->getMostTrafficSurvey($mostRecentSurvey['randomId']);
 
         $viewdata['mostRecentSurvey'] = $mostRecentSurvey;
         $viewdata['mostRecentSurvey']['result'] = $this->Result_model->resultsData($mostRecentSurvey['randomId']);
+        $viewdata['mostRecentSurvey']['countSinceLastOnline'] = $this->User_model->getActivitySinceLastOnline($mostRecentSurvey['randomId']);
         $viewdata['mostTrafficSurvey'] =  $mostTrafficSurvey;
         
         foreach($viewdata['mostTrafficSurvey'] as $number => $survey){
             $viewdata['mostTrafficSurvey'][$number]['result'] = $this->Result_model->resultsData($survey['randomId']);
+            $viewdata['mostTrafficSurvey'][$number]['countSinceLastOnline'] = $this->User_model->getActivitySinceLastOnline($survey['randomId']);
         }
 
         $this->load->library('template');
         $this->template->set('title', 'Dashboard');
         $this->template->load('templates/homepageTemplate','userarea/dashboardView', $viewdata);   
+
+
+        $this->User_model->updateLastOnline();
 	}
 
     public function profile(){
