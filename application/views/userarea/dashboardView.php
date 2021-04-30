@@ -32,20 +32,20 @@
                         echo ' <span class="badge badge-pill badge-danger">'.$target['countSinceLastOnline'].'</span>';
                       }
                       echo '</h5>&nbsp;
-                      <a href="/results/results/'.$target['randomId'].'" style="float: right;">view full results&nbsp;<i class="fas fa-arrow-circle-right"></i></a>
-                      <a href="#" type="link" class="copyToClipboard" title="Link copied!" style="float: right; color:gray; text-decoration: none; margin-right: 10px" data-text="'.site_url('s/'.$target['randomId']).'">Copy Link</a>
+                      <a href="/results/results/'.$target['randomId'].'" style="float: right;"><span class="d-none d-sm-inline">view full results&nbsp;</span><i class="fas fa-arrow-circle-right"></i></a>
+                      <a href="#" type="link" class="copyToClipboard d-none d-sm-inline" title="Link copied!" style="float: right; color:gray; text-decoration: none; margin-right: 10px" data-text="'.site_url('s/'.$target['randomId']).'">Copy Link</a>
                   </div>
               </button>
             </div>';
               echo '<div id="collapse'.$i.'" class="collapse '; if($i == 0){echo 'show';} echo'" data-parent="#accordion">
                       <div class="card-body">
                       <div class="row">
-                        <div class="col-2">
-                          <h6>New Answers since your last visit: '.$target['countSinceLastOnline'].'</h6>
+                        <div class="col-md-2">
+                          <h5>New Answers since your last visit: '.$target['countSinceLastOnline'].'</h5>
                         </div>';
                       for($j = 0; $j < 2; $j++){//es werden 2 belibige Fraben dargestellt
                         $k = rand(0, count($target['result'])-1);//wählt die Frage aus
-                        echo '<div class="col-4">';
+                        echo '<div class="col-12 col-md-5">';
                         echo '<h6>'.$target['result'][$k]['name'].'</h6>';
                         $labels = "";
                         $values = "";
