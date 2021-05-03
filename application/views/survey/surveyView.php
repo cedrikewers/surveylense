@@ -38,7 +38,7 @@
                         case 1:  
                             $j = 1;
                             while(array_key_exists($i."_".$j, $data)){
-                                echo '<div class="form-check" style="margin-left: 32px;"><input id="'.$i."_".$j.'" class="form-check-input" name="'.$i."_".$j.'" type="checkbox" value="'.$i."_".$j.'" required ><label class="form-check-label" for="'.$i."_".$j.'" style="color: var(--gray-dark);">'.$data[$i."_".$j].'</label></div>';
+                                echo '<div class="form-check" style="margin-left: 32px;"><input id="'.$i."_".$j.'" class="form-check-input" name="'.$i."_".$j.'" type="checkbox" value="'.$i."_".$j.'"  ><label class="form-check-label" for="'.$i."_".$j.'" style="color: var(--gray-dark);">'.$data[$i."_".$j].'</label></div>';
                                 $j++;
                             }
                             if(array_key_exists($i."_".'0', $data)){
