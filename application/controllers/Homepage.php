@@ -37,7 +37,7 @@ class Homepage extends CI_Controller {
     public function contactMail()
     {
         $this->load->model("Email_model");
-        $this->Email_model->mailTo(array('contact@surveylese.de'), $_POST['subject'], $_POST['message'].'\n \n Gesendet von '.$_POST['name'].' über das Konaktformular', null, $_POST['name'], $_POST['email']);
+        $this->Email_model->mailTo(array('contact@surveylense.de'), 'CONTACTFORMULAR '.$_POST['subject'], $_POST['message'].'<br> <br> send by '.$_POST['name'].' with email <a href="mailto:'.$_POST['email'].'">'.$_POST['email'].'</a>');
         $this->load->library('template');
         $this->template->set('title', 'Your email has been send');
         $this->template->load('templates/homepageTemplate','homepage/'.'emailHasBeenSend');
