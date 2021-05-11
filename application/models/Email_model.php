@@ -3,7 +3,7 @@ class Email_model extends CI_Model {
     /**
      * @attach the realative path of the file begining with a "./"
      */
-    public function mailTo(array $to, string $title, string $content, string $attach = null)
+    public function mailTo(array $to, string $title, string $content, string $attach = null, string $fromName = null, string $fromEmail = null)
     {
         $this->load->library('email');
         $config['protocol'] = "smtp";
@@ -17,7 +17,8 @@ class Email_model extends CI_Model {
 
         $this->email->initialize($config);
 
-        $this->email->from($GLOBALS['MAIL_ADDRESS'], 'Surveylense');
+        if($fromEmail == null){$this->email->from($GLOBALS['MAIL_ADDRESS'], 'Surveylense');}
+        else{$this->email->from($fromEmail, $fromName);}
         $this->email->to($to);
         $this->email->subject($title);
         $this->email->message($content);
