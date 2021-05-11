@@ -48,22 +48,9 @@
             )
         });
 
-        // $('.deleteQuestionModal').click(function(){
-        //     var number = $(this).parent().attr('data-id');
-        //     $.post(
-        //         '<?php echo site_url('userarea/deleteQuestionModal')?>',
-        //         {
-        //             number: number,
-        //             randomId: '<?php echo $surveyTemp['randomId']; ?>'
-        //         },
-        //         location.reload()
-        //     )
-        // });
-
         $('.confirmDeletion').click(function(){
-            $(this).append('<p>Do you really want to delete the question? This cannot be undone. If so, please click this button again.</p>');
-            $(this).removeClass('confirmDeletion');
-            $(this).addClass('deleteQuestionModal'); 
+            $(this).parent().append('<button class="btn btn-primary btn-sm align-items-md-end deleteQuestionModal" type="button" style="background: rgb(193,6,6);float: right;border-color:white;">Do you really want to delete the question? This cannot be undone. If so, please click this button again.</button');
+            $(this).hide();
         });
 
         $(".modal").on("click", ".deleteQuestionModal", function(){
@@ -73,8 +60,9 @@
                 {
                     number: number,
                     randomId: '<?php echo $surveyTemp['randomId']; ?>'
-                },
-                location.reload()
+                }, 
+                $(this).parent().hide()
+
             )
             
         });
@@ -113,6 +101,7 @@
                         </div>
                         <span id="questions">
                             <?php 
+                            if(isset($surveyTemp['questions'])){
                                 foreach($surveyTemp['questions'] as $question){
                                     echo '<script>answerCount.push(0);</script>';                                    
                                     $select = array("Single Choice", "Multiple Choice", "Scale", "Text");
@@ -189,6 +178,10 @@
 
                                     echo '</div>';
                                 }
+                            }
+                            else{
+                                echo 'Oops. Something may not be displayed correctly here. Please reload the page or contact support if the problem persists.';
+                            }
                             ?>
                         </span>
                     </div>
