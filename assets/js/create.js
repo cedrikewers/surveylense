@@ -4,25 +4,25 @@ $(document).ready(function(e){
     $(".highlight-blue").on("click", ".addAnswerOption", function(){
         var questionNumber = $(this).parent().parent().attr('id').replace('question', '');
         answerCount[questionNumber-1]++; 
-        $(this).parent().children(":first").append(
-                        '<div class="form-row row-cols-2">'+
-                            '<div class="col-11 col-xl-11"><input class="form-control" type="text" name="'+questionNumber+'_'+answerCount[questionNumber-1]+'" placeholder="Answer option '+answerCount[questionNumber-1]+'" style="margin-top: 10px;"></div>'+
-                            '<div class="col-1 col-xl-1">'+
-                            '<button class="btn btn-primary btn-sm align-items-md-end deleteAnswerOption" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 11px;background: rgb(193,6,6);margin-left: -6px;"><i class="fas fa-times"></i></button></div>'+
-                        '</div>'
+        $(this).append(
+            '<div class="form-row row-cols-2">'+
+                '<div class="col-11 col-xl-11"><input class="form-control" type="text" name="'+questionNumber+'_'+answerCount[questionNumber-1]+'" placeholder="Answer option '+answerCount[questionNumber-1]+'" style="margin-top: 10px;"></div>'+
+                '<div class="col-1 col-xl-1">'+
+                '<button class="btn btn-primary btn-sm align-items-md-end deleteAnswerOption" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 11px;background: rgb(193,6,6);margin-left: -6px;"><i class="fas fa-times"></i></button></div>'+
+            '</div>'
         );
         
     });
 
     $(".highlight-blue").on("click", ".addOthers", function(){
-        var questionNumber = $(this).parent().parent().attr('id').replace('question', '');
         if($(this).parent().find(".others").length == 0){
-            $(this).parent().children(":first").append(
-                            '<div class="form-row row-cols-2">'+
-                                '<div class="col-11 col-xl-11"><input class="form-control others" name="'+questionNumber+'_others" type="text" placeholder="Others" style="margin-top: 10px;" readonly=""></div>'+
-                                '<div class="col-1 col-xl-1">'+
-                                '<button class="btn btn-primary btn-sm align-items-md-end deleteAnswerOption" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 11px;background: rgb(193,6,6);margin-left: -6px;"><i class="fas fa-times"></i></button></div>'+
-                            '</div>'
+            var questionNumber = $(this).parent().parent().attr('id').replace('question', '');
+            $(this).append(
+                '<div class="form-row row-cols-2">'+
+                    '<div class="col-11 col-xl-11"><input class="form-control others" name="'+questionNumber+'_others" type="text" placeholder="Others" style="margin-top: 10px;" readonly=""></div>'+
+                    '<div class="col-1 col-xl-1">'+
+                    '<button class="btn btn-primary btn-sm align-items-md-end deleteAnswerOption" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 11px;background: rgb(193,6,6);margin-left: -6px;"><i class="fas fa-times"></i></button></div>'+
+                '</div>'
             );
         }
         
