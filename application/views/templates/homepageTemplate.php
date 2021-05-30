@@ -21,7 +21,7 @@
     </head>
 
     <body>
-    <div style="min-height: 100vh; margin-bottom: -64px;">
+    <div style="min-height: 52.55em">
         <!-- Navbar -->
         <nav class="navbar navbar-light navbar-expand bg-white shadow navigation-clean">
             <div class="container">

@@ -2,7 +2,7 @@ var answerCount = [1];
 $(document).ready(function(e){
 
     $(".highlight-blue").on("click", ".addAnswerOption", function(){
-        var questionNumber = $(this).parent().parent().attr('id').replace('question', '');
+        var questionNumber = $(this).parent().parent().attr('id').replace('question', '');//holt die Fragennummer über die ID des umschließenden <div>-Objekts
         answerCount[questionNumber-1]++; 
         $(this).append(
             '<div class="form-row row-cols-2">'+
@@ -16,7 +16,7 @@ $(document).ready(function(e){
 
     $(".highlight-blue").on("click", ".addOthers", function(){
         if($(this).parent().find(".others").length == 0){
-            var questionNumber = $(this).parent().parent().attr('id').replace('question', '');
+            var questionNumber = $(this).parent().parent().attr('id').replace('question', '');//holt die Fragennummer über die ID des umschließenden <div>-Objekts
             $(this).append(
                 '<div class="form-row row-cols-2">'+
                     '<div class="col-11 col-xl-11"><input class="form-control others" name="'+questionNumber+'_others" type="text" placeholder="Others" style="margin-top: 10px;" readonly=""></div>'+
@@ -48,7 +48,7 @@ $(document).ready(function(e){
                                 +'<div style="margin-left: 1%;">'
                                     +'<span id="answerOption1">'
                                         +'<div class="form-row row-cols-2">'
-                                        +'<div class="col-11 col-xl-11"><input class="form-control" type="text" name="'+answerCount.length+'_'+answerCount[answerCount.length-1]+'" placeholder="Answer option 1" style="margin-top: 10px;"></div>'
+                                        +'<div class="col-11 col-xl-11"><input class="form-control" type="text" name="'+answerCount.length+'_1" placeholder="Answer option 1" style="margin-top: 10px;"></div>'
                                         +'<div class="col-1 col-xl-1">'
                                     +'<button class="btn btn-primary btn-sm align-items-md-end deleteAnswerOption" type="button" style="margin: 0;padding: 10px;padding-right: 10px;padding-left: 10px;padding-top: 10px;padding-bottom: 1;margin-top: 11px;background: rgb(193,6,6);margin-left: -6px;"><i class="fas fa-times"></i></button></div>'
                                     +'</div>'
@@ -68,14 +68,14 @@ $(document).ready(function(e){
 
 });
 
-function changeType(pThis){
+function changeType(pThis){//ändert den Inhalt eiern Frage entsprechend nach Typ
     var val = $(pThis).val();
-    var questionNumber = $(pThis).parent().parent().parent().attr('id').replace('question', '');
+    var questionNumber = $(pThis).parent().parent().parent().attr('id').replace('question', '');//holt die Fragennummer über die ID des umschließenden <div>-Objekts
     switch (parseInt(val)){
-        case 3: //It is a question with the "text" answer type
+        case 3: //Es ist eine Frage mit dem "text" Type
             $(pThis).parent().parent().next().html('<button class="btn btn-primary text-capitalize d-lg-none delQuestion2" type="button" style="background: rgb(255,0,0);"><i class="fas fa-trash"></i></button>');
             break;
-        case 2://It is a question with the "scale" answer type
+        case 2://Es ist eine Frage mit dem "scale" Type
             $(pThis).parent().parent().next().html(''+
                         '<div class="form-row row-cols-2">'
                             +'<div class="col-3 col-sm-2 col-md-2 col-lg-1 col-xl-1"><select name="'+questionNumber+'_lower" class="form-control labelLower" onchange="changeScale($(this))">'
@@ -101,7 +101,7 @@ function changeType(pThis){
                         +'</div><button class="btn btn-primary text-capitalize d-lg-none delQuestion2" type="button" style="background: rgb(255,0,0);"><i class="fas fa-trash"></i></button>'
                     +'</div>');
             break;
-        case 0://It is a question with the "single choice" or "multible choice" answer type
+        case 0://Es ist eine Frage mit dem "single choice" oder "multible choice" Type
         case 1:
             $(pThis).parent().parent().next().html(''
                                 +'<span id="answerOption1">'
@@ -116,7 +116,7 @@ function changeType(pThis){
     } 
 }
 
-function changeScale(pThis){
-    var name = $(pThis).attr("class").split(" ")[1];
-    $("label."+name).html($(pThis).val());
+function changeScale(pThis){//die Funktion ist dafür zuständig, dass sich die label beim "Scale" typ auch ändern
+    var name = $(pThis).attr("class").split(" ")[1]; //nimmt die zweite Klasse, entweder labelLower/labelHigher
+    $("label."+name).html($(pThis).val());           //setzt den Wert des labels auf den gerade ausgewählten Wert
 }

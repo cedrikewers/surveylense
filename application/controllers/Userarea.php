@@ -161,58 +161,58 @@ class Userarea extends CI_Controller {
         $this->template->load('templates/homepageTemplate','userarea/surveyUpdated');
     }
 
-    public function storeSurveyNew(){ 
-        do{
-            $randomId = substr(hash("md5", random_bytes(20)), 0, 6);
-        }
-        while($this->User_model->randomIdExists($randomId));
-        // Hier wurde eine zufällige Id generiert und mit der Datenbank abgeglichen, damit diese sich nicht doppelt.
-        $id = $this->User_model->surveyTemp($randomId, $_POST['name'], $_POST['description'], $_SESSION['id_user']);
-        $data = $_POST;
-        unset($data["name"]);
-        $questionCount = 0;
-        $dataId = 0;
-        foreach($data as $key => $value){
-            if(strpos($key, "q")===0){
-                $questionCount++;
-                $dataId = $this->User_model->surveyTempData($id, $questionCount, $value); 
-            }
-            elseif(strpos($key, "_")!==false){
-                $this->User_model->surveyTempDataAnswers($dataId, str_replace(strstr($key, "_", true)."_", "", $key), $value);
-            }
-        } 
-        redirect('/userarea/surveyCreated/'.$randomId);
+    // public function storeSurveyNew(){ 
+    //     do{
+    //         $randomId = substr(hash("md5", random_bytes(20)), 0, 6);
+    //     }
+    //     while($this->User_model->randomIdExists($randomId));
+    //     // Hier wurde eine zufällige Id generiert und mit der Datenbank abgeglichen, damit diese sich nicht doppelt.
+    //     $id = $this->User_model->surveyTemp($randomId, $_POST['name'], $_POST['description'], $_SESSION['id_user']);
+    //     $data = $_POST;
+    //     unset($data["name"]);
+    //     $questionCount = 0;
+    //     $dataId = 0;
+    //     foreach($data as $key => $value){
+    //         if(strpos($key, "q")===0){
+    //             $questionCount++;
+    //             $dataId = $this->User_model->surveyTempData($id, $questionCount, $value); 
+    //         }
+    //         elseif(strpos($key, "_")!==false){
+    //             $this->User_model->surveyTempDataAnswers($dataId, str_replace(strstr($key, "_", true)."_", "", $key), $value);
+    //         }
+    //     } 
+    //     redirect('/userarea/surveyCreated/'.$randomId);
         
-    }
+    // }
 
-    public function storeSurvey(){//despite the name, this version is newer
+    public function storeSurvey(){
         do{
             $randomId = substr(hash("md5", random_bytes(20)), 0, 6);
         }
         while($this->User_model->randomIdExists($randomId));
-        //This generated a randomId and checked, that it is unique
-        $id = $this->User_model->surveyTemp($randomId, $_POST['name'], $_POST['description'], $_SESSION['id_user'], $_POST['visibility']);
+        //Da genneriert einen zufälligen String, die RandomId, die einzigartig ist.
+        $id = $this->User_model->surveyTemp($randomId, $_POST['name'], $_POST['description'], $_SESSION['id_user'], $_POST['visibility']);//Die grundlegenden Informationen werden in surveytemp gespeichert.
         $questions = array();
         foreach($_POST as $key => $value){
             if(strpos($key, "q")===0){
                 $questions[str_replace("q", "", $key)] = $value;
-            }
+            }//Hier wurde ein Array erstellt, welches die Nummern der Frage als Key und ihren Text als Wert hat.
         }
         foreach($questions as $key => $value){
-            $dataId = $this->User_model->surveyTempData($id, $key, $_POST[$key."_type"], $value);
+            $dataId = $this->User_model->surveyTempData($id, $key, $_POST[$key."_type"], $value);//Die Informationen werden gespeichert
             switch($_POST[$key."_type"]){
                 case 0:
-                case 1://It is a question with the "single choice" or "multible choice" answer type
-                    $i = 1;
+                case 1://je nach Fragentyp werden die Antworten anders gespeichert.
+                    $i = 1;//Es werden solange Antworten abgespeichert, bis die Frage keine mher hat.
                     while(array_key_exists($key."_".$i, $_POST)){
                         $this->User_model->surveyTempDataAnswers($dataId, $i, $_POST[$key."_".$i]);
                         $i++;
                     }
-                    if(array_key_exists($key."_others", $_POST)){
+                    if(array_key_exists($key."_others", $_POST)){//falls "others" existiert, wird das auch gespeichert
                         $this->User_model->surveyTempDataAnswers($dataId, 0, "others");
                     }
                     break;
-                case 2://It is a question with the "scale" answer type
+                case 2:
                     $this->User_model->surveyTempDataAnswers($dataId, $_POST[$key."_lower"], $_POST[$key."_labelLower"]);
                     $this->User_model->surveyTempDataAnswers($dataId, $_POST[$key."_higher"], $_POST[$key."_labelHigher"]);
                     break;
