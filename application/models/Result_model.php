@@ -62,6 +62,60 @@ class Result_model extends CI_Model {
         $query = $this->db->query('SELECT COUNT(*) as count FROM survey WHERE surveyTempId = '.$surveyTempId);
         return $query->row_array()['count'];
     }
+
+    public function resultsData($randomId)
+    {
+        $this->load->model('Survey_model');
+        $surveyTemp = $this->Survey_model->checkRandomId($randomId);//name, description, id FROM surveyTemp
+        $questions = $this->Survey_model->getQuestions($surveyTemp['id']);//number, data, type, id FROM surveyTempData
+        $result = array();
+        foreach($questions as $question){
+            $questionTemp = array();
+            $questionTemp['name'] = $question['data'];
+            $questionTemp['type'] = $question['type'];
+            $questionTemp['dataset'] = $this->getDataset($question['id'], $question['type']);//data, count FROM surveyAwnsers
+
+            $answers = $this->Survey_model->getAnswers($surveyTemp['id']);
+            $posibleAnswers = array();
+            foreach($answers as $row){
+                $posibleAnswers[$row['dataNumber']."_".$row['number']] = $row['data'];
+            }
+            if($question['type'] < 2){
+
+                $othersData = array();
+                $others = 0;
+                $limit = count($questionTemp['dataset']);
+                $j = 0;
+
+                while($j < $limit){
+                    if(isset($questionTemp['dataset'][$j])){
+                        if(array_key_exists($questionTemp['dataset'][$j]['data'], $posibleAnswers)){
+                            $key = $posibleAnswers[$questionTemp['dataset'][$j]['data']];
+                            $questionTemp['dataset'][$j]['data'] = substr($key, 0, 10);
+                            if($questionTemp['dataset'][$j]['data'] != $key){
+                                $questionTemp['dataset'][$j]['data'] .= '...';
+                            }
+                        }
+                        else{
+                            $othersData[$questionTemp['dataset'][$j]['data']] =  $questionTemp['dataset'][$j]['count'];
+                            $others += $questionTemp['dataset'][$j]['count'];
+                            unset($questionTemp['dataset'][$j]);
+                            $limit++;
+                        }                           
+                    }
+                    $j++;
+                }
+                if($others > 0){
+                    array_push($questionTemp['dataset'], array('data' => 'Others', 'count' => $others));
+                    arsort($othersData);
+                    $questionTemp['othersData'] = $othersData;
+                }   
+                $questionTemp['entryCount'] = $this->getEntryCount($surveyTemp['id']);
+            }
+            array_push($result, $questionTemp);
+        }
+        return $result;
+    }
     
 }
 

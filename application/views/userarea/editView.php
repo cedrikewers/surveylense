@@ -48,16 +48,23 @@
             )
         });
 
-        $('.deleteQuestionModal').click(function(){
+        $('.confirmDeletion').click(function(){
+            $(this).parent().append('<button class="btn btn-primary btn-sm align-items-md-end deleteQuestionModal" type="button" style="background: rgb(193,6,6);float: right;border-color:white;">Do you really want to delete the question? This cannot be undone. If so, please click this button again.</button');
+            $(this).hide();
+        });
+
+        $(".modal").on("click", ".deleteQuestionModal", function(){
             var number = $(this).parent().attr('data-id');
             $.post(
                 '<?php echo site_url('userarea/deleteQuestionModal')?>',
                 {
                     number: number,
                     randomId: '<?php echo $surveyTemp['randomId']; ?>'
-                },
-                location.reload()
+                }, 
+                $(this).parent().hide()
+
             )
+            
         });
 
     });
@@ -94,6 +101,7 @@
                         </div>
                         <span id="questions">
                             <?php 
+                            if(isset($surveyTemp['questions'])){
                                 foreach($surveyTemp['questions'] as $question){
                                     echo '<script>answerCount.push(0);</script>';                                    
                                     $select = array("Single Choice", "Multiple Choice", "Scale", "Text");
@@ -170,10 +178,14 @@
 
                                     echo '</div>';
                                 }
+                            }
+                            else{
+                                echo 'Oops. Something may not be displayed correctly here. Please reload the page or contact support if the problem persists.';
+                            }
                             ?>
                         </span>
                     </div>
-                    <button class="btn btn-light manageQuestionModal" type="button" style="background-color: #f8f9fa; border-color: #f8f9fa;" onclick="$('#manageQuestionsModal').modal();">Manage Questions</button>
+                    <button class="btn btn-light manageQuestionModal" type="button" style="background-color: #f8f9fa; border-color: #f8f9fa;" data-toggle="modal" data-target="#manageQuestionsModal">Manage Questions</button>
             </div>
         </div>
 </section>
@@ -185,12 +197,12 @@
         </form>
 
 <!-- Modal -->
-<div class="modal fade" id="manageQuestionsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="manageQuestionsModal" tabindex="-1" aria-labelledby="manageQuestionsModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Manage Question</h5>
-        <button type="button" class="btn btn-light" aria-label="Close" onclick="$('#manageQuestionsModal').modal('hide');">X</button>
+        <button type="button" class="btn btn-light" aria-label="Close" data-toggle="modal" data-target="#manageQuestionsModal">X</button>
       </div>
       <div class="modal-body">
         <ul id="orderQuestions" class="list-group">
@@ -202,7 +214,7 @@
                     $name .= '...';
                 }
                 echo '<li class="list-group-item" data-id="'.$question['number'].'" style="cursor:pointer">'.$name.'
-                <button class="btn btn-primary btn-sm align-items-md-end deleteQuestionModal" type="button" style="background: rgb(193,6,6);float: right;border-color:white;"><i class="fas fa-trash"></i></button></li>';
+                <button class="btn btn-primary btn-sm align-items-md-end confirmDeletion" type="button" style="background: rgb(193,6,6);float: right;border-color:white;"><i class="fas fa-trash"></i></button></li>';
             }
             
             ?>

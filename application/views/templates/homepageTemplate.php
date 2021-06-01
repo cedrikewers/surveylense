@@ -15,13 +15,13 @@
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="<?php echo base_url('assets/js/jquery-3.5.1.min.js');?>"></script>
         <script src="<?php echo base_url('assets/js/bootstrap.min.js');?>"></script>
+        <script src="<?php echo base_url('assets/js/bootstrap.bundle.min.js');?>"></script>
         <script src="<?php echo base_url('assets/js/fontawesome.min.js');?>"></script>
-        <script data-ad-client="ca-pub-9472418723711778" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <title><?php echo $title; ?></title>
     </head>
 
     <body>
-    <div style="min-height: 100vh; margin-bottom: -64px;">
+    <div style="min-height: 52.55em">
         <!-- Navbar -->
         <nav class="navbar navbar-light navbar-expand bg-white shadow navigation-clean">
             <div class="container">
@@ -38,6 +38,7 @@
                         '</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item text-primary font-weight-bold" href="/userarea/create">Create</a>
+                            <a class="dropdown-item" href="/userarea">Dashboard</a>
                             <a class="dropdown-item" href="/userarea/manage">Manage</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/userarea/profile">Profile</a>
@@ -62,7 +63,7 @@
                     <ul class="list-inline mb-2">
                         <li class="list-inline-item"><a href="/imprint">Legal details</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
-                        <li class="list-inline-item"><a href="/imprint">Contact</a></li>
+                        <li class="list-inline-item"><a href="/contact">Contact</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
                         <li class="list-inline-item"><a href="/imprint">Terms of Use</a></li>
                         <li class="list-inline-item"><span>⋅</span></li>
