@@ -9,6 +9,7 @@ class Homepage extends CI_Controller {
 	$this->load->model('Homepage_model');
     }
 
+    //View für die Homepage
 	public function index($page = 'homepageView')
 	{
         $this->load->library('template');
@@ -25,6 +26,7 @@ class Homepage extends CI_Controller {
         
 	}
 
+    //Funktion Create Shortlink
     public function create(){
         if(isset($_SESSION['id_user'])){
             redirect('create?title='.$_GET['title']);
