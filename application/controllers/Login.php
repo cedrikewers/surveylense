@@ -9,6 +9,7 @@ class Login extends CI_Controller {
         $this->load->model('Email_model');
     }
 
+    //LoginSeite
 	public function index(){
 
         $page = "login";
@@ -46,6 +47,7 @@ class Login extends CI_Controller {
 
     }
 
+    //RegistrierungsSeite
     public function register()
     {
         $page = "register";
@@ -106,12 +108,14 @@ class Login extends CI_Controller {
         }
     }
 
+    //Logout für den Adminbereich
     public function logout() {
         $data = array('id_user', 'username');
         $this->session->unset_userdata($data);
         redirect('/');
         }
 
+    //Verifizierung für Passwort Reset und Registrierung
     public function verify($randomId){
         if(null !== $randomId){
             $verify = $this->Login_model->verifyUser($randomId);
@@ -149,6 +153,7 @@ class Login extends CI_Controller {
         redirect('/');
         }
     }
+    //Passwort Reset Seite
      public function passwordreset(){
         if($_POST){
             $userData = $this->Login_model->getUserEmail($_POST['email']);

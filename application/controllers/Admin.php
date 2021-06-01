@@ -7,10 +7,10 @@ class Admin extends CI_Controller {
         parent::__construct(); 
         $this->load->model('Admin_model');
     }
-
+    // Login für den Adminbereich
     public function index(){
 
-        $page = "adminLogin";
+        $page = "Adminlogin";
         if($_POST){
 
             $result = $this->Admin_model->check_user($_POST);
@@ -40,12 +40,14 @@ class Admin extends CI_Controller {
         $this->template->load('templates/loginTemplate','admin/'.$page);
     }
 
+    //Logout für den Adminbereich
     public function logout() {
         $data = array('id_admin', 'admin_user');
         $this->session->unset_userdata($data);
         redirect('/');
     }
 
+    //Adminarea und die Unterseiten
     public function adminarea($page = "home")
 	{
 		$session = $this->session->userdata('id_admin');
@@ -94,6 +96,7 @@ class Admin extends CI_Controller {
         }  
 	}
 
+    //Funktion für die Bearbeitung der Nutzereigenschaften
     public function modify($function, $id){
         $session = $this->session->userdata('id_admin');
         if(empty($session)){

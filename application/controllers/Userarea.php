@@ -127,6 +127,7 @@ class Userarea extends CI_Controller {
         }
     }
 
+    //Survey create Function
     public function create(){
         $this->load->library('template');
         $this->template->set('title', 'Create Survey');
@@ -136,6 +137,7 @@ class Userarea extends CI_Controller {
         $this->template->load('templates/homepageTemplate','userarea/createView');
     }
 
+    //Page for successfull survey creation
     public function surveyCreated($randomId){
         $this->session->set_flashdata('randomId', $randomId);
         $this->load->library('template');
@@ -143,6 +145,7 @@ class Userarea extends CI_Controller {
         $this->template->load('templates/homepageTemplate','userarea/surveyCreated');
     }
 
+    //Page for successfull survey update
     public function surveyUpdated($randomId){
         $this->session->set_flashdata('randomId', $randomId);
         $this->load->library('template');
