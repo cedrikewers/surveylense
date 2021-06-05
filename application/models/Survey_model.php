@@ -47,7 +47,7 @@ class Survey_Model extends CI_Model {
         $this->db->where('number', $number);
         $query = $this->db->get('surveyTempData');
 
-        $surveyTempDataId = $query->row_array()['id'];
+        $surveyTempDataId = $query->row_array()['id'];//holt die Id der Frage aus der Datenbank um diese in Dem Eintrage der gegebenen Antwort zu vermerken. 
         
         $this->db->set('surveyId', $surveyId);
         $this->db->set('surveyTempDataId', $surveyTempDataId);
