@@ -164,29 +164,6 @@ class Userarea extends CI_Controller {
         $this->template->load('templates/homepageTemplate','userarea/surveyUpdated');
     }
 
-    // public function storeSurveyNew(){ 
-    //     do{
-    //         $randomId = substr(hash("md5", random_bytes(20)), 0, 6);
-    //     }
-    //     while($this->User_model->randomIdExists($randomId));
-    //     // Hier wurde eine zufällige Id generiert und mit der Datenbank abgeglichen, damit diese sich nicht doppelt.
-    //     $id = $this->User_model->surveyTemp($randomId, $_POST['name'], $_POST['description'], $_SESSION['id_user']);
-    //     $data = $_POST;
-    //     unset($data["name"]);
-    //     $questionCount = 0;
-    //     $dataId = 0;
-    //     foreach($data as $key => $value){
-    //         if(strpos($key, "q")===0){
-    //             $questionCount++;
-    //             $dataId = $this->User_model->surveyTempData($id, $questionCount, $value); 
-    //         }
-    //         elseif(strpos($key, "_")!==false){
-    //             $this->User_model->surveyTempDataAnswers($dataId, str_replace(strstr($key, "_", true)."_", "", $key), $value);
-    //         }
-    //     } 
-    //     redirect('/userarea/surveyCreated/'.$randomId);
-        
-    // }
 
     public function storeSurvey(){
         do{
@@ -259,7 +236,6 @@ class Userarea extends CI_Controller {
         if($this->Result_model->checkUser($_POST['randomId'])){
             $id = $this->User_model->updateSurveyTemp($_POST['randomId'], $_POST['name'], $_POST['description'], $_POST['visibility']);
             $questions = array();
-            $newQuestions = array();
             foreach($_POST as $key => $value){
                 if(strpos($key, "q")===0){
                     $questions[str_replace("q", "", $key)] = $value;
