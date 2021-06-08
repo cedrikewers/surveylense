@@ -24,6 +24,10 @@
             $target = $mostRecentSurvey;
             $l = 0;
                 for($i = 0; $i < 10; $i++){
+                if(!isset($target['name'])){
+                    echo '<div class="text-center" style="margin-top: 32vh"><b>It seems like you havn\'t created any surveys yet. Click on "create" in the top right corner to make one.</b></div>';
+                    break;
+                }
                 echo '<div class="card">
                 <button class="btn" data-toggle="collapse" data-target="#collapse'.$i.'" aria-controls="collaps'.$i.'" >
                     <div class="card-header">

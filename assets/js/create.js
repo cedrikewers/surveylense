@@ -4,7 +4,7 @@ $(document).ready(function(e){
     $(".highlight-blue").on("click", ".addAnswerOption", function(){
         var questionNumber = $(this).parent().parent().attr('id').replace('question', '');//holt die Fragennummer über die ID des umschließenden <div>-Objekts
         answerCount[questionNumber-1]++; 
-        $(this).append(
+        $(this).parent().children(":first").append(
             '<div class="form-row row-cols-2">'+
                 '<div class="col-11 col-xl-11"><input class="form-control" type="text" name="'+questionNumber+'_'+answerCount[questionNumber-1]+'" placeholder="Answer option '+answerCount[questionNumber-1]+'" style="margin-top: 10px;"></div>'+
                 '<div class="col-1 col-xl-1">'+
@@ -17,7 +17,7 @@ $(document).ready(function(e){
     $(".highlight-blue").on("click", ".addOthers", function(){
         if($(this).parent().find(".others").length == 0){
             var questionNumber = $(this).parent().parent().attr('id').replace('question', '');//holt die Fragennummer über die ID des umschließenden <div>-Objekts
-            $(this).append(
+            $(this).parent().children(":first").append(
                 '<div class="form-row row-cols-2">'+
                     '<div class="col-11 col-xl-11"><input class="form-control others" name="'+questionNumber+'_others" type="text" placeholder="Others" style="margin-top: 10px;" readonly=""></div>'+
                     '<div class="col-1 col-xl-1">'+
