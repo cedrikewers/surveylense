@@ -76,7 +76,7 @@
         <div class="container">
             <div class="intro">
                 <h2 class="text-center">Edit a new Survey</h2>
-                <p class="text-center">You can edit this survey by changing the questions or answers. Please notice, that this can cause problems with the results if people already answered this survey. To delete questions or change their order, click on 'Manage Questions' below.
+                <p class="text-center">You can edit this survey by changing the questions or answers. Please notice, that this can cause problems with the results if people already answered this survey. To delete questions or change their order, click on 'Manage Questions' below. Changing the order works via drag and drop.
                 </p>
             </div>
             <div class="buttons">

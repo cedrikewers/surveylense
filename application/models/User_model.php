@@ -95,10 +95,6 @@ class User_Model extends CI_Model {
             $result['questions'][$question['number']] = $question;
         }
         $result['randomId'] = $randomId;
-        // $i = 0;
-        // while(array_key_exists($i, $result['questions'])){
-        //     $result['questions'][$i] = $this->db->query('SELECT data, number FROM surveyTempDataAnswers WHERE surveyTempDataId = '.$result['questions'][$i]['id'])->result_array();   
-        // }
         return $result;
     }
 
@@ -163,8 +159,8 @@ class User_Model extends CI_Model {
 
     public function getMostTrafficSurvey($randomId)
     {
-        $query = $this->db->query('SELECT surveyTemp.randomId, surveyTemp.name, surveyTemp.description, surveyTemp.timestamp, COUNT(survey.id) as count FROM surveyTemp JOIN survey ON surveyTemp.id = survey.surveyTempId WHERE surveyTemp.userId = '.$_SESSION['id_user'].' AND survey.timestamp >=  DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -7 DAY) AND surveyTemp.randomId != "'.$randomId.'" GROUP BY surveyTemp.randomId ORDER BY COUNT(survey.id) DESC LIMIT 9');
-        return $query->result_array();//^Der SQL Befehl holt die Infpormationen zu den 9 Umfragen des Nutzers, die in den letzten sieben Tagen die meisten Antworten erhalten haben.
+        $query = $this->db->query('SELECT surveyTemp.randomId, surveyTemp.name, surveyTemp.description, surveyTemp.timestamp, COUNT(survey.id) as count FROM surveyTemp JOIN survey ON surveyTemp.id = survey.surveyTempId WHERE surveyTemp.userId = '.$_SESSION['id_user'].' AND survey.timestamp >=  DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -14 DAY) AND surveyTemp.randomId != "'.$randomId.'" GROUP BY surveyTemp.randomId ORDER BY COUNT(survey.id) DESC LIMIT 9');
+        return $query->result_array();//^Der SQL Befehl holt die Informationen zu den 9 Umfragen des Nutzers, die in den letzten sieben Tagen die meisten Antworten erhalten haben.
     }
 
     public function updateLastOnline(){

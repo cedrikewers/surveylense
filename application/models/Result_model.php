@@ -91,9 +91,9 @@ class Result_model extends CI_Model {
                     if(isset($questionTemp['dataset'][$j])){
                         if(array_key_exists($questionTemp['dataset'][$j]['data'], $posibleAnswers)){
                             $key = $posibleAnswers[$questionTemp['dataset'][$j]['data']];
-                            $questionTemp['dataset'][$j]['data'] = substr($key, 0, 10);
+                            $questionTemp['dataset'][$j]['data'] = substr($key, 0, 13);
                             if($questionTemp['dataset'][$j]['data'] != $key){
-                                $questionTemp['dataset'][$j]['data'] .= '...';
+                                $questionTemp['dataset'][$j]['data'] = substr($questionTemp['dataset'][$j]['data'], 0, 10).'...';
                             }
                         }
                         else{

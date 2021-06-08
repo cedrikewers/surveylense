@@ -49,7 +49,7 @@ class Results extends CI_Controller {
                     $tempAnswer = "";
                     $surveyTempDataId = 0;
                     foreach($answers as $aRow){
-                        if($aRow['surveyTempDataId'] != $surveyTempDataId and $surveyTempDataId !== 0){
+                        if($aRow['surveyTempDataId'] != $surveyTempDataId and $surveyTempDataId !== 0){//Ist notwendig, damit bei Multiple Choice die Antworten in die gleiche Spalte geschrieben werden. 
                             array_push($temp, $tempAnswer);
                             $tempAnswer = "";
                         }
@@ -86,12 +86,12 @@ class Results extends CI_Controller {
                 $this->template->set('title', 'You dont have the rights to accses this survey');
                 $this->template->load('templates/homepageTemplate','survey/noRightsToDownloadSurvey');
             }  
-            if($results === 1){
+            elseif($results === 1){
                 $this->load->library('Template');
                 $this->template->set('title', 'This survey does not exist');
                 $this->template->load('templates/homepageTemplate','survey/surveyDoesNotExist');
             }   
-            if($results !== 2 && $results !== 1){
+            else{
                 $results->downloadAs('Results.xlsx');
             }
     }

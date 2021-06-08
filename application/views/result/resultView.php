@@ -19,7 +19,6 @@
             $entryCount = 0;
             $generatedColors = array("","");
             $colorCount = 0;
-            // $colorCount = random_int(0, 5);
 
             switch($question['type']){
                 case 0:
